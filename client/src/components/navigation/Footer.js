@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     position: "fixed",
     bottom: 0,
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.only("xs")]: {
       display: "block",
     },
     display: "none",

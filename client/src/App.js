@@ -9,14 +9,14 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up("lg")]: {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(10),
       paddingLeft: theme.spacing(2),
     },
     [theme.breakpoints.only("md")]: {
-      marginTop: theme.spacing(8),
+      marginTop: theme.spacing(10),
       paddingLeft: theme.spacing(2),
     },
-    paddingLeft: theme.spacing(2),
+    padding: theme.spacing(2),
   },
 }));
 export default function App() {

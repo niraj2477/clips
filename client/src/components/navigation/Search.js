@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
     width: "auto",
     [theme.breakpoints.only("md")]: {
       marginRight: theme.spacing(12),
-    
-     
     },
     [theme.breakpoints.up("lg")]: {
       marginRight: theme.spacing(20),
