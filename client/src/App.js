@@ -6,14 +6,15 @@ import { useSelector } from "react-redux";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
 import Typography from "@material-ui/core/Typography";
+import Chips from "./components/home/Chips";
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up("lg")]: {
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(8),
       paddingLeft: theme.spacing(2),
     },
     [theme.breakpoints.only("md")]: {
-      marginTop: theme.spacing(10),
+      marginTop: theme.spacing(8),
       paddingLeft: theme.spacing(2),
     },
     padding: theme.spacing(2),
@@ -43,6 +44,7 @@ export default function App() {
         primary: primaryTextColor,
         secondary: secondaryTextColor,
       },
+     
     },
   });
 
@@ -51,6 +53,7 @@ export default function App() {
       <CssBaseline />
       <Header />
       <main className={classes.root}>
+        <Chips />
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
