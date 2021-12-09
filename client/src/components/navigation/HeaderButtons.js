@@ -9,10 +9,15 @@ import { useSelector, useDispatch } from "react-redux";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import { isDark } from "../../actions/themeAction";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
+  },
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
   },
   removeBlock: {
     [theme.breakpoints.down("md")]: {
@@ -41,13 +46,15 @@ export default function HeaderButtons() {
         <NotificationsIcon />
       </IconButton>
 
-      <IconButton
-        edge="end"
-        className={`${classes.iconButton} ${classes.removeBlock}`}
-        color="inherit"
-      >
-        <VideoCallIcon />
-      </IconButton>
+      <Link to="/video/create" className={classes.textLink} >
+        <IconButton
+          edge="end"
+          className={`${classes.iconButton} ${classes.removeBlock}`}
+          color="inherit"
+        >
+          <VideoCallIcon />
+        </IconButton>
+      </Link>
 
       {theme.isDark ? (
         <IconButton
