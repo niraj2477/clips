@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     position: "fixed",
     top: 0,
+    zIndex: 100,
     [theme.breakpoints.down("sm")]: {
       position: "static",
     },
@@ -39,6 +40,7 @@ export default function Header() {
         color="text"
         style={
           theme.isDark ? { background: "#181818" } : { background: "#f9f9f9" }
+          
         }
       >
         <Toolbar>
