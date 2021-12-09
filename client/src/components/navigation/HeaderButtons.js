@@ -10,7 +10,7 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import { isDark } from "../../actions/themeAction";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import { Link } from "react-router-dom";
-
+import { VIDEO_CREATE } from "../../helpers/constants";
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
@@ -46,7 +46,7 @@ export default function HeaderButtons() {
         <NotificationsIcon />
       </IconButton>
 
-      <Link to="/video/create" className={classes.textLink} >
+      <Link to={VIDEO_CREATE} className={classes.textLink}>
         <IconButton
           edge="end"
           className={`${classes.iconButton} ${classes.removeBlock}`}

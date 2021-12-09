@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Chips() {
   const classes = useStyles();
-  const [chipData, setChipData] = React.useState([
+  const [chipData] = React.useState([
     { key: 0, label: "Angular" },
     { key: 1, label: "jQuery" },
     { key: 2, label: "Polymer" },
