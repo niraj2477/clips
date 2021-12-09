@@ -9,15 +9,23 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { VIDEO_CREATE } from "../../helpers/constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     position: "fixed",
     bottom: 0,
+    flexShrink:0,
     [theme.breakpoints.only("xs")]: {
       display: "block",
     },
     display: "none",
+   
+  },
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
   },
   leftButtonPadding: {
     paddingLeft: theme.spacing(3),
@@ -56,9 +64,12 @@ export default function Footer() {
         theme.isDark ? { background: "#181818" } : { background: "#f9f9f9" }
       }
     >
-      <Fab color="primary" aria-label="add" className={classes.fabButton}>
-        <AddIcon />
-      </Fab>
+      <Link to={VIDEO_CREATE} className={classes.textLink}>
+        <Fab color="primary" aria-label="add" className={classes.fabButton}>
+          <AddIcon />
+        </Fab>
+      </Link>
+
       <BottomNavigationAction
         className={classes.leftButtonPadding}
         label="Recents"

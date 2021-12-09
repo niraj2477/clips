@@ -1,15 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Avatar from "@material-ui/core/Avatar";
-
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Skeleton from "@material-ui/lab/Skeleton";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -142,7 +132,7 @@ export default function ThumbnailCard() {
           return (
             <Grid item xs={12} sm={12} md={4} lg={3}>
               <Box clone={true}>
-                <Box className={classes.box} >
+                <Box className={classes.box}  >
                   <img
                     className={classes.image}
                     alt={item.title}

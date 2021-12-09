@@ -5,8 +5,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { useSelector } from "react-redux";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
-import Chips from "./components/home/Chips";
-import ThumbnailCard from "./components/home/ThumbnailCard";
+import Route from "./route/Index";
+import { BrowserRouter } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up("lg")]: {
@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: theme.spacing(2),
     },
     padding: theme.spacing(2),
+  },
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
   },
 }));
 export default function App() {
@@ -44,20 +48,19 @@ export default function App() {
         primary: primaryTextColor,
         secondary: secondaryTextColor,
       },
-     
     },
   });
 
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-      <Header />
-      <main className={classes.root}>
-        <Chips />
-        <ThumbnailCard/>
-      </main>
-
-      <Footer />
+      <BrowserRouter>
+        <Header />
+        <main className={classes.root}>
+          <Route />
+        </main>
+        <Footer />
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
