@@ -33,11 +33,9 @@ export default function Chips() {
     { key: 8, label: "Google Charts" },
   ]);
 
-  //   const handleDelete = (chipToDelete) => () => {
-  //     setChipData((chips) =>
-  //       chips.filter((chip) => chip.key !== chipToDelete.key)
-  //     );
-  //   };
+    const handleClick = (value) => {
+      console.info("You clicked the Chip.",value);
+    };
 
   return (
     <div>
@@ -46,7 +44,12 @@ export default function Chips() {
         {chipData.map((data) => {
           return (
             <li key={data.key}>
-              <Chip label={data.label} className={classes.chip} />
+              <Chip
+                label={data.label}
+                clickable={true}
+                className={classes.chip}
+                onClick={() => handleClick(data.label)}
+              />
             </li>
           );
         })}
