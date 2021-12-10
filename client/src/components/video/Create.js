@@ -2,7 +2,15 @@ import React, { Component } from "react";
 import { DropzoneArea } from "material-ui-dropzone";
 import { withStyles } from "@material-ui/styles";
 import Divider from "@material-ui/core/Divider";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -25,10 +33,13 @@ class Create extends Component {
       title: "",
       description: "",
       category: "",
+      type: "public",
     };
     this.handleChange = this.handleChange.bind(this);
     this.titleChange = this.titleChange.bind(this);
     this.descriptionChange = this.descriptionChange.bind(this);
+    this.categoryChange = this.categoryChange.bind(this);
+    this.typeChange = this.typeChange.bind(this);
   }
   handleChange(files) {
     this.setState({
@@ -39,11 +50,23 @@ class Create extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    console.log(this.state);
   }
   descriptionChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  }
+  categoryChange(e) {
+    this.setState({
+      ...this.state,
+      category: e.target.value,
+    });
+    console.log(this.state);
+  }
+  typeChange(e) {
+    this.setState({
+      
+      [e.target.name]: e.currentTarget.value,
     });
     console.log(this.state);
   }
@@ -89,6 +112,38 @@ class Create extends Component {
           name="description"
         />
         <Divider variant="middle" className={classes.divider} />
+        <FormControl variant="outlined">
+          <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
+          <Select
+            id="demo-simple-select-outlined"
+            value={this.state.category}
+            onChange={this.categoryChange}
+          >
+            <MenuItem value={10}>Ten</MenuItem>
+            <MenuItem value={20}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </FormControl>
+        <Divider variant="middle" className={classes.divider} />
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Gender</FormLabel>
+          <RadioGroup
+            name="type"
+            value={this.state.type}
+            onChange={this.typeChange}
+          >
+            <FormControlLabel
+              value="public"
+              control={<Radio />}
+              label="Public"
+            />
+            <FormControlLabel
+              value="private"
+              control={<Radio />}
+              label="Private"
+            />
+          </RadioGroup>
+        </FormControl>
       </div>
     );
   }

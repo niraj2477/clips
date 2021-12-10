@@ -2,10 +2,10 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import FolderIcon from "@material-ui/icons/Folder";
-import RestoreIcon from "@material-ui/icons/Restore";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
+import VideoLibraryIcon from "@material-ui/icons/VideoLibrary";
+import HomeIcon from "@material-ui/icons/Home";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { useSelector } from "react-redux";
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Footer() {
   const classes = useStyles();
-  const [value, setValue] = React.useState("recents");
+  const [value, setValue] = React.useState("Home");
   const theme = useSelector((state) => state.theme);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,28 +72,28 @@ export default function Footer() {
 
       <BottomNavigationAction
         className={classes.leftButtonPadding}
-        label="Recents"
-        value="recents"
-        icon={<RestoreIcon />}
+        label="Home"
+        value="Home"
+        icon={<HomeIcon />}
       />
       <BottomNavigationAction
-        label="Favorites"
+        label="Trending"
         className={classes.leftButtonPadding}
-        value="favorites"
-        icon={<FavoriteIcon />}
+        value="Trending"
+        icon={<WhatshotIcon />}
       />
 
       <BottomNavigationAction
-        label="Nearby"
-        value="nearby"
+        label="Subcription"
+        value="Subcription"
         className={classes.rightButtonPadding}
-        icon={<LocationOnIcon />}
+        icon={<SubscriptionsIcon />}
       />
       <BottomNavigationAction
-        label="Folder"
-        value="folder"
+        label="Library"
+        value="Library"
         className={classes.endButtonPadding}
-        icon={<FolderIcon />}
+        icon={<VideoLibraryIcon />}
       />
     </BottomNavigation>
   );
