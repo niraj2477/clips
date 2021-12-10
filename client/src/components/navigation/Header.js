@@ -40,7 +40,6 @@ export default function Header() {
         color="text"
         style={
           theme.isDark ? { background: "#181818" } : { background: "#f9f9f9" }
-          
         }
       >
         <Toolbar>
@@ -48,7 +47,7 @@ export default function Header() {
             <Drawer />
           </div>
           <Typography variant="h6" className={classes.title}>
-            News
+            <img src="../../logo/light.png" alt="logo" className={classes.logo} />
           </Typography>
           <Search />
           <HeaderButtons />
