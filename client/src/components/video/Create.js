@@ -11,6 +11,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -23,57 +24,27 @@ const styles = (theme) => ({
     marginRight: theme.spacing(9),
     marginLeft: theme.spacing(9),
   },
+
 });
 
 class Create extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: [],
+      file: [],
       title: "",
       description: "",
-      category: "",
-      type: "public",
+      category: null,
+      categoryText: "",
+      type: '0',
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.titleChange = this.titleChange.bind(this);
-    this.descriptionChange = this.descriptionChange.bind(this);
-    this.categoryChange = this.categoryChange.bind(this);
-    this.typeChange = this.typeChange.bind(this);
   }
-  handleChange(files) {
-    this.setState({
-      files: files,
-    });
-  }
-  titleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-  descriptionChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  }
-  categoryChange(e) {
-    this.setState({
-      ...this.state,
-      category: e.target.value,
-    });
-    console.log(this.state);
-  }
-  typeChange(e) {
-    this.setState({
-      
-      [e.target.name]: e.currentTarget.value,
-    });
-    console.log(this.state);
-  }
-
   render() {
     const { classes } = this.props;
-
+    const top100Films = [
+      { title: 'The Shawshank Redemption', id: 1994 },
+      { title: 'The Shawshank Redemption', id: 1995 },
+    ];
     return (
       <div className={classes.root}>
         <DropzoneArea
@@ -83,7 +54,7 @@ class Create extends Component {
           filesLimit={1}
           maxFileSize={1073741824}
           showFileNames={true}
-          onChange={this.handleChange}
+          onChange={(file) => { this.setState({ file: file }) }}
         />
         <br />
         <Divider variant="middle" />
@@ -95,7 +66,7 @@ class Create extends Component {
           type="text"
           name="title"
           value={this.state.title}
-          onChange={this.titleChange}
+          onChange={(e) => { this.setState({ title: e.target.value }) }}
           required={true}
         />
         <Divider variant="middle" className={classes.divider} />
@@ -106,44 +77,48 @@ class Create extends Component {
           value={this.state.description}
           className={classes.input}
           fullWidth
-          onChange={this.descriptionChange}
+          onChange={(e) => { this.setState({ description: e.target.value }) }}
           variant="outlined"
           type="text"
           name="description"
         />
+
         <Divider variant="middle" className={classes.divider} />
-        <FormControl variant="outlined">
-          <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel>
-          <Select
-            id="demo-simple-select-outlined"
-            value={this.state.category}
-            onChange={this.categoryChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+        <Autocomplete
+          id="combo-box-demo"
+          fullWidth
+          className={classes.input}
+          options={top100Films}
+          inputValue={this.state.categoryText}
+          onInputChange={(e, val) => { this.setState({ categoryText: val }) }}
+          value={this.state.category}
+          onChange={(e, val) => { this.setState({ category: val }) }}
+          getOptionLabel={(option) => option.title}
+          style={{ width: 300 }}
+          renderInput={(params) => <TextField {...params} fullWidth label="Category" variant="outlined" />}
+        />
+
         <Divider variant="middle" className={classes.divider} />
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Gender</FormLabel>
+        <FormControl component="fieldset"  className={classes.input}>
+          <FormLabel component="legend">Type</FormLabel>
           <RadioGroup
             name="type"
             value={this.state.type}
-            onChange={this.typeChange}
+            onChange={(e) => { this.setState({ type: e.target.value }) }}
           >
             <FormControlLabel
-              value="public"
+              value='0'
               control={<Radio />}
               label="Public"
             />
             <FormControlLabel
-              value="private"
+              value='1'
               control={<Radio />}
               label="Private"
             />
           </RadioGroup>
         </FormControl>
+        {/* <button onClick={()=>{console.log(this.state)}}>chek</button>  */}
       </div>
     );
   }
