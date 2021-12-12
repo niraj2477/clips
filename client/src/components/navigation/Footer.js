@@ -11,17 +11,22 @@ import AddIcon from "@material-ui/icons/Add";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { VIDEO_CREATE } from "../../helpers/constants";
+import {
+  _HOME,
+  SUBCRIPTIONS,
+  TRENDING,
+  LIBRARY,
+} from "../../helpers/constants";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     position: "fixed",
     bottom: 0,
-    flexShrink:0,
+    flexShrink: 0,
     [theme.breakpoints.only("xs")]: {
       display: "block",
     },
     display: "none",
-   
   },
   textLink: {
     color: "inherit",
@@ -48,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Footer() {
   const classes = useStyles();
-  const [value, setValue] = React.useState("Home");
+  const [value, setValue] = React.useState(_HOME);
   const theme = useSelector((state) => state.theme);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,26 +77,26 @@ export default function Footer() {
 
       <BottomNavigationAction
         className={classes.leftButtonPadding}
-        label="Home"
-        value="Home"
+        label={_HOME}
+        value={_HOME}
         icon={<HomeIcon />}
       />
       <BottomNavigationAction
-        label="Trending"
+        label={TRENDING}
         className={classes.leftButtonPadding}
-        value="Trending"
+        value={TRENDING}
         icon={<WhatshotIcon />}
       />
 
       <BottomNavigationAction
-        label="Subcription"
-        value="Subcription"
+        label={SUBCRIPTIONS}
+        value={SUBCRIPTIONS}
         className={classes.rightButtonPadding}
         icon={<SubscriptionsIcon />}
       />
       <BottomNavigationAction
-        label="Library"
-        value="Library"
+        label={LIBRARY}
+        value={LIBRARY}
         className={classes.endButtonPadding}
         icon={<VideoLibraryIcon />}
       />

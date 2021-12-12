@@ -23,6 +23,33 @@ const useStyles = makeStyles((theme) => ({
     color: "inherit",
     textDecoration: " inherit",
   },
+  "@global": {
+    "*": {
+      "scrollbar-width": "thin",
+    },
+    "*::-webkit-scrollbar": {
+      width: "4px",
+      height: "4px",
+    },
+    " *::-webkit-scrollbar-thumb": {
+      borderRadius: 8,
+      backgroundColor: "#d62d20",
+      minHeight: 24,
+      border: "3px solid #d62d20",
+    },
+    // " *::-webkit-scrollbar-thumb:focus": {
+    //   backgroundColor: "#959595",
+    // },
+    // "*::-webkit-scrollbar-thumb:active": {
+    //   backgroundColor: "#959595",
+    // },
+    // " *::-webkit-scrollbar-thumb:hover": {
+    //   backgroundColor: "#959595",
+    // },
+    // " *::-webkit-scrollbar-corner": {
+    //   backgroundColor: "#2b2b2b",
+    // },
+  },
 }));
 export default function App() {
   const theme = useSelector((state) => state.theme);
