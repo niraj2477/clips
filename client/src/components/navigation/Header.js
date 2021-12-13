@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import Drawer from "./Drawer";
 import Search from "./Search";
 import HeaderButtons from "./HeaderButtons";
-import Light from "../../logo/light.png";
-import Dark from "../../logo/dark.png";
+import { ReactComponent as  Light } from "../../logo/light.svg";
+import {ReactComponent  as  Dark } from "../../logo/dark.svg";
 import { Link } from "react-router-dom";
 import { HOME } from "../../helpers/constants";
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +63,11 @@ export default function Header() {
             <Drawer />
           </div>
           <Link to={HOME}>
-            <img src={theme.isDark ? Dark : Light} className={classes.logo} />
+            {theme.isDark ? (
+              <Dark className={classes.logo} height="60px" width="100px" />
+            ) : (
+              <Light className={classes.logo} height="60px" width="100px" />
+            )}
           </Link>
 
           <Search />

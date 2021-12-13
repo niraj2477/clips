@@ -22,6 +22,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import {
   _HOME,
+  HOME,
   SUBCRIPTIONS,
   TRENDING,
   HELP,
@@ -33,6 +34,7 @@ import {
   FEEDBACK,
   YOURVIDEOS,
 } from "../../helpers/constants";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -47,11 +49,180 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: 15,
   },
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
+  },
 }));
 
 export default function Drawer() {
   const classes = useStyles();
   const [state, toggleDrawer] = useDrawerHelper();
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
+
+  // navigation list items which are shown in the drawer
+  const NavigationList = () => {
+    return (
+      <div
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+        className={classes.list}
+      >
+        <List>
+          <ListItem
+            button
+            key={_HOME}
+            component={Link}
+            to={HOME}
+            selected={selectedIndex === 0}
+            onClick={(event) => handleListItemClick(event, 0)}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary={_HOME} />
+          </ListItem>
+
+          <ListItem
+            button
+            key={TRENDING}
+            component={Link}
+            to={TRENDING}
+            selected={selectedIndex === 1}
+            onClick={(event) => handleListItemClick(event, 1)}
+          >
+            <ListItemIcon>
+              <WhatshotIcon />
+            </ListItemIcon>
+            <ListItemText primary={TRENDING} />
+          </ListItem>
+          <ListItem
+            button
+            key={SUBCRIPTIONS}
+            selected={selectedIndex === 2}
+            onClick={(event) => handleListItemClick(event, 2)}
+          >
+            <ListItemIcon>
+              <SubscriptionsIcon />
+            </ListItemIcon>
+            <ListItemText primary={SUBCRIPTIONS} />
+          </ListItem>
+        </List>
+        <Divider variant="middle" />
+        <List>
+          <ListItem
+            button
+            key={LIBRARY}
+            selected={selectedIndex === 3}
+            onClick={(event) => handleListItemClick(event, 3)}
+          >
+            <ListItemIcon>
+              <VideoLibraryIcon />
+            </ListItemIcon>
+            <ListItemText primary={LIBRARY} />
+          </ListItem>
+          <ListItem
+            button
+            key={HISTORY}
+            selected={selectedIndex === 4}
+            onClick={(event) => handleListItemClick(event, 4)}
+          >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText primary={HISTORY} />
+          </ListItem>
+          <ListItem
+            button
+            key={YOURVIDEOS}
+            selected={selectedIndex === 5}
+            onClick={(event) => handleListItemClick(event, 5)}
+          >
+            <ListItemIcon>
+              <PlayCircleOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary={YOURVIDEOS} />
+          </ListItem>
+        </List>
+        <Divider variant="middle" />
+        <div className={classes.typographyDiv}>
+          <Typography
+            variant="overline"
+            align="center"
+            className={classes.typography}
+            color="textSecondary"
+          >
+            MORE FROM CLIPS
+          </Typography>
+        </div>
+
+        <List>
+          <ListItem
+            button
+            key={GAMING}
+            selected={selectedIndex === 6}
+            onClick={(event) => handleListItemClick(event, 6)}
+          >
+            <ListItemIcon>
+              <SportsEsportsIcon />
+            </ListItemIcon>
+            <ListItemText primary={GAMING} />
+          </ListItem>
+          <ListItem
+            button
+            key={LEARNING}
+            selected={selectedIndex === 7}
+            onClick={(event) => handleListItemClick(event, 7)}
+          >
+            <ListItemIcon>
+              <EmojiObjectsIcon />
+            </ListItemIcon>
+            <ListItemText primary={LEARNING} />
+          </ListItem>
+        </List>
+        <Divider variant="middle" />
+        <List>
+          <ListItem
+            button
+            key={SETTING}
+            selected={selectedIndex === 8}
+            onClick={(event) => handleListItemClick(event, 8)}
+          >
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary={SETTING} />
+          </ListItem>
+          <ListItem
+            button
+            key={HELP}
+            selected={selectedIndex === 9}
+            onClick={(event) => handleListItemClick(event, 9)}
+          >
+            <ListItemIcon>
+              <HelpOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary={HELP} />
+          </ListItem>
+          <ListItem
+            button
+            key={FEEDBACK}
+            selected={selectedIndex === 10}
+            onClick={(event) => handleListItemClick(event, 10)}
+          >
+            <ListItemIcon>
+              <FeedbackIcon />
+            </ListItemIcon>
+            <ListItemText primary={FEEDBACK} />
+          </ListItem>
+        </List>
+      </div>
+    );
+  };
   return (
     <div>
       <React.Fragment>
@@ -69,7 +240,7 @@ export default function Drawer() {
           onClose={toggleDrawer(false)}
           onOpen={toggleDrawer(true)}
         >
-          {NavigationList()}
+          <NavigationList />
         </SwipeableDrawer>
       </React.Fragment>
     </div>
@@ -92,164 +263,3 @@ function useDrawerHelper() {
   };
   return [state, toggleDrawer];
 }
-// navigation list items which are shown in the drawer
-const NavigationList = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const classes = useStyles();
-  const [state, toggleDrawer] = useDrawerHelper();
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
-  return (
-    <div
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-      className={classes.list}
-    >
-      <List>
-        <ListItem
-          button
-          key={_HOME}
-          selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
-        >
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary={_HOME} />
-        </ListItem>
-        <ListItem
-          button
-          key={TRENDING}
-          selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
-        >
-          <ListItemIcon>
-            <WhatshotIcon />
-          </ListItemIcon>
-          <ListItemText primary={TRENDING} />
-        </ListItem>
-        <ListItem
-          button
-          key={SUBCRIPTIONS}
-          selected={selectedIndex === 2}
-          onClick={(event) => handleListItemClick(event, 2)}
-        >
-          <ListItemIcon>
-            <SubscriptionsIcon />
-          </ListItemIcon>
-          <ListItemText primary={SUBCRIPTIONS} />
-        </ListItem>
-      </List>
-      <Divider variant="middle" />
-      <List>
-        <ListItem
-          button
-          key={LIBRARY}
-          selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
-        >
-          <ListItemIcon>
-            <VideoLibraryIcon />
-          </ListItemIcon>
-          <ListItemText primary={LIBRARY} />
-        </ListItem>
-        <ListItem
-          button
-          key={HISTORY}
-          selected={selectedIndex === 4}
-          onClick={(event) => handleListItemClick(event, 4)}
-        >
-          <ListItemIcon>
-            <HistoryIcon />
-          </ListItemIcon>
-          <ListItemText primary={HISTORY} />
-        </ListItem>
-        <ListItem
-          button
-          key={YOURVIDEOS}
-          selected={selectedIndex === 5}
-          onClick={(event) => handleListItemClick(event, 5)}
-        >
-          <ListItemIcon>
-            <PlayCircleOutlineIcon />
-          </ListItemIcon>
-          <ListItemText primary={YOURVIDEOS} />
-        </ListItem>
-      </List>
-      <Divider variant="middle" />
-      <div className={classes.typographyDiv}>
-        <Typography
-          variant="overline"
-          align="center"
-          className={classes.typography}
-          color="textSecondary"
-        >
-          MORE FROM CLIPS
-        </Typography>
-      </div>
-
-      <List>
-        <ListItem
-          button
-          key={GAMING}
-          selected={selectedIndex === 6}
-          onClick={(event) => handleListItemClick(event, 6)}
-        >
-          <ListItemIcon>
-            <SportsEsportsIcon />
-          </ListItemIcon>
-          <ListItemText primary={GAMING} />
-        </ListItem>
-        <ListItem
-          button
-          key={LEARNING}
-          selected={selectedIndex === 7}
-          onClick={(event) => handleListItemClick(event, 7)}
-        >
-          <ListItemIcon>
-            <EmojiObjectsIcon />
-          </ListItemIcon>
-          <ListItemText primary={LEARNING} />
-        </ListItem>
-      </List>
-      <Divider variant="middle" />
-      <List>
-        <ListItem
-          button
-          key={SETTING}
-          selected={selectedIndex === 8}
-          onClick={(event) => handleListItemClick(event, 8)}
-        >
-          <ListItemIcon>
-            <SettingsIcon />
-          </ListItemIcon>
-          <ListItemText primary={SETTING} />
-        </ListItem>
-        <ListItem
-          button
-          key={HELP}
-          selected={selectedIndex === 9}
-          onClick={(event) => handleListItemClick(event, 9)}
-        >
-          <ListItemIcon>
-            <HelpOutlineIcon />
-          </ListItemIcon>
-          <ListItemText primary={HELP} />
-        </ListItem>
-        <ListItem
-          button
-          key={FEEDBACK}
-          selected={selectedIndex === 10}
-          onClick={(event) => handleListItemClick(event, 10)}
-        >
-          <ListItemIcon>
-            <FeedbackIcon />
-          </ListItemIcon>
-          <ListItemText primary={FEEDBACK} />
-        </ListItem>
-      </List>
-    </div>
-  );
-};

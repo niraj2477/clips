@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { VIDEO_CREATE } from "../../helpers/constants";
 import {
   _HOME,
+  HOME,
   SUBCRIPTIONS,
   TRENDING,
   LIBRARY,
@@ -79,12 +80,17 @@ export default function Footer() {
         className={classes.leftButtonPadding}
         label={_HOME}
         value={_HOME}
+        component={Link}
+        to={HOME}
         icon={<HomeIcon />}
       />
+
       <BottomNavigationAction
         label={TRENDING}
         className={classes.leftButtonPadding}
         value={TRENDING}
+        component={Link}
+        to={TRENDING}
         icon={<WhatshotIcon />}
       />
 

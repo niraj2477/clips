@@ -10,7 +10,6 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import { isDark } from "../../actions/themeAction";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import { Link } from "react-router-dom";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { VIDEO_CREATE } from "../../helpers/constants";
 const useStyles = makeStyles((theme) => ({
   iconButton: {
