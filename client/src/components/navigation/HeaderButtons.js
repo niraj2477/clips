@@ -11,10 +11,10 @@ import { isDark } from "../../actions/themeAction";
 import VideoCallIcon from "@material-ui/icons/VideoCall";
 import { Link } from "react-router-dom";
 import { VIDEO_CREATE } from "../../helpers/constants";
+import { GoogleLogin } from "react-google-login";
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
-
   },
   textLink: {
     color: "inherit",
@@ -40,6 +40,9 @@ export default function HeaderButtons() {
   const theme = useSelector((state) => state.theme);
   const handleThemeChange = () => {
     dispatch(isDark());
+  };
+  const responseGoogle = (response) => {
+    console.log(response);
   };
   return (
     <div>
@@ -76,7 +79,6 @@ export default function HeaderButtons() {
           <Brightness4Icon />
         </IconButton>
       )}
-
       <Button
         variant="outlined"
         color="primary"
@@ -92,7 +94,36 @@ export default function HeaderButtons() {
       >
         <AccountCircleIcon />
       </IconButton>
-     
+      {/* <GoogleLogin
+        clientId="448780662862-h7odin62q1oi27qeipd2a50fjs8ej1cn.apps.googleusercontent.com"
+        render={(renderProps) => (
+          <div>
+            <Button
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+              variant="outlined"
+              color="primary"
+              className={` ${classes.removeBlock}`}
+              startIcon={<AccountCircleIcon />}
+            >
+              Login
+            </Button>
+            <IconButton
+              edge="end"
+              className={`${classes.iconButton} ${classes.removeIcon}`}
+              color="primary"
+              onClick={renderProps.onClick}
+              disabled={renderProps.disabled}
+            >
+              <AccountCircleIcon />
+            </IconButton>
+          </div>
+        )}
+      
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      /> */}
     </div>
   );
 }
