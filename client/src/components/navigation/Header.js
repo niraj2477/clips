@@ -10,6 +10,7 @@ import { ReactComponent as  Light } from "../../logo/light.svg";
 import {ReactComponent  as  Dark } from "../../logo/dark.svg";
 import { Link } from "react-router-dom";
 import { HOME } from "../../helpers/constants";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
