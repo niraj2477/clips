@@ -64,16 +64,16 @@ export default function Footer() {
   const theme = useSelector((state) => state.theme);
   const navigation = useSelector((state) => state.navigation);
   const handleChange = (event, value) => {
-    if (value == HOME) {
+    if (value === HOME) {
       dispatch(isHome());
     }
-    if (value == TRENDING) {
+    if (value === TRENDING) {
       dispatch(isTrending());
     }
-    if (value == LIBRARY) {
+    if (value === LIBRARY) {
       dispatch(isLibrary());
     }
-    if (value == SUBCRIPTIONS) {
+    if (value === SUBCRIPTIONS) {
       dispatch(isSubscriptions());
     }
   };

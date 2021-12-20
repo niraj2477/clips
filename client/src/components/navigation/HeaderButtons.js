@@ -33,10 +33,12 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  
 }));
 export default function HeaderButtons() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  
   const theme = useSelector((state) => state.theme);
   const handleThemeChange = () => {
     dispatch(isDark());
@@ -79,7 +81,7 @@ export default function HeaderButtons() {
           <Brightness4Icon />
         </IconButton>
       )}
-      <Button
+      {/* <Button
         variant="outlined"
         color="primary"
         className={` ${classes.removeBlock}`}
@@ -93,9 +95,10 @@ export default function HeaderButtons() {
         color="primary"
       >
         <AccountCircleIcon />
-      </IconButton>
-      {/* <GoogleLogin
+      </IconButton> */}
+      <GoogleLogin
         clientId="448780662862-h7odin62q1oi27qeipd2a50fjs8ej1cn.apps.googleusercontent.com"
+        
         render={(renderProps) => (
           <div>
             <Button
@@ -119,11 +122,10 @@ export default function HeaderButtons() {
             </IconButton>
           </div>
         )}
-      
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={"single_host_origin"}
-      /> */}
+      />
     </div>
   );
 }
