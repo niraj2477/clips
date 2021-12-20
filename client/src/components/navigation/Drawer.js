@@ -20,6 +20,7 @@ import FeedbackIcon from "@material-ui/icons/Feedback";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
+import { useSelector, useDispatch } from "react-redux";
 import {
   _HOME,
   HOME,
@@ -34,6 +35,19 @@ import {
   FEEDBACK,
   YOURVIDEOS,
 } from "../../helpers/constants";
+import {
+  isHome,
+  isHelp,
+  isSetting,
+  isGaming,
+  isHistory,
+  isLearning,
+  isFeedback,
+  isYourVideos,
+  isLibrary,
+  isSubscriptions,
+  isTrending,
+} from "../../actions/navigationAction";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -57,11 +71,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Drawer() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigation = useSelector((state) => state.navigation);
   const [state, toggleDrawer] = useDrawerHelper();
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
 
   // navigation list items which are shown in the drawer
   const NavigationList = () => {
@@ -75,11 +87,11 @@ export default function Drawer() {
         <List>
           <ListItem
             button
-            key={_HOME}
+            key={HOME}
             component={Link}
             to={HOME}
-            selected={selectedIndex === 0}
-            onClick={(event) => handleListItemClick(event, 0)}
+            selected={navigation.selected === HOME}
+            onClick={() => dispatch(isHome())}
           >
             <ListItemIcon>
               <HomeIcon />
@@ -92,8 +104,8 @@ export default function Drawer() {
             key={TRENDING}
             component={Link}
             to={TRENDING}
-            selected={selectedIndex === 1}
-            onClick={(event) => handleListItemClick(event, 1)}
+            selected={navigation.selected === TRENDING}
+            onClick={() => dispatch(isTrending())}
           >
             <ListItemIcon>
               <WhatshotIcon />
@@ -103,8 +115,8 @@ export default function Drawer() {
           <ListItem
             button
             key={SUBCRIPTIONS}
-            selected={selectedIndex === 2}
-            onClick={(event) => handleListItemClick(event, 2)}
+            selected={navigation.selected === SUBCRIPTIONS}
+            onClick={() => dispatch(isSubscriptions())}
           >
             <ListItemIcon>
               <SubscriptionsIcon />
@@ -117,8 +129,8 @@ export default function Drawer() {
           <ListItem
             button
             key={LIBRARY}
-            selected={selectedIndex === 3}
-            onClick={(event) => handleListItemClick(event, 3)}
+            selected={navigation.selected === LIBRARY}
+            onClick={() => dispatch(isLibrary())}
           >
             <ListItemIcon>
               <VideoLibraryIcon />
@@ -128,8 +140,8 @@ export default function Drawer() {
           <ListItem
             button
             key={HISTORY}
-            selected={selectedIndex === 4}
-            onClick={(event) => handleListItemClick(event, 4)}
+            selected={navigation.selected === HISTORY}
+            onClick={() => dispatch(isHistory())}
           >
             <ListItemIcon>
               <HistoryIcon />
@@ -139,8 +151,8 @@ export default function Drawer() {
           <ListItem
             button
             key={YOURVIDEOS}
-            selected={selectedIndex === 5}
-            onClick={(event) => handleListItemClick(event, 5)}
+            selected={navigation.selected === YOURVIDEOS}
+            onClick={() => dispatch(isYourVideos())}
           >
             <ListItemIcon>
               <PlayCircleOutlineIcon />
@@ -164,8 +176,8 @@ export default function Drawer() {
           <ListItem
             button
             key={GAMING}
-            selected={selectedIndex === 6}
-            onClick={(event) => handleListItemClick(event, 6)}
+            selected={navigation.selected === GAMING}
+            onClick={() => dispatch(isGaming())}
           >
             <ListItemIcon>
               <SportsEsportsIcon />
@@ -175,8 +187,8 @@ export default function Drawer() {
           <ListItem
             button
             key={LEARNING}
-            selected={selectedIndex === 7}
-            onClick={(event) => handleListItemClick(event, 7)}
+            selected={navigation.selected === LEARNING}
+            onClick={() => dispatch(isLearning())}
           >
             <ListItemIcon>
               <EmojiObjectsIcon />
@@ -189,8 +201,8 @@ export default function Drawer() {
           <ListItem
             button
             key={SETTING}
-            selected={selectedIndex === 8}
-            onClick={(event) => handleListItemClick(event, 8)}
+            selected={navigation.selected === SETTING}
+            onClick={() => dispatch(isSetting())}
           >
             <ListItemIcon>
               <SettingsIcon />
@@ -200,8 +212,8 @@ export default function Drawer() {
           <ListItem
             button
             key={HELP}
-            selected={selectedIndex === 9}
-            onClick={(event) => handleListItemClick(event, 9)}
+            selected={navigation.selected === HELP}
+            onClick={() => dispatch(isHelp())}
           >
             <ListItemIcon>
               <HelpOutlineIcon />
@@ -211,8 +223,8 @@ export default function Drawer() {
           <ListItem
             button
             key={FEEDBACK}
-            selected={selectedIndex === 10}
-            onClick={(event) => handleListItemClick(event, 10)}
+            selected={navigation.selected === FEEDBACK}
+            onClick={() => dispatch(isFeedback())}
           >
             <ListItemIcon>
               <FeedbackIcon />

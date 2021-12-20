@@ -2,14 +2,15 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import { useSelector } from "react-redux";
 import Drawer from "./Drawer";
 import Search from "./Search";
 import HeaderButtons from "./HeaderButtons";
-import { ReactComponent as  Light } from "../../logo/light.svg";
-import {ReactComponent  as  Dark } from "../../logo/dark.svg";
+import { ReactComponent as Light } from "../../logo/light.svg";
+import { ReactComponent as Dark } from "../../logo/dark.svg";
 import { Link } from "react-router-dom";
 import { HOME } from "../../helpers/constants";
+import { isHome } from "../../actions/navigationAction";
+import { useSelector, useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
       maxWidth: 100,
       marginRight: theme.spacing(15),
     },
-    paddingTop: theme.spacing(0.5)
+    paddingTop: theme.spacing(0.5),
   },
   removeBlock: {
     [theme.breakpoints.down("sm")]: {
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const classes = useStyles();
   const theme = useSelector((state) => state.theme);
-
+  const dispatch = useDispatch();
   return (
     <div className={classes.root}>
       <AppBar
@@ -62,7 +63,7 @@ export default function Header() {
           <div className={classes.removeBlock}>
             <Drawer />
           </div>
-          <Link to={HOME}>
+          <Link to={HOME} onClick={dispatch(isHome())}>
             {theme.isDark ? (
               <Dark className={classes.logo} height="60px" width="100px" />
             ) : (

@@ -8,9 +8,9 @@ import WhatshotIcon from "@material-ui/icons/Whatshot";
 import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { VIDEO_CREATE } from "../../helpers/constants";
+import { useSelector, useDispatch } from "react-redux";
 import {
   _HOME,
   HOME,
@@ -18,6 +18,12 @@ import {
   TRENDING,
   LIBRARY,
 } from "../../helpers/constants";
+import {
+  isHome,
+  isLibrary,
+  isSubscriptions,
+  isTrending,
+} from "../../actions/navigationAction";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -54,15 +60,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Footer() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(_HOME);
+  const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const navigation = useSelector((state) => state.navigation);
+  const handleChange = (event, value) => {
+    if (value == HOME) {
+      dispatch(isHome());
+    }
+    if (value == TRENDING) {
+      dispatch(isTrending());
+    }
+    if (value == LIBRARY) {
+      dispatch(isLibrary());
+    }
+    if (value == SUBCRIPTIONS) {
+      dispatch(isSubscriptions());
+    }
   };
 
   return (
     <BottomNavigation
-      value={value}
+      value={navigation.selected}
       onChange={handleChange}
       className={classes.root}
       color="text"
@@ -79,7 +97,7 @@ export default function Footer() {
       <BottomNavigationAction
         className={classes.leftButtonPadding}
         label={_HOME}
-        value={_HOME}
+        value={HOME}
         component={Link}
         to={HOME}
         icon={<HomeIcon />}
