@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
 import Route from "./route/Index";
+
 import { BrowserRouter } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,18 +38,6 @@ const useStyles = makeStyles((theme) => ({
       minHeight: 24,
       border: "3px solid #d62d20",
     },
-    // " *::-webkit-scrollbar-thumb:focus": {
-    //   backgroundColor: "#959595",
-    // },
-    // "*::-webkit-scrollbar-thumb:active": {
-    //   backgroundColor: "#959595",
-    // },
-    // " *::-webkit-scrollbar-thumb:hover": {
-    //   backgroundColor: "#959595",
-    // },
-    // " *::-webkit-scrollbar-corner": {
-    //   backgroundColor: "#2b2b2b",
-    // },
   },
 }));
 export default function App() {
