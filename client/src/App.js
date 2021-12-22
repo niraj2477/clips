@@ -2,12 +2,13 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Header from "./components/navigation/Header";
 import Footer from "./components/navigation/Footer";
 import Route from "./route/Index";
-
+import { useCookies } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
+import { isAuthenticated } from "./actions/authAction";
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.up("lg")]: {
@@ -41,7 +42,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function App() {
+  const [cookie] = useCookies(["user"]);
+  const dispatch = useDispatch();
+  if (cookie) {
+    dispatch(isAuthenticated());
+  }
   const theme = useSelector((state) => state.theme);
+  
   const classes = useStyles();
   const palletType = theme.isDark ? "dark" : "light";
   const mainPrimaryColor = theme.isDark ? "#d62d20" : "#cc2a36";

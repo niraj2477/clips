@@ -1,5 +1,5 @@
 export const IS_DARK = "IS_DARK";
-
+export const IS_AUTHENTICATED = "IS_AUTHENTICATED";
 ////////////////// Route Constants////////////////////////////////
 export const HOME = "/";
 export const _HOME = "Home";
