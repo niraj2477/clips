@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -40,6 +40,22 @@ const useStyles = makeStyles((theme) => ({
   buttonDiv: {
     display: "inline-block",
   },
+  avatarDiv: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  avatarIcon: {
+    position: "relative",
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: theme.spacing(13),
+    },
+    [theme.breakpoints.up("md")]: {
+      marginLeft: theme.spacing(20),
+    },
+
+    marginTop: theme.spacing(-6),
+  },
 }));
 export default function HeaderButtons() {
   const classes = useStyles();
@@ -51,7 +67,7 @@ export default function HeaderButtons() {
   const handleThemeChange = () => {
     dispatch(isDark());
   };
-
+  useEffect(() => console.log("updated"), [cookie]);
   const logOut = () => {
     signOut(Auth).then(() => {
       removeCookie("name");
@@ -91,11 +107,10 @@ export default function HeaderButtons() {
         <NotificationsIcon />
       </IconButton>
 
-      <Link to={VIDEO_CREATE} className={classes.textLink}>
+      <Link to={VIDEO_CREATE} color="inherit">
         <IconButton
           edge="end"
           className={`${classes.iconButton} ${classes.removeBlock}`}
-          color="inherit"
         >
           <VideoCallIcon />
         </IconButton>
@@ -141,11 +156,12 @@ export default function HeaderButtons() {
           </IconButton>
         </div>
       ) : (
-        <div className={classes.buttonDiv}>
+        <div className={classes.avatarDiv}>
           <Avatar
             alt={decodeURI(cookie.name)}
             src={decodeURI(cookie.avatar)}
             onClick={logOut}
+            className={classes.avatarIcon}
           />
         </div>
       )}

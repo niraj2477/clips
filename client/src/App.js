@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useSelector, useDispatch } from "react-redux";
@@ -44,11 +44,14 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const [cookie] = useCookies(["user"]);
   const dispatch = useDispatch();
-  if (cookie) {
-    dispatch(isAuthenticated());
-  }
+
+  useEffect(() => {
+    if (cookie.name != null) {
+      dispatch(isAuthenticated());
+    }
+  }, [cookie, dispatch]);
   const theme = useSelector((state) => state.theme);
-  
+
   const classes = useStyles();
   const palletType = theme.isDark ? "dark" : "light";
   const mainPrimaryColor = theme.isDark ? "#d62d20" : "#cc2a36";

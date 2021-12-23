@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "none",
   },
-  textLink: {
-    color: "inherit",
-    textDecoration: " inherit",
-  },
+  // textLink: {
+  //   color: "inherit",
+  //   textDecoration: " inherit",
+  // },
   leftButtonPadding: {
     paddingLeft: theme.spacing(3),
   },
@@ -88,8 +88,8 @@ export default function Footer() {
         theme.isDark ? { background: "#181818" } : { background: "#f9f9f9" }
       }
     >
-      <Link to={VIDEO_CREATE} className={classes.textLink}>
-        <Fab color="primary" aria-label="add" className={classes.fabButton}>
+      <Link to={VIDEO_CREATE}>
+        <Fab color="primary" className={classes.fabButton}>
           <AddIcon />
         </Fab>
       </Link>

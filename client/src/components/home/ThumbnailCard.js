@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { Card } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -56,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const data = [
   {
+    id: 1,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -63,6 +63,7 @@ const data = [
     createdAt: "a week ago",
   },
   {
+    id: 2,
     src: "https://i.ytimg.com/vi/_Uu12zY01ts/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCpX6Jan2rxrCAZxJYDXppTP4MoQA",
     title: "Queen - Greatest Hits",
     channel: "Queen Official",
@@ -70,6 +71,7 @@ const data = [
     createdAt: "3 years ago",
   },
   {
+    id: 3,
     src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
     title: "Calvin Harris, Sam Smith - Promises (Official Video)",
     channel: "Calvin Harris",
@@ -77,6 +79,7 @@ const data = [
     createdAt: "10 months ago",
   },
   {
+    id: 4,
     src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
     title: "Calvin Harris, Sam Smith - Promises (Official Video)",
     channel: "Calvin Harris",
@@ -84,6 +87,7 @@ const data = [
     createdAt: "10 months ago",
   },
   {
+    id: 5,
     src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
     title: "Calvin Harris, Sam Smith - Promises (Official Video)",
     channel: "Calvin Harris",
@@ -91,6 +95,7 @@ const data = [
     createdAt: "10 months ago",
   },
   {
+    id: 6,
     src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
     title: "Calvin Harris, Sam Smith - Promises (Official Video)",
     channel: "Calvin Harris",
@@ -98,6 +103,7 @@ const data = [
     createdAt: "10 months ago",
   },
   {
+    id: 7,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -105,6 +111,7 @@ const data = [
     createdAt: "a week ago",
   },
   {
+    id: 8,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -112,6 +119,7 @@ const data = [
     createdAt: "a week ago",
   },
   {
+    id: 9,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -119,6 +127,7 @@ const data = [
     createdAt: "a week ago",
   },
   {
+    id: 10,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -126,6 +135,7 @@ const data = [
     createdAt: "a week ago",
   },
   {
+    id: 11,
     src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
     title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
     channel: "Don Diablo",
@@ -142,7 +152,7 @@ export default function ThumbnailCard() {
       <Grid container>
         {data.map((item) => {
           return (
-            <Grid item xs={12} sm={12} md={4} lg={3}>
+            <Grid item xs={12} sm={12} md={4} lg={3} key={item.id}>
               <Box clone={true}>
                 <Box
                   className={classes.box}

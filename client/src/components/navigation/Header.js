@@ -54,7 +54,7 @@ export default function Header() {
     <div className={classes.root}>
       <AppBar
         position="static"
-        color="text"
+        color="inherit"
         style={
           theme.isDark ? { background: "#181818" } : { background: "#f9f9f9" }
         }

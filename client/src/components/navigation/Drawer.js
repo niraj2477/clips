@@ -63,10 +63,7 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: 15,
   },
-  textLink: {
-    color: "inherit",
-    textDecoration: " inherit",
-  },
+ 
 }));
 
 export default function Drawer() {
@@ -89,6 +86,7 @@ export default function Drawer() {
             button
             key={HOME}
             component={Link}
+            
             to={HOME}
             selected={navigation.selected === HOME}
             onClick={() => dispatch(isHome())}
