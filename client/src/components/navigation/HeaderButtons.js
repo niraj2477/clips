@@ -107,7 +107,7 @@ export default function HeaderButtons() {
         <NotificationsIcon />
       </IconButton>
 
-      <Link to={VIDEO_CREATE} color="inherit">
+      <Link to={VIDEO_CREATE} className={classes.textLink}>
         <IconButton
           edge="end"
           className={`${classes.iconButton} ${classes.removeBlock}`}

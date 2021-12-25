@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
     display: "none",
   },
-  // textLink: {
-  //   color: "inherit",
-  //   textDecoration: " inherit",
-  // },
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
+  },
   leftButtonPadding: {
     paddingLeft: theme.spacing(3),
   },
