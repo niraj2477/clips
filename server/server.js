@@ -2,6 +2,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import mainRouter from './routes/Index.cjs';
 
 import mongoose from "mongoose";
 
@@ -28,8 +29,9 @@ app.use(bodyParser.json());
 // Enabled CORS
 app.use(cors());
 
-const routes = require("./routes/Index");
-app.use("/", routes);
+// const routes = require("./routes/Index");
+
+app.use("/", mainRouter);
 // Setup for the server port number
 const port = process.env.PORT || 5000;
 
