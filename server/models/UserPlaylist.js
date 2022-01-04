@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var UserPlaylist = new Schema({
+import { Schema , model } from 'mongoose';
+
+const UserPlaylist = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -19,4 +19,4 @@ var UserPlaylist = new Schema({
     strict: true
 });
 
-module.exports = mongoose.model('UserPlaylist', UserPlaylist);
+export default model('UserPlaylist', UserPlaylist);

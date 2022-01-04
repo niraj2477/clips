@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var Channel = new Schema(
+import { Schema , model } from "mongoose";
+
+const Channel = new Schema(
   {
     bannerImage: { type: String },
     name: { type: String, required: true, trim: true, index: true },
@@ -21,4 +21,4 @@ var Channel = new Schema(
   
 );
 
-module.exports = mongoose.model('Channel', Channel);
+export default model('Channel', Channel);

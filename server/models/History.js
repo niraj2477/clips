@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var history = new Schema({
+import { Schema , model } from 'mongoose';
+
+const History = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -28,4 +28,4 @@ var history = new Schema({
     strict: true
 });
 
-module.exports = mongoose.model('history', history);
+export default model('history', History);

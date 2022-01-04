@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var Video = new Schema({
+import { Schema , model } from 'mongoose';
+
+const Video = new Schema({
     title: {
         type: String,
         required: true,
@@ -53,4 +53,4 @@ var Video = new Schema({
     strict: true
 });
 
-module.exports = mongoose.model('Video', Video);
+export default model('Video', Video);

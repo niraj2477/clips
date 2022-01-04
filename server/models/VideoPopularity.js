@@ -1,6 +1,6 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var VideoPopularity = new Schema(
+import { Schema, model } from "mongoose";
+
+const VideoPopularity = new Schema(
   {
     videoId: { type: Schema.Types.ObjectId, required: true, ref: "Video" },
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
@@ -9,4 +9,4 @@ var VideoPopularity = new Schema(
   { timestamps: true, strict: true }
 );
 
-module.exports = mongoose.model('VideoPopularity', VideoPopularity);
+export default model("VideoPopularity", VideoPopularity);
