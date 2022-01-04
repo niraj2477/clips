@@ -1,56 +1,58 @@
-import { Schema , model } from 'mongoose';
-
-const Video = new Schema({
+import mongoose from "mongoose";
+const Video = new mongoose.Schema(
+  {
     title: {
-        type: String,
-        required: true,
-        maxlength: 255,
-        trim: true,
-        index: true
+      type: String,
+      required: true,
+      maxlength: 255,
+      trim: true,
+      index: true,
     },
     description: {
-        type: String
+      type: String,
     },
     thumbnail: {
-        type: String
+      type: String,
     },
     views: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     categoryId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
+      type: Schema.Types.ObjectId,
+      ref: "Category",
     },
     status: {
-        type: String,
-        required: true,
-        enum: ['private', 'public'],
-        default: 'public'
+      type: String,
+      required: true,
+      enum: ["private", "public"],
+      default: "public",
     },
     file: {
-        type: String,
-        required: true,
-        default: ''
+      type: String,
+      required: true,
+      default: "",
     },
     isDisabled: {
-        type: Boolean,
-        required: true,
-        default: false
+      type: Boolean,
+      required: true,
+      default: false,
     },
     like: {
-        type: Number,
-        required: true,
-        default: 0
+      type: Number,
+      required: true,
+      default: 0,
     },
     disLike: {
-        type: Number,
-        required: true,
-        default: 0
-    }
-}, {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  },
+  {
     timestamps: true,
-    strict: true
-});
+    strict: true,
+  }
+);
 
-export default model('Video', Video);
+export default new mongoose.model("Video", Video);

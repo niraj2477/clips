@@ -2,15 +2,16 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import mainRouter from './routes/Index.cjs';
-
+import mainRouter from "./routes/Index.js";
 import mongoose from "mongoose";
 
+
 // MongoDB Databse url
-var mongoDatabase = "mongodb://localhost:27017/clips";
+const mongoDatabase = "mongodb://localhost:27017/clips";
 
 // Created express server
 const app = express();
+
 mongoose.Promise = global.Promise;
 
 // Connect Mongodb Database
@@ -24,6 +25,7 @@ mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
 );
 
 // Conver incoming data to JSON format
+app.use(express.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
 
 // Enabled CORS

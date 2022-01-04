@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-
-const Review = new Schema(
+import mongoose from "mongoose";
+const Review = new mongoose.Schema(
   {
     videoId: {
       type: Schema.Types.ObjectId,
@@ -21,4 +20,4 @@ const Review = new Schema(
   }
 );
 
-export default model("Review", Review);
+export default new mongoose.model("Review", Review);

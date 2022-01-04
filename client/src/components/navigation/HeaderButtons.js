@@ -16,6 +16,7 @@ import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { Auth } from "../../firebaseConfig";
 import { useCookies } from "react-cookie";
 import { isAuthenticated } from "../../actions/authAction";
+import { authenticate } from "../../apis/Authentication";
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
@@ -67,7 +68,24 @@ export default function HeaderButtons() {
   const handleThemeChange = () => {
     dispatch(isDark());
   };
-  useEffect(() => console.log("updated"), [cookie]);
+
+  // useEffect(() => {
+  //   if (auth.auth) {
+  //     var data = {
+  //       name: decodeURI(cookie.name),
+  //       avatar: decodeURI(cookie.avatar),
+  //       email: decodeURI(cookie.email),
+  //       token: decodeURI(cookie.token),
+  //     };
+  //     authenticate(JSON.stringify(data))
+  //       .then((response) => {
+  //         console.log(response);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, [cookie, auth]);
   const logOut = () => {
     signOut(Auth).then(() => {
       removeCookie("name");
@@ -82,7 +100,7 @@ export default function HeaderButtons() {
     signInWithPopup(Auth, provider)
       .then((result) => {
         const user = result.user;
-
+        console.log(user);
         setCookie("name", encodeURI(user.displayName), {
           maxAge: 3652,
         });
@@ -96,7 +114,22 @@ export default function HeaderButtons() {
           maxAge: 3652,
         });
         setCookie("loggedIn", true, { maxAge: 3652 });
+        //dispatch redux authentication
         dispatch(isAuthenticated());
+        // api call to  server for checking and storeing data
+        var data = {
+          name: user.displayName,
+          avatar: user.photoURL,
+          email: user.email,
+          token: user.accessToken,
+        };
+        authenticate(JSON.stringify(data))
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
 
       .catch(alert);

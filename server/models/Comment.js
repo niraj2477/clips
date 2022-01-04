@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-
-const Comment = new Schema(
+import mongoose from "mongoose";
+const Comment = new mongoose.Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -25,4 +24,4 @@ const Comment = new Schema(
   }
 );
 
-export default model("Comment", Comment);
+export default new mongoose.model("Comment", Comment);

@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-
-const VideoPopularity = new Schema(
+import mongoose from "mongoose";
+const VideoPopularity = new mongoose.Schema(
   {
     videoId: { type: Schema.Types.ObjectId, required: true, ref: "Video" },
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
@@ -9,4 +8,4 @@ const VideoPopularity = new Schema(
   { timestamps: true, strict: true }
 );
 
-export default model("VideoPopularity", VideoPopularity);
+export default new mongoose.model("VideoPopularity", VideoPopularity);

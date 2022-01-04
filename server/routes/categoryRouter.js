@@ -1,15 +1,14 @@
-const express=require('express')
-const categoryModel=require('../models/Category.cjs')
-const categoryRouter = express.Router();
+import { Router } from 'express';
+import categoryModel from '../models/Category.js';
+const categoryRouter = Router();
 
 categoryRouter.route('/').get(function (req, res) {
     categoryModel.find(function (err, category) {
-        if (err) {
+      if (err) {
         console.log(err);
-        }
-        else {
+      } else {
         res.json(category);
-        }
+      }
     });
 });
 
@@ -24,4 +23,4 @@ categoryRouter.route('/addCategory').get(function (req, res) {
     });
     });
     
-module.exports = categoryRouter;
+export default categoryRouter;

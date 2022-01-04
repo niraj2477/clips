@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-
-const User = new Schema(
+import mongoose from "mongoose";
+const User = new mongoose.Schema(
   {
     avatar: {
       type: String,
@@ -69,4 +68,4 @@ const User = new Schema(
   }
 );
 
-export default model("User", User);
+export default new  mongoose.model("User", User);

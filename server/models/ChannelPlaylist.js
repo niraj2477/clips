@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-
-const ChannelPlaylist = new Schema(
+import mongoose from "mongoose";
+const ChannelPlaylist = new mongoose.Schema(
   {
     channelId: { type: Schema.Types.ObjectId, required: true, ref: "Channel" },
     name: { type: String, required: true, index: true },
@@ -10,4 +9,4 @@ const ChannelPlaylist = new Schema(
   { timestamps: true, strict: true }
 );
 
-export default model("ChannelPlaylist", ChannelPlaylist);
+export default new mongoose.model("ChannelPlaylist", ChannelPlaylist);

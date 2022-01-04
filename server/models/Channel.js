@@ -1,6 +1,5 @@
-import { Schema , model } from "mongoose";
-
-const Channel = new Schema(
+import mongoose from "mongoose";
+const Channel = new mongoose.Schema(
   {
     bannerImage: { type: String },
     name: { type: String, required: true, trim: true, index: true },
@@ -17,8 +16,7 @@ const Channel = new Schema(
     totalView: { type: Number, default: 0 },
     subscriber: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
-  { timestamps: true, strict: true },
-  
+  { timestamps: true, strict: true }
 );
 
-export default model('Channel', Channel);
+export default new mongoose.model("Channel", Channel);

@@ -1,31 +1,35 @@
-import { Schema , model } from 'mongoose';
-
-const History = new Schema({
+import mongoose from "mongoose";
+var History = new mongoose.Schema(
+  {
     userId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
-    video: [{
+    video: [
+      {
         videoId: {
-            type: Schema.Types.ObjectId,
-            required: true
+          type: Schema.Types.ObjectId,
+          required: true,
         },
         timeStamp: {
-            type: String
+          type: String,
         },
         isLiked: {
-            type: Boolean,
-            default: false
+          type: Boolean,
+          default: false,
         },
         isDisliked: {
-            type: Boolean,
-            default: false
-        }
-    }]
-}, {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
+  },
+  {
     timestamps: true,
-    strict: true
-});
+    strict: true,
+  }
+);
 
-export default model('history', History);
+export default new mongoose.model("history", History);
