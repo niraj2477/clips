@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -100,7 +100,7 @@ export default function HeaderButtons() {
     signInWithPopup(Auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+        // console.log(user);
         setCookie("name", encodeURI(user.displayName), {
           maxAge: 3652,
         });
@@ -110,7 +110,7 @@ export default function HeaderButtons() {
         setCookie("avatar", encodeURI(user.photoURL), {
           maxAge: 3652,
         });
-        setCookie("token", encodeURI(user.accessToken), {
+        setCookie("accessToken", encodeURI(user.accessToken), {
           maxAge: 3652,
         });
         setCookie("loggedIn", true, { maxAge: 3652 });
@@ -121,7 +121,8 @@ export default function HeaderButtons() {
           name: user.displayName,
           avatar: user.photoURL,
           email: user.email,
-          token: user.accessToken,
+          googleId: user.uid,
+          accessToken: user.accessToken,
         };
         authenticate(JSON.stringify(data))
           .then((response) => {

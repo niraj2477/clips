@@ -21,7 +21,7 @@ const User = new mongoose.Schema(
     },
     country: {
       type: String,
-      required: true,
+      
     },
     address: [
       {
@@ -43,7 +43,7 @@ const User = new mongoose.Schema(
     },
     channel: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Channel",
       },
     ],
