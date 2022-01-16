@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -17,6 +18,8 @@ import { Auth } from "../../firebaseConfig";
 import { useCookies } from "react-cookie";
 import { isAuthenticated } from "../../actions/authAction";
 import { authenticate } from "../../apis/Authentication";
+import Popup from './Popup'
+import Details from './Details'
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
@@ -60,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function HeaderButtons() {
   const classes = useStyles();
+  const [openPopup,setOpenPopup] = useState(false)
   const dispatch = useDispatch();
   const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   const provider = new GoogleAuthProvider();
@@ -126,7 +130,11 @@ export default function HeaderButtons() {
         };
         authenticate(JSON.stringify(data))
           .then((response) => {
+            if(response.data.flag === 1){
+              setOpenPopup(true);
+            }
             console.log(response);
+         
           })
           .catch((error) => {
             console.log(error);
@@ -136,7 +144,18 @@ export default function HeaderButtons() {
       .catch(alert);
   };
   return (
+
+    
     <div>
+     
+     <Popup
+        openPopup ={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <Details setOpenPopup={setOpenPopup} />
+      </Popup>
+
+ 
       <IconButton edge="end" className={classes.iconButton} color="inherit">
         <NotificationsIcon />
       </IconButton>

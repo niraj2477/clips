@@ -17,7 +17,7 @@ authRouter.route("/").post(function (req, res) {
             if (err) {
               res.status(400).json(err);
             }
-            res.status(200).json({ message: "authenticated" });
+            res.status(200).json({ message: "authenticated",flag:0 });
           }
         );
       } else {
@@ -25,7 +25,7 @@ authRouter.route("/").post(function (req, res) {
         user
           .save()
           .then(() => {
-            res.status(200).json({ message: "user has been added" });
+            res.status(200).json({ user:user, message: "user has been added",flag:1 });
           })
           .catch((err) => {
             res.status(400).send(err);
