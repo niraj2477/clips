@@ -12,6 +12,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import {videoUpload} from "../../../src/apis/video"
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -48,6 +49,19 @@ class Create extends Component {
     };
     this.clearInput = this.clearInput.bind(this);
   }
+  uploadVideo = () =>{
+    console.log(this.state);
+    var fd= new FormData();
+    fd.append("title",this.state.title);
+    fd.append("category",this.state.category);
+    fd.append("description",this.state.description);
+    fd.append("file",this.state.file);
+    fd.append("type",this.state.type);
+    console.log(fd);
+    videoUpload(fd);
+  };
+
+  
   clearInput = () => {
     this.setState({
       file: [],
@@ -74,7 +88,7 @@ class Create extends Component {
           maxFileSize={1073741824}
           showFileNames={true}
           onChange={(file) => {
-            this.setState({ file: file });
+            this.setState({ file: file[0] });
           }}
         />
         <br />
@@ -154,6 +168,7 @@ class Create extends Component {
             variant="contained"
             color="primary"
             size="large"
+            onClick={this.uploadVideo}
             className={classes.button}
             startIcon={<CloudUploadIcon />}
           >

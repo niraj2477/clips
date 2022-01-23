@@ -4,6 +4,8 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mainRouter from "./routes/Index.js";
 import mongoose from "mongoose";
+import fileUpload from "express-fileupload";
+import methodOverride from "method-override";
 
 
 // MongoDB Databse url
@@ -13,7 +15,7 @@ const mongoDatabase = "mongodb://localhost:27017/clips";
 const app = express();
 
 mongoose.Promise = global.Promise;
-
+app.use(methodOverride('_method'));
 // Connect Mongodb Database
 mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
   () => {
@@ -24,10 +26,11 @@ mongoose.connect(mongoDatabase, { useNewUrlParser: true }).then(
   }
 );
 
+
 // Conver incoming data to JSON format
 app.use(express.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
-
+// app.use(fileUpload());
 // Enabled CORS
 app.use(cors());
 
@@ -41,3 +44,5 @@ const port = process.env.PORT || 5000;
 const server = app.listen(port, function () {
   console.log("Server Lisening On Port : " + port);
 });
+
+
