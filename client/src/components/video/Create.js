@@ -75,8 +75,8 @@ class Create extends Component {
   render() {
     const { classes } = this.props;
     const top100Films = [
-      { title: "The Shawshank Redemption", id: 1994 },
-      { title: "The Shawshank Redemption", id: 1995 },
+      { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
+      { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
     ];
     return (
       <div className={classes.root}>
@@ -134,7 +134,7 @@ class Create extends Component {
           }}
           value={this.state.category}
           onChange={(e, val) => {
-            this.setState({ category: val });
+            this.setState({ category: val.id });
           }}
           getOptionLabel={(option) => option.title}
           style={{ width: 300 }}

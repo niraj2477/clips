@@ -19,7 +19,7 @@ const Video = new mongoose.Schema(
       default: 0,
     },
     categoryId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
     status: {
