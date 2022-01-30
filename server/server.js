@@ -4,7 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import mainRouter from "./routes/Index.js";
 import mongoose from "mongoose";
-import fileUpload from "express-fileupload";
+
 import methodOverride from "method-override";
 
 

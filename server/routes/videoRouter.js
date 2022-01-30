@@ -5,6 +5,7 @@ import  mongoose  from 'mongoose';
 import Grid from 'gridfs-stream';
 import crypto from "crypto";
 import path from 'path';
+import request from 'request';
 import { GridFsStorage } from 'multer-gridfs-storage';
 // const {GridFsStorage} = require('multer-gridfs-storage');
 import multer from 'multer';
@@ -53,7 +54,7 @@ const videoRouter = Router();
 videoRouter.route("/videoUpload").post( upload.single('file'),function (req, res) {
   console.log(req.body)
   console.log(req.body.category)
-  console.log(req.file.id)
+  console.log(req.file)
     
   
 
@@ -64,6 +65,13 @@ videoRouter.route("/videoUpload").post( upload.single('file'),function (req, res
     status: req.body.category == 1 ? "private" : "public",
     file: req.file.id
    });
+
+   request('http://127.0.0.1:5000/', function (error, response, body) {
+    console.error('error:', error); // Print the error
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    console.log('body:', body); // Print the data received
+    
+  });   
 
    video.save()
    .then(result => {
