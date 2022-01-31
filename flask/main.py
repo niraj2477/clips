@@ -1,12 +1,7 @@
 from logging import debug
 from flask import Flask, jsonify,request
 from fun import disp
-from pymongo import MongoClient
-import gridfs
-from bson.objectid import ObjectId 
-import collections  # From Python standard library.
-import bson
-from bson.codec_options import CodecOptions
+
 import cv2
 
 
@@ -14,24 +9,25 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    client = MongoClient("mongodb://localhost:27017")
-    db=client['clips']
-    collection= db['uploads']
-    v=db.list_collection_names()
-    fs = gridfs.GridFS(db,collection='uploads')
-    id= ObjectId("61eeb66c44ccd4ed104ea307")
-    d=None
-    for data in fs.find({"_id": id}, no_cursor_timeout=True):
-        d=data.read()
+    # client = MongoClient("mongodb://localhost:27017")
+    # db=client['clips']
+    # collection= db['uploads']
+    # v=db.list_collection_names()
+    # fs = gridfs.GridFS(db,collection='uploads')
+    # id= ObjectId("61eeb66c44ccd4ed104ea307")
+    # d=None
+    # for data in fs.find({"_id": id}, no_cursor_timeout=True):
+    #     d=data.read()
 
 
  
-    decoded_doc = bson.BSON(d).decode()
+    # decoded_doc = bson.BSON(d).decode()
     
-    # type(decoded_doc)
+    # # type(decoded_doc)
     
 
-    return decoded_doc
+    # return decoded_doc
+    return "<p> Hello World </p>"
 @app.route('/checkVideo', methods = ['GET'])
 def checkVideo():
     # cap = cv2.VideoCapture('../server/wa.avi')
