@@ -49,38 +49,58 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 const videoRouter = Router();
+const videoStorage = multer.diskStorage({
+  destination: 'uploads', // Destination to store video 
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + '_' + Date.now() 
+       + path.extname(file.originalname))
+  }
+});
 
+const videoUpload = multer({
+  storage: videoStorage,
+  limits: {
+  fileSize: 10000000 // 10000000 Bytes = 10 MB
+  },
+  fileFilter(req, file, cb) {
+    // upload only mp4 and mkv format
+    if (!file.originalname.match(/\.(mp4|MPEG-4|mkv|webm)$/)) { 
+       return cb(new Error('Please upload a video'))
+    }
+    cb(undefined, true)
+ }
+})
 
-videoRouter.route("/videoUpload").post( upload.single('file'),function (req, res) {
+videoRouter.route("/videoUpload").post( videoUpload.single('file'),function (req, res) {
   console.log(req.body)
   console.log(req.body.category)
-  console.log(req.file)
+  console.log(req.file.filename)
     
-  
+  const url ='http://127.0.0.1:5000/checkVideo?name='+req.file.filename;
 
-   let video = new Video({
-    title: req.body.title,
-    description: req.body.description,
-    categoryId: req.body.category,
-    status: req.body.category == 1 ? "private" : "public",
-    file: req.file.id
-   });
+  //  let video = new Video({
+  //   title: req.body.title,
+  //   description: req.body.description,
+  //   categoryId: req.body.category,
+  //   status: req.body.category == 1 ? "private" : "public",
+  //   file: req.file.id
+  //  });
 
-   request('http://127.0.0.1:5000/', function (error, response, body) {
+   request(url, function (error, response, body) {
     console.error('error:', error); // Print the error
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     console.log('body:', body); // Print the data received
-    
+    console.log("in rew")
   });   
 
-   video.save()
-   .then(result => {
-   res.status(200).json({ 'video': 'video Added Successfully' });
-   })
-   .catch(err => {
-     console.log(err);
-   res.status(400).send(err);
-   });
+  //  video.save()
+  //  .then(result => {
+  //  res.status(200).json({ 'video': 'video Added Successfully' });
+  //  })
+  //  .catch(err => {
+  //    console.log(err);
+  //  res.status(400).send(err);
+  //  });
 });
 
 export default videoRouter;
