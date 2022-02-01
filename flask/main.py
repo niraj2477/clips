@@ -1,7 +1,10 @@
 from logging import debug
 from flask import Flask, jsonify,request
 from fun import disp
-
+from keras.models import load_model
+from keras.preprocessing import image
+import numpy as np
+import math
 import cv2
 
 
@@ -30,21 +33,27 @@ def hello_world():
     return "<p> Hello World </p>"
 @app.route('/checkVideo', methods = ['GET'])
 def checkVideo():
+    result=[]
     # cap = cv2.VideoCapture('../server/wa.avi')
     name = request.args.get('name')
-    print(name)
+    model = load_model("./models/nsfw_classifier_v1.h5")
     path='../server/uploads/'+name
     cap=cv2.VideoCapture(path)
     while(cap.isOpened()):
         ret,frame = cap.read()
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        cv2.imshow('frame',gray)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        frame= cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # cv2.imshow('frame',gray)
+        # if cv2.waitKey(1) & 0xFF == ord('q'):
+        #     break
+        image = cv2.resize(frame, (300,300), interpolation=cv2.INTER_AREA)
+        image = image.img_to_array(image)
+        image = np.expand_dims(image, axis=0)
+        result.append(model.predict(image)) 
 
     cap.release()
     cv2.destroyAllWindows()
-    return name
+    print(result)
+    return result
 
 
 if __name__ == "__main__":
