@@ -65,16 +65,17 @@ def checkVideo():
                 val2= str(p[0][1]);
                 val3= str(p[0][2]); 
                 if 'e' in val1:
-                    p[0][0]=math.log(round(p[0][0], 2))
+                    p[0][0]=math.log(float(val1[:4]))
+                    print(p[0][0])
                 if 'e' in val2:
-                    p[0][1]=math.log(round(p[0][1], 2))
+                    p[0][1]=math.log(float(val2[:4]))
+                    print(p[0][1])
                 if 'e' in val3:
-                    p[0][2]=math.log(round(p[0][2], 2))
-                
-                if 'e' not in val1:
-                    print("not")
+                    p[0][2]=math.log(float(val3[:4]))
+                    print(p[0][2])
+              
                 result.append(p)
-                print(p[0][0]);
+             
                 print(c)
             else:
                 break
