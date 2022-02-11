@@ -1,4 +1,5 @@
 import { Router } from "express";
+import express from "express";
 // import videoModel from '../models/Video.js';
 import Video from "../models/Video.js";
 import mongoose from "mongoose";
@@ -15,7 +16,7 @@ const conn = mongoose.createConnection(mongoURI);
 
 // Init gfs
 let gfs;
-
+let app=express()
 conn.once("open", () => {
   // Init stream
   gfs = Grid(conn.db, mongoose.mongo);
@@ -75,50 +76,75 @@ const videoUpload = multer({
 videoRouter
   .route("/videoUpload")
   .post(videoUpload.single("file"), function (req, res) {
-    let body =req.body;
-    console.log(req.body.category);
-    console.log(req.file.filename);
 
     const url = "http://127.0.0.1:5000/checkVideo?name=" + req.file.filename;
-
-   
-
     request(url, function (error, response, body) {
       console.error("error:", error); // Print the error
       console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
       console.log("body:", body); // Print the data received
       console.log("in rew");
-
-      
-        upload(req,res,function(err) {
-          if(err) {
-              console.log(err);
-          }
-          
-          let video = new Video({
-            title: body.title,
-            description: body.description,
-            categoryId: body.category,
-            status: body.type == 1 ? "private" : "public",
-            file: req.file.id
-          });
-          video.save()
-          .then(result => {
-          res.status(200).json({ 'video': 'video Added Successfully' });
-          })
-          .catch(err => {
-            console.log(err);
-          res.status(400).send(err);
-          });
-      });
-        
-        
-      });
-
-     
+      req.url = 'http://localhost:5000/video/videoUploadComplete'
+      app._router.handle(req, res, next)
     });
+  });
+
+
+
+  videoRouter
+  .route("/videoUploadComplete")
+  .post(function (req, res) {
+    console.log(req.body);
+    console.log(req.body.category);
+    console.log(req.file.filename);
 
    
-  
+    // let video = new Video({
+    //   title: req.body.title,
+    //   description: req.body.description,
+    //   categoryId: req.body.category,
+    //   status: req.body.category == 1 ? "private" : "public",
+    //   file: req.file.id
+    // });
+
+    //    video.save()
+    //   .then(result => {
+    //   res.status(200).json({ 'video': 'video Added Successfully' });
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   res.status(400).send(err);
+    //   });
+      
+      });
+
+
+
+
+      // videoRouter
+      // .route("/videoUploadComplete")
+      // .post(upload.single("file"), function (req, res) {
+      //   console.log(req.body);
+      //   console.log(req.body.category);
+      //   console.log(req.file.filename);
+    
+       
+      //   let video = new Video({
+      //     title: req.body.title,
+      //     description: req.body.description,
+      //     categoryId: req.body.category,
+      //     status: req.body.category == 1 ? "private" : "public",
+      //     file: req.file.id
+      //   });
+    
+      //      video.save()
+      //     .then(result => {
+      //     res.status(200).json({ 'video': 'video Added Successfully' });
+      //     })
+      //     .catch(err => {
+      //       console.log(err);
+      //     res.status(400).send(err);
+      //     });
+          
+      //     });
 
 export default videoRouter;
