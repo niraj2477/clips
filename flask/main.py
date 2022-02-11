@@ -80,6 +80,7 @@ def checkVideo():
 
     cap.release()
     res = np.average(result, 0)
+    res=np.argmax(res)
     print(res)
     return (str(res))
 

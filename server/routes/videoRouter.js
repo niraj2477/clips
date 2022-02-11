@@ -74,7 +74,7 @@ const videoUpload = multer({
 });
 
 videoRouter
-  .route("/videoUpload")
+  .route("/videoUploadComplete")
   .post(videoUpload.single("file"), function (req, res) {
 
     const url = "http://127.0.0.1:5000/checkVideo?name=" + req.file.filename;
@@ -91,31 +91,40 @@ videoRouter
 
 
   videoRouter
-  .route("/videoUploadComplete")
-  .post(function (req, res) {
-    console.log(req.body);
-    console.log(req.body.category);
+  .route("/videoUpload")
+  .post(videoUpload.single("file"),function (req, res) {
+    var data=req.body;
+    var file=req.file;
+    console.log(data);
     console.log(req.file.filename);
-
-   
-    // let video = new Video({
-    //   title: req.body.title,
-    //   description: req.body.description,
-    //   categoryId: req.body.category,
-    //   status: req.body.category == 1 ? "private" : "public",
-    //   file: req.file.id
-    // });
-
-    //    video.save()
-    //   .then(result => {
-    //   res.status(200).json({ 'video': 'video Added Successfully' });
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   res.status(400).send(err);
-    //   });
-      
+    const url = "http://127.0.0.1:5000/checkVideo?name=" + req.file.filename;
+    request(url, function (error, response, body) {
+      console.error("error:", error); // Print the error
+      console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
+      console.log(body); // Print the data received
+      console.log(data);
+      let video = new Video({
+        title: data.title,
+        description: data.description,
+        categoryId: data.category,
+        status: data.type == 1 ? "private" : "public",
+        file: file.filename
       });
+  
+         video.save()
+        .then(result => {
+        res.status(200).json({ 'video': 'video Added Successfully' });
+        })
+        .catch(err => {
+          console.log(err);
+        res.status(400).send(err);
+        });
+        
+        });
+
+    });
+   
+  
 
 
 
@@ -145,6 +154,4 @@ videoRouter
       //     res.status(400).send(err);
       //     });
           
-      //     });
-
 export default videoRouter;
