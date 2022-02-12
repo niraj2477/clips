@@ -102,25 +102,25 @@ videoRouter
       console.error("error:", error); // Print the error
       console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received
       console.log(body); // Print the data received
-      console.log(data);
-      let video = new Video({
-        title: data.title,
-        description: data.description,
-        categoryId: data.category,
-        status: data.type == 1 ? "private" : "public",
-        file: file.filename
-      });
+      // console.log(data);
+      // let video = new Video({
+      //   title: data.title,
+      //   description: data.description,
+      //   categoryId: data.category,
+      //   status: data.type == 1 ? "private" : "public",
+      //   file: file.filename
+      // });
   
-         video.save()
-        .then(result => {
-        res.status(200).json({ 'video': 'video Added Successfully' });
-        })
-        .catch(err => {
-          console.log(err);
-        res.status(400).send(err);
-        });
+      //    video.save()
+      //   .then(result => {
+      //   res.status(200).json({ 'video': 'video Added Successfully' });
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   res.status(400).send(err);
+      //   });
         
-        });
+         });
 
     });
    

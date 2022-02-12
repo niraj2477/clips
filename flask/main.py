@@ -7,6 +7,7 @@ import numpy as np
 import math
 import cv2
 import time
+import json
 
 app = Flask(__name__)
 
@@ -45,7 +46,7 @@ def checkVideo():
     name = request.args.get('name')
     model = load_model("./models/nsfw_classifier_v1.h5")
     path = '../server/uploads/'+name
-    frame_rate = 15
+    frame_rate = 20
     prev = 0
     cap = cv2.VideoCapture(path)
     while(cap.isOpened()):
@@ -80,9 +81,15 @@ def checkVideo():
 
     cap.release()
     res = np.average(result, 0)
-    res=np.argmax(res)
     print(res)
-    return (str(res))
+    data={
+        "porn":str(res[0][0]),
+        "safe":str(res[0][1]),
+        "sexy":str(res[0][2])
+
+    }
+    return json.dumps({"result":data})
+     
 
 
 if __name__ == "__main__":
