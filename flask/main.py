@@ -70,7 +70,7 @@ def checkVideo():
                 if 'e' in val2:
                     p[0][1]=math.log(float(val2[:4]))
                 if 'e' in val3:
-                    p[0][2]=math.log(float(val2[:4]))
+                    p[0][2]=math.log(float(val3[:4]))
                 
              
                 result.append(p)
@@ -81,6 +81,14 @@ def checkVideo():
 
     cap.release()
     res = np.average(result, 0)
+    flag=np.argmax(res)
+    out=None
+    if flag == 0:
+        out="strict"
+    elif flag == 1:
+        out="kid"
+    else:
+        out="adult"
     print(res)
     data={
         "porn":str(res[0][0]),
@@ -88,7 +96,7 @@ def checkVideo():
         "sexy":str(res[0][2])
 
     }
-    return json.dumps({"result":data})
+    return jsonify({"result":data,"flag":out})
      
 
 
