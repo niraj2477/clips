@@ -12,7 +12,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import {videoUpload} from "../../../src/apis/video"
+import { videoUpload } from "../../../src/apis/video";
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -41,6 +41,7 @@ class Create extends Component {
     super(props);
     this.state = {
       file: [],
+      thumbnail: [],
       title: "",
       description: "",
       category: null,
@@ -49,22 +50,23 @@ class Create extends Component {
     };
     this.clearInput = this.clearInput.bind(this);
   }
-  uploadVideo = () =>{
+  uploadVideo = () => {
     console.log(this.state);
-    var fd= new FormData();
-    fd.append("title",this.state.title);
-    fd.append("category",this.state.category);
-    fd.append("description",this.state.description);
-    fd.append("file",this.state.file);
-    fd.append("type",this.state.type);
-    console.log(fd);
+    var fd = new FormData();
+    fd.append("title", this.state.title);
+    fd.append("category", this.state.category);
+    fd.append("description", this.state.description);
+    fd.append("file", this.state.file);
+    fd.append("thumbnail", this.state.thumbnail);
+    fd.append("type", this.state.type);
+    //console.log(fd);
     videoUpload(fd);
   };
 
-  
   clearInput = () => {
     this.setState({
       file: [],
+      thumbnail: [],
       title: "",
       description: "",
       category: null,
@@ -92,6 +94,16 @@ class Create extends Component {
           }}
         />
         <br />
+        <Divider variant="middle" />
+        <DropzoneArea
+          clearOnUnmount={true}
+          acceptedFiles={["image/*"]}
+          filesLimit={1}
+          showFileNames={true}
+          onChange={(file) => {
+            this.setState({ thumbnail: file[0] });
+          }}
+        />
         <Divider variant="middle" />
         <TextField
           label="Title"

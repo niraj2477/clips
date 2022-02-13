@@ -1,10 +1,6 @@
 import axios from "axios";
 
 export const videoUpload = async (data) => {
-
- 
-  
-
   try {
     return await axios({
       method: "post",
@@ -16,3 +12,14 @@ export const videoUpload = async (data) => {
     return error;
   }
 };
+
+export const indexPage = async (v) => {
+  try { 
+  return await axios({
+    method: "post",
+    url: "http://localhost:5000/video/",
+    data: v,
+  });
+
+  }catch(error) { return error}
+}

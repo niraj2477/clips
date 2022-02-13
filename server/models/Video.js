@@ -43,15 +43,14 @@ const Video = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    score:{
+    score: {
       type: Array,
-      required : true,
+      required: true,
     },
-    flag:{
+    flag: {
       type: String,
       required: false,
-      enum: ["kid", "adult","strict"],
-
+      enum: ["strict", "adult", "safe"],
     },
     disLike: {
       type: Number,

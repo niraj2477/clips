@@ -44,9 +44,10 @@ def checkVideo():
     c = 0
 
     name = request.args.get('name')
+    print(name)
     model = load_model("./models/nsfw_classifier_v1.h5")
     path = '../server/uploads/'+name
-    frame_rate = 20
+    frame_rate = 18
     prev = 0
     cap = cv2.VideoCapture(path)
     while(cap.isOpened()):
@@ -62,17 +63,16 @@ def checkVideo():
                 frame = np.expand_dims(frame, axis=0)
                 p = prediction(model, frame)
 
-                val1= str(p[0][0])
-                val2= str(p[0][1]);
-                val3= str(p[0][2]); 
+                val1 = str(p[0][0])
+                val2 = str(p[0][1])
+                val3 = str(p[0][2])
                 if 'e' in val1:
-                    p[0][0]=math.log(float(val1[:4]))
+                    p[0][0] = math.log(float(val1[:4]))
                 if 'e' in val2:
-                    p[0][1]=math.log(float(val2[:4]))
+                    p[0][1] = math.log(float(val2[:4]))
                 if 'e' in val3:
-                    p[0][2]=math.log(float(val3[:4]))
-                
-             
+                    p[0][2] = math.log(float(val3[:4]))
+
                 result.append(p)
                 # print(p[0][0]);
                 print(c)
@@ -81,23 +81,22 @@ def checkVideo():
 
     cap.release()
     res = np.average(result, 0)
-    flag=np.argmax(res)
-    out=None
+    flag = np.argmax(res)
+    out = None
     if flag == 0:
-        out="strict"
+        out = "strict"
     elif flag == 1:
-        out="kid"
+        out = "safe"
     else:
-        out="adult"
+        out = "adult"
     print(res)
-    data={
-        "porn":str(res[0][0]),
-        "safe":str(res[0][1]),
-        "sexy":str(res[0][2])
+    data = {
+        "porn": str(res[0][0]),
+        "safe": str(res[0][1]),
+        "sexy": str(res[0][2])
 
     }
-    return jsonify({"result":data,"flag":out})
-     
+    return jsonify({"result": data, "flag": out})
 
 
 if __name__ == "__main__":
