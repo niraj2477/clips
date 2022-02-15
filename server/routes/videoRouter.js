@@ -86,9 +86,6 @@ videoRouter
       //console.log(req.files.file[0].filename);
       const url = "http://127.0.0.1:5000/checkVideo?name=" + file;
       request(url, function (error, response, body) {
-        // console.error("error:", error); // Print the error
-        //  console.log("statusCode:", response && response.statusCode); // Print the response status code if a response was received // Print the data received
-        // console.log(body);
         body = JSON.parse(body);
         // console.log(body.result);
 
