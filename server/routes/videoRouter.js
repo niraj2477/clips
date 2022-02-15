@@ -80,15 +80,16 @@ videoRouter
     videoUpload.fields([{ name: "file" }, { name: "thumbnail" }]),
     function (req, res) {
       var data = req.body;
+      console.log(data);
       var file = req.files.file[0].filename;
       var thumbnail = req.files.thumbnail[0].filename;
 
       //console.log(req.files.file[0].filename);
-      const url = "http://127.0.0.1:5000/checkVideo?name=" + file;
+      const url = "http://127.0.0.1:7000/checkVideo?name=" + file;
       request(url, function (error, response, body) {
         body = JSON.parse(body);
-        // console.log(body.result);
-
+        console.log(body)
+        console.log(error)
         let video = new Video({
           title: data.title,
           description: data.description,

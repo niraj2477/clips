@@ -40,6 +40,7 @@ def prediction(model, frame):
 
 @app.route('/checkVideo', methods=['GET'])
 def checkVideo():
+    print('here')
     result = []
     c = 0
 
@@ -100,4 +101,4 @@ def checkVideo():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=7000,debug=True)

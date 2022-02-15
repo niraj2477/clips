@@ -13,6 +13,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { videoUpload } from "../../../src/apis/video";
+import { getCategory } from "../../apis/Category";
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -47,6 +48,7 @@ class Create extends Component {
       category: null,
       categoryText: "",
       type: "0",
+      categories:[]
     };
     this.clearInput = this.clearInput.bind(this);
   }
@@ -74,12 +76,23 @@ class Create extends Component {
       type: "0",
     });
   };
+
+  componentDidMount(){
+    
+    getCategory().then((response) => {
+      console.log(response.data[0].name);
+      this.setState({ categories: response.data });
+      console.log(this.state.categories);
+    });
+  }
   render() {
     const { classes } = this.props;
-    const top100Films = [
-      { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
-      { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
-    ];
+    // const top100Films = [
+    //   { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
+    //   { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
+    // ];
+
+
     return (
       <div className={classes.root}>
         <DropzoneArea
@@ -139,16 +152,16 @@ class Create extends Component {
           id="combo-box-demo"
           fullWidth
           className={classes.input}
-          options={top100Films}
+          options={this.state.categories}
           inputValue={this.state.categoryText}
           onInputChange={(e, val) => {
             this.setState({ categoryText: val });
           }}
           value={this.state.category}
           onChange={(e, val) => {
-            this.setState({ category: val.id });
+            this.setState({ category: val._id });
           }}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option.name}
           style={{ width: 300 }}
           renderInput={(params) => (
             <TextField
