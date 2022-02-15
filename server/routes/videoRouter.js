@@ -3,11 +3,12 @@ import express from "express";
 // import videoModel from '../models/Video.js';
 import Video from "../models/Video.js";
 import mongoose from "mongoose";
-import Grid from "gridfs-stream";
-import crypto from "crypto";
 import path from "path";
+import crypto from "crypto";
 import request from "request";
-import { GridFsStorage } from "multer-gridfs-storage";
+import fs from "fs";
+import mime from "mime";
+import http from "http";
 // const {GridFsStorage} = require('multer-gridfs-storage');
 import multer from "multer";
 // MongoDB Databse url
@@ -88,8 +89,8 @@ videoRouter
       const url = "http://127.0.0.1:7000/checkVideo?name=" + file;
       request(url, function (error, response, body) {
         body = JSON.parse(body);
-        console.log(body)
-        console.log(error)
+        console.log(body);
+        console.log(error);
         let video = new Video({
           title: data.title,
           description: data.description,
@@ -147,4 +148,44 @@ videoRouter.route("/").post((req, res, next) => {
     );
   }
 });
+
+videoRouter.route("/watch").post((req, res, next) => {
+  Video.findOne(
+    { isDisabled: false, _id: req.body.v },
+    null,
+    function (err, data) {
+      res.status(200).send(data);
+    }
+  );
+});
+
+videoRouter.route("/fetchVideo").get((req, res, next) => {
+  // const movieStream = fs.createReadStream(req.query.filePath);
+  console.log(req.headers);
+//  var range = req.headers.range;
+//   if (!range) {
+//     // 416 Wrong range
+//     return res.sendStatus(416);
+//   }
+//   var positions = range.replace(/bytes=/, "").split("-");
+//   var start = parseInt(positions[0], 10);
+//   var total = start.size;
+//   var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
+//   var chunksize = end - start + 1;
+//   res.writeHead(206, {
+//     "Content-Range": "bytes " + start + "-" + end + "/" + total,
+//     "Accept-Ranges": "bytes",
+//     "Content-Length": chunksize,
+//     "Content-Type": "video/mp4",
+//   });
+//   var stream = fs
+//     .createReadStream(req.query.filePath, { start: start, end: end })
+//     .on("open", function () {
+//       stream.pipe(res);
+//     })
+//     .on("error", function (err) {
+//       res.end(err);
+//     });
+});
+
 export default videoRouter;

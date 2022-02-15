@@ -53,7 +53,7 @@ class Create extends Component {
     this.clearInput = this.clearInput.bind(this);
   }
   uploadVideo = () => {
-    console.log(this.state);
+ 
     var fd = new FormData();
     fd.append("title", this.state.title);
     fd.append("category", this.state.category);

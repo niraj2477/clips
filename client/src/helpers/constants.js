@@ -15,4 +15,4 @@ export const HELP = "Help";
 export const FEEDBACK = "Feedback";
 //videos
 export const VIDEO_CREATE = "/videos/create";
-export const VIDEO_WATCH = "/videos/:v";
+export const VIDEO_WATCH = "/videos/watch/:v";
