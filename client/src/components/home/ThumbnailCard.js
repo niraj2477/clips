@@ -70,9 +70,16 @@ class ThumbnailCard extends Component {
   }
   componentDidMount() {
     indexPage(this.state.v).then((response) => {
-      this.setState({ video: response.data });
-      this.setState({ v: this.state.video[0]._id });
-    });
+      console.log(response.data)
+      if(response.data.length > 0){
+        this.setState({ video: response.data });
+        
+          this.setState({ v: this.state.video[0]._id });
+        
+        
+  
+      }
+          });
   }
 
   render() {

@@ -39,7 +39,8 @@ categoryRouter.route('/addCategory').post(function (req, res) {
     })
     
 
-    categoryRouter.route('/deleteCategory').post((req, res, next) => {
+    categoryRouter.route('/deleteCategory').get((req, res, next) => {
+    
       categoryModel.findByIdAndRemove(req.query.id, (error, data) => {
         if (error) {
           res.status(400).send(error);

@@ -16,3 +16,7 @@ export const FEEDBACK = "Feedback";
 //videos
 export const VIDEO_CREATE = "/videos/create";
 export const VIDEO_WATCH = "/videos/watch/:v";
+
+
+///
+export const ADMIN_CATEGORY ="/admin/category"

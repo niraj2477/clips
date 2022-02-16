@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { watch, fetchVideo } from "../../apis/video";
+import ReactPlayer from 'react-player'
 export class Watch extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +21,13 @@ export class Watch extends Component {
     });
   }
   render() {
-    return <div>{this.props.v}</div>;
+    return (
+      <div>
+
+<ReactPlayer url={this.state.video.file}  pip muted={true}
+        controls />
+      </div>
+    );
   }
 }
 

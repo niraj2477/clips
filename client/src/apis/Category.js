@@ -9,3 +9,18 @@ export const getCategory = async () => {
   });
 }catch(error) { return error}
 }
+
+
+export const deleteCategory = async (id) => {
+  try { 
+    return await axios.get(
+      "http://localhost:5000/category/deleteCategory",
+      {
+        params: {
+          id: id,
+        },
+      },
+     
+    );
+}catch(error) { return error}
+}
