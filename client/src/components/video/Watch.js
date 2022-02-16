@@ -7,6 +7,12 @@ import Box from "@material-ui/core/Box";
 import HoverVideoPlayer from "react-hover-video-player";
 import Typography from "@material-ui/core/Typography";
 import Chips from "../home/Chips";
+import SendIcon from "@material-ui/icons/Send";
+import { IconButton } from "@material-ui/core";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -81,6 +87,14 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(11.8),
     marginRight: theme.spacing(10),
   },
+  videoInfo: {
+    marginLeft: theme.spacing(10),
+    marginRight: theme.spacing(5),
+  },
+  videoButtons: {
+    marginLeft: theme.spacing(15),
+    marginTop: theme.spacing(-1.5),
+  },
 });
 export class Watch extends Component {
   constructor(props) {
@@ -124,6 +138,45 @@ export class Watch extends Component {
                 controls
                 playing
               />
+            </div>
+            <div className={classes.videoInfo}>
+              <div>
+                <Typography gutterBottom variant="h5">
+                  {this.state.video.title}
+                </Typography>
+              </div>
+              <Grid container>
+                <Grid item>
+                  <Typography variant="body2" color="textSecondary">
+                    {`${this.state.video.views} views • ${formatDate(
+                      this.state.video.createdAt
+                    )}`}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <div className={classes.videoButtons}>
+                    <IconButton>
+                      <FavoriteIcon />
+                    </IconButton>
+
+                    <IconButton>
+                      <InsertEmoticonIcon />
+                    </IconButton>
+
+                    <IconButton>
+                      <SentimentVeryDissatisfiedIcon />
+                    </IconButton>
+
+                    <IconButton>
+                      <SendIcon />
+                    </IconButton>
+
+                    <IconButton edge="end">
+                      <MoreHorizIcon />
+                    </IconButton>
+                  </div>
+                </Grid>
+              </Grid>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
