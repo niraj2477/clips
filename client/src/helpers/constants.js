@@ -19,4 +19,4 @@ export const VIDEO_WATCH = "/videos/watch/:v";
 
 
 ///
-export const ADMIN_CATEGORY ="/admin/category"
+// export const ADMIN_CATEGORY ="/admin/category"

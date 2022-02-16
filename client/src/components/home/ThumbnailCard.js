@@ -7,7 +7,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
 import { indexPage } from "../../apis/video";
 import { Link } from "react-router-dom";
-
+import HoverVideoPlayer from "react-hover-video-player";
 const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
@@ -25,12 +25,12 @@ const styles = (theme) => ({
   image: {
     [theme.breakpoints.down("sm")]: {
       width: 380,
-      height: 180,
+      height: 200,
     },
     [theme.breakpoints.up("md")]: {
       width: 300,
     },
-    height: 150,
+    height: 170,
   },
   iconButton: {
     [theme.breakpoints.down("sm")]: {
@@ -68,18 +68,15 @@ class ThumbnailCard extends Component {
       v: null,
     };
   }
+
   componentDidMount() {
     indexPage(this.state.v).then((response) => {
-      console.log(response.data)
-      if(response.data.length > 0){
+      console.log(response.data);
+      if (response.data.length > 0) {
         this.setState({ video: response.data });
-        
-          this.setState({ v: this.state.video[0]._id });
-        
-        
-  
+        this.setState({ v: this.state.video[0]._id });
       }
-          });
+    });
   }
 
   render() {
@@ -99,16 +96,30 @@ class ThumbnailCard extends Component {
                   <Link
                     to={{
                       pathname: "/videos/watch/" + item._id,
-                   
                     }}
                     className={classes.textLink}
                   >
                     <Box className={classes.box} id={item._id}>
-                      <img
-                        className={classes.image}
-                        alt={item.title}
-                        src={item.thumbnail}
-                      />
+                      <div className={classes.image}>
+                        <HoverVideoPlayer
+                          videoSrc={item.file}
+                          crossOrigin
+                          loadingOverlay={
+                            <div className="loading-overlay">Loading...</div>
+                          }
+                          pausedOverlay={
+                            <img
+                              src={item.thumbnail}
+                              alt="e"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          }
+                        />
+                      </div>
 
                       <Box pr={4}>
                         <div className={classes.title}>

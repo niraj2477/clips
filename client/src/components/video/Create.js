@@ -48,12 +48,11 @@ class Create extends Component {
       category: null,
       categoryText: "",
       type: "0",
-      categories:[]
+      categories: [],
     };
     this.clearInput = this.clearInput.bind(this);
   }
   uploadVideo = () => {
- 
     var fd = new FormData();
     fd.append("title", this.state.title);
     fd.append("category", this.state.category);
@@ -77,8 +76,7 @@ class Create extends Component {
     });
   };
 
-  componentDidMount(){
-    
+  componentDidMount() {
     getCategory().then((response) => {
       console.log(response.data[0].name);
       this.setState({ categories: response.data });
@@ -91,7 +89,6 @@ class Create extends Component {
     //   { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
     //   { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
     // ];
-
 
     return (
       <div className={classes.root}>

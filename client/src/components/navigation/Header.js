@@ -47,17 +47,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
-  // const [disable,setDisable] =useState(0);
-  // useEffect(() => {
-  //   // Update the document title using the browser API
-  //   const currentURL = window.location.href;
-  //   const data = currentURL.split("/");
-  //   if(data[3]==="admin"){
-  //     setDisable(1);
-  //   }
-   
-  // },[setDisable]);
-  
   const classes = useStyles();
   const theme = useSelector((state) => state.theme);
   const dispatch = useDispatch();
@@ -82,20 +71,7 @@ export default function Header() {
             )}
           </Link>
           <Search />
-                <HeaderButtons />
-{/* 
-              {
-                disable === 0 ?  
-                (
-                  <div>
-<Search />
-                <HeaderButtons />
-                  </div>
-              
-  )
-                 :(<div></div>)
-              } */}
-        
+          <HeaderButtons />
         </Toolbar>
       </AppBar>
     </div>
