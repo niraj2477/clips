@@ -20,7 +20,7 @@ const Video = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "categories",
     },
     status: {
       type: String,
@@ -42,6 +42,15 @@ const Video = new mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    score: {
+      type: Array,
+      required: true,
+    },
+    flag: {
+      type: String,
+      required: false,
+      enum: ["strict", "adult", "safe"],
     },
     disLike: {
       type: Number,

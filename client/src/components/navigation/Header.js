@@ -70,7 +70,6 @@ export default function Header() {
               <Light className={classes.logo} height="60px" width="100px" />
             )}
           </Link>
-
           <Search />
           <HeaderButtons />
         </Toolbar>

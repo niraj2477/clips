@@ -12,7 +12,8 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import {videoUpload} from "../../../src/apis/video"
+import { videoUpload } from "../../../src/apis/video";
+import { getCategory } from "../../apis/Category";
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -41,30 +42,32 @@ class Create extends Component {
     super(props);
     this.state = {
       file: [],
+      thumbnail: [],
       title: "",
       description: "",
       category: null,
       categoryText: "",
       type: "0",
+      categories: [],
     };
     this.clearInput = this.clearInput.bind(this);
   }
-  uploadVideo = () =>{
-    console.log(this.state);
-    var fd= new FormData();
-    fd.append("title",this.state.title);
-    fd.append("category",this.state.category);
-    fd.append("description",this.state.description);
-    fd.append("file",this.state.file);
-    fd.append("type",this.state.type);
-    console.log(fd);
+  uploadVideo = () => {
+    var fd = new FormData();
+    fd.append("title", this.state.title);
+    fd.append("category", this.state.category);
+    fd.append("description", this.state.description);
+    fd.append("file", this.state.file);
+    fd.append("thumbnail", this.state.thumbnail);
+    fd.append("type", this.state.type);
+    //console.log(fd);
     videoUpload(fd);
   };
 
-  
   clearInput = () => {
     this.setState({
       file: [],
+      thumbnail: [],
       title: "",
       description: "",
       category: null,
@@ -72,12 +75,21 @@ class Create extends Component {
       type: "0",
     });
   };
+
+  componentDidMount() {
+    getCategory().then((response) => {
+      console.log(response.data[0].name);
+      this.setState({ categories: response.data });
+      console.log(this.state.categories);
+    });
+  }
   render() {
     const { classes } = this.props;
-    const top100Films = [
-      { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
-      { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
-    ];
+    // const top100Films = [
+    //   { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
+    //   { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
+    // ];
+
     return (
       <div className={classes.root}>
         <DropzoneArea
@@ -92,6 +104,16 @@ class Create extends Component {
           }}
         />
         <br />
+        <Divider variant="middle" />
+        <DropzoneArea
+          clearOnUnmount={true}
+          acceptedFiles={["image/*"]}
+          filesLimit={1}
+          showFileNames={true}
+          onChange={(file) => {
+            this.setState({ thumbnail: file[0] });
+          }}
+        />
         <Divider variant="middle" />
         <TextField
           label="Title"
@@ -127,16 +149,16 @@ class Create extends Component {
           id="combo-box-demo"
           fullWidth
           className={classes.input}
-          options={top100Films}
+          options={this.state.categories}
           inputValue={this.state.categoryText}
           onInputChange={(e, val) => {
             this.setState({ categoryText: val });
           }}
           value={this.state.category}
           onChange={(e, val) => {
-            this.setState({ category: val.id });
+            this.setState({ category: val._id });
           }}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option.name}
           style={{ width: 300 }}
           renderInput={(params) => (
             <TextField
