@@ -159,33 +159,61 @@ videoRouter.route("/watch").post((req, res, next) => {
   );
 });
 
+videoRouter.route("/watchComplete").get((req, res, next) => {
+  Video.findOneAndUpdate(
+    { _id: req.query.v },
+    { $inc: { views: 1 } },
+    function (err, data) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+      }
+      res.status(200).send(data);
+    }
+  );
+});
+
+videoRouter.route("/like").get((req, res, next) => {
+  Video.findOneAndUpdate(
+    { _id: req.query.v },
+    { $inc: { like: 1 } },
+    function (err, data) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+      }
+      res.status(200).send(data);
+    }
+  );
+});
+
 videoRouter.route("/fetchVideo").get((req, res, next) => {
   // const movieStream = fs.createReadStream(req.query.filePath);
   console.log(req.headers);
-//  var range = req.headers.range;
-//   if (!range) {
-//     // 416 Wrong range
-//     return res.sendStatus(416);
-//   }
-//   var positions = range.replace(/bytes=/, "").split("-");
-//   var start = parseInt(positions[0], 10);
-//   var total = start.size;
-//   var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
-//   var chunksize = end - start + 1;
-//   res.writeHead(206, {
-//     "Content-Range": "bytes " + start + "-" + end + "/" + total,
-//     "Accept-Ranges": "bytes",
-//     "Content-Length": chunksize,
-//     "Content-Type": "video/mp4",
-//   });
-//   var stream = fs
-//     .createReadStream(req.query.filePath, { start: start, end: end })
-//     .on("open", function () {
-//       stream.pipe(res);
-//     })
-//     .on("error", function (err) {
-//       res.end(err);
-//     });
+  //  var range = req.headers.range;
+  //   if (!range) {
+  //     // 416 Wrong range
+  //     return res.sendStatus(416);
+  //   }
+  //   var positions = range.replace(/bytes=/, "").split("-");
+  //   var start = parseInt(positions[0], 10);
+  //   var total = start.size;
+  //   var end = positions[1] ? parseInt(positions[1], 10) : total - 1;
+  //   var chunksize = end - start + 1;
+  //   res.writeHead(206, {
+  //     "Content-Range": "bytes " + start + "-" + end + "/" + total,
+  //     "Accept-Ranges": "bytes",
+  //     "Content-Length": chunksize,
+  //     "Content-Type": "video/mp4",
+  //   });
+  //   var stream = fs
+  //     .createReadStream(req.query.filePath, { start: start, end: end })
+  //     .on("open", function () {
+  //       stream.pipe(res);
+  //     })
+  //     .on("error", function (err) {
+  //       res.end(err);
+  //     });
 });
 
 export default videoRouter;

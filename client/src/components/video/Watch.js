@@ -1,18 +1,19 @@
 import React, { Component } from "react";
-import { watch } from "../../apis/video";
+import { watch, watchComplete ,like } from "../../apis/Video";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ReactPlayer from "react-player";
 import Box from "@material-ui/core/Box";
 import HoverVideoPlayer from "react-hover-video-player";
 import Typography from "@material-ui/core/Typography";
+import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import Chips from "../home/Chips";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
-import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import { Divider } from "@material-ui/core";
+import FilterListIcon from "@material-ui/icons/FilterList";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -93,7 +94,18 @@ const styles = (theme) => ({
   },
   videoButtons: {
     marginLeft: theme.spacing(15),
+    paddingLeft: theme.spacing(2),
     marginTop: theme.spacing(-1.5),
+  },
+  row: {
+    padding: theme.spacing(2),
+  },
+  commentFilter: {
+    marginLeft: theme.spacing(5),
+    marginTop: theme.spacing(-1.5),
+  },
+  divider: {
+    marginLeft: theme.spacing(11),
   },
 });
 export class Watch extends Component {
@@ -103,6 +115,8 @@ export class Watch extends Component {
       video: [],
       comments: [],
       isOpen: true,
+      playedTime: 0.0,
+      watchCompleted: false,
     };
   }
   componentDidMount() {
@@ -112,14 +126,37 @@ export class Watch extends Component {
       this.setState({ video: response.data });
     });
   }
+  componentDidUpdate(prevProps) {
+    if (this.state.watchCompleted !== prevProps.watchCompleted) {
+      if (this.state.watchCompleted) {
+        watchComplete(this.state.video._id).then((response) => {
+          //console.log(response);
+        });
+      }
+    }
+  }
+  handleLike = () => {
+     like(this.state.video._id).then((response) => {
+       //console.log(response);
+     });
+  }
   handleClick = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
   render() {
     const { classes } = this.props;
+    const titleString = (title) => {
+      const shorten = title ? title.substring(0, 20) : "";
+      return shorten;
+    };
     const formatDate = (dateString) => {
       const options = { year: "numeric", month: "long", day: "numeric" };
       return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+    const updateProgress = ({ played }) => {
+      if (played > 0.7 && !this.state.watchCompleted) {
+        this.setState({ watchCompleted: true });
+      }
     };
 
     return (
@@ -137,6 +174,7 @@ export class Watch extends Component {
                 pip
                 controls
                 playing
+                onProgress={updateProgress}
               />
             </div>
             <div className={classes.videoInfo}>
@@ -155,16 +193,12 @@ export class Watch extends Component {
                 </Grid>
                 <Grid item>
                   <div className={classes.videoButtons}>
-                    <IconButton>
+                    <IconButton onClick={this.handleLike}>
                       <FavoriteIcon />
                     </IconButton>
 
                     <IconButton>
-                      <InsertEmoticonIcon />
-                    </IconButton>
-
-                    <IconButton>
-                      <SentimentVeryDissatisfiedIcon />
+                      <ThumbDownIcon />
                     </IconButton>
 
                     <IconButton>
@@ -177,6 +211,19 @@ export class Watch extends Component {
                   </div>
                 </Grid>
               </Grid>
+              <Divider variant="middle" className={classes.divider} />
+              <div className={classes.row}>
+                <Grid container>
+                  <Grid item>
+                    <Typography>Comments</Typography>
+                  </Grid>
+                  <Grid item>
+                    <IconButton className={classes.commentFilter}>
+                      <FilterListIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </div>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -217,9 +264,11 @@ export class Watch extends Component {
                             alt={this.state.video.title}
                             src={this.state.video.thumbnail}
                           />
-                          <Typography gutterBottom variant="body2">
-                            {this.state.video.title}
+
+                          <Typography>
+                            {titleString(this.state.video.title)}...
                           </Typography>
+
                           {/* <div className={classes.iconButton}>
                       <IconButton edge="end" color="inherit">
                         <MoreVertIcon />

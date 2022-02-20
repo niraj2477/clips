@@ -12,7 +12,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { videoUpload } from "../../../src/apis/video";
+import { videoUpload } from "../../apis/Video";
 import { getCategory } from "../../apis/Category";
 const styles = (theme) => ({
   root: {

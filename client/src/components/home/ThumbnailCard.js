@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import { indexPage } from "../../apis/video";
+import { indexPage } from "../../apis/Video";
 import { Link } from "react-router-dom";
 import HoverVideoPlayer from "react-hover-video-player";
 const styles = (theme) => ({
