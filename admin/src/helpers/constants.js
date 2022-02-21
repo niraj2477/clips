@@ -4,6 +4,7 @@ export const IS_AUTHENTICATED = "IS_AUTHENTICATED";
 export const HOME = "/";
 export const _HOME = "Home";
 export const CATEGORY = "Category";
+export const LOGIN = "Login";
 export const TRENDING = "Trending";
 export const SUBCRIPTIONS = "Subcriptions";
 export const LIBRARY = "Library";

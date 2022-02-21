@@ -13,8 +13,8 @@ categoryRouter.route('/').get(function (req, res) {
 });
 
 categoryRouter.route('/addCategory').post(function (req, res) {
-  console.log(req.query);
-    let category = new categoryModel({name: req.query.name});
+  console.log(req.body.data);
+    let category = new categoryModel({name: req.body.data.name});
     console.log(category)
     category.save()
     .then(result => {
