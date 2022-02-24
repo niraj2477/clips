@@ -1,20 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Avatar from "@material-ui/core/Avatar";
-
-import IconButton from "@material-ui/core/IconButton";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Skeleton from "@material-ui/lab/Skeleton";
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles((theme) => ({
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import IconButton from "@material-ui/core/IconButton";
+import { indexPage } from "../../apis/Video";
+import { Link } from "react-router-dom";
+import HoverVideoPlayer from "react-hover-video-player";
+const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
       marginTop: theme.spacing(2),
@@ -24,16 +18,26 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
     boxShadow: 8,
+    "&:hover, &:focus": {
+      cursor: "pointer",
+    },
   },
   image: {
     [theme.breakpoints.down("sm")]: {
       width: 380,
-      height: 180,
+      height: 200,
     },
     [theme.breakpoints.up("md")]: {
       width: 300,
     },
-    height: 150,
+    height: 170,
+  },
+  iconButton: {
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: theme.spacing(43),
+    },
+    position: "absolute",
+    marginLeft: theme.spacing(34),
   },
   title: {
     display: "flex",
@@ -50,135 +54,111 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginLeft: theme.spacing(6),
   },
-}));
+  textLink: {
+    color: "inherit",
+    textDecoration: " inherit",
+  },
+});
 
-const data = [
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/_Uu12zY01ts/hqdefault.jpg?sqp=-oaymwEZCPYBEIoBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLCpX6Jan2rxrCAZxJYDXppTP4MoQA",
-    title: "Queen - Greatest Hits",
-    channel: "Queen Official",
-    views: "40 M views",
-    createdAt: "3 years ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
-    title: "Calvin Harris, Sam Smith - Promises (Official Video)",
-    channel: "Calvin Harris",
-    views: "130 M views",
-    createdAt: "10 months ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
-    title: "Calvin Harris, Sam Smith - Promises (Official Video)",
-    channel: "Calvin Harris",
-    views: "130 M views",
-    createdAt: "10 months ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
-    title: "Calvin Harris, Sam Smith - Promises (Official Video)",
-    channel: "Calvin Harris",
-    views: "130 M views",
-    createdAt: "10 months ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/kkLk2XWMBf8/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLB4GZTFu1Ju2EPPPXnhMZtFVvYBaw",
-    title: "Calvin Harris, Sam Smith - Promises (Official Video)",
-    channel: "Calvin Harris",
-    views: "130 M views",
-    createdAt: "10 months ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-  {
-    src: "https://i.ytimg.com/vi/pLqipJNItIo/hqdefault.jpg?sqp=-oaymwEYCNIBEHZIVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLBkklsyaw9FxDmMKapyBYCn9tbPNQ",
-    title: "Don Diablo @ Tomorrowland Main Stage 2019 | Official…",
-    channel: "Don Diablo",
-    views: "396 k views",
-    createdAt: "a week ago",
-  },
-];
+class ThumbnailCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      video: [],
+      v: null,
+    };
+  }
 
-export default function ThumbnailCard() {
-  const classes = useStyles();
+  componentDidMount() {
+    indexPage(this.state.v).then((response) => {
+      console.log(response.data);
+      if (response.data.length > 0) {
+        this.setState({ video: response.data });
+        this.setState({ v: this.state.video[0]._id });
+      }
+    });
+  }
 
-  return (
-    <div>
-      <Grid container>
-        {data.map((item) => {
-          return (
-            <Grid item xs={12} sm={12} md={4} lg={3}>
-              <Box clone={true}>
-                <Box className={classes.box} >
-                  <img
-                    className={classes.image}
-                    alt={item.title}
-                    src={item.src}
-                  />
+  render() {
+    const { classes } = this.props;
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
 
-                  <Box pr={2}>
-                    <div className={classes.title}>
-                      <img
-                        className={classes.avatar}
-                        alt={item.title}
-                        src={item.src}
-                      />
-                      <Typography gutterBottom variant="body2">
-                        {item.title}
-                      </Typography>
-                    </div>
-                    <div className={classes.description}>
-                      <Typography
-                        display="block"
-                        variant="caption"
-                        color="textSecondary"
-                      >
-                        {item.channel}
-                      </Typography>
-                      <Typography variant="caption" color="textSecondary">
-                        {`${item.views} • ${item.createdAt}`}
-                      </Typography>
-                    </div>
-                  </Box>
+    return (
+      <div>
+        <Grid container>
+          {this.state.video.map((item) => {
+            return (
+              <Grid item xs={12} sm={12} md={4} lg={3} key={item._id}>
+                <Box clone={true}>
+                  <Link
+                    to={{
+                      pathname: "/videos/watch/" + item._id,
+                    }}
+                    className={classes.textLink}
+                  >
+                    <Box className={classes.box} id={item._id}>
+                      <div className={classes.image}>
+                        <HoverVideoPlayer
+                          videoSrc={item.file}
+                          crossOrigin
+                          loadingOverlay={
+                            <div className="loading-overlay">Loading...</div>
+                          }
+                          pausedOverlay={
+                            <img
+                              src={item.thumbnail}
+                              alt="e"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          }
+                        />
+                      </div>
+
+                      <Box pr={4}>
+                        <div className={classes.title}>
+                          <img
+                            className={classes.avatar}
+                            alt={item.title}
+                            src={item.thumbnail}
+                          />
+                          <Typography gutterBottom variant="body2">
+                            {item.title}
+                          </Typography>
+                          <div className={classes.iconButton}>
+                            <IconButton edge="end" color="inherit">
+                              <MoreVertIcon />
+                            </IconButton>
+                          </div>
+                        </div>
+                        <div className={classes.description}>
+                          {/* <Typography
+                          display="block"
+                          variant="caption"
+                          color="textSecondary"
+                        >
+                          {item.channel}
+                        </Typography> */}
+                          <Typography variant="caption" color="textSecondary">
+                            {`${item.views} • ${formatDate(item.createdAt)}`}
+                          </Typography>
+                        </div>
+                      </Box>
+                    </Box>
+                  </Link>
                 </Box>
-              </Box>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </div>
-  );
+              </Grid>
+            );
+          })}
+        </Grid>
+      </div>
+    );
+  }
 }
+export default withStyles(styles)(ThumbnailCard);
