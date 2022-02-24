@@ -14,6 +14,8 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Divider } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import Topcommentbox from "../commentbox/topcommentbox/Topcommentbox";
+import MessageScroll from "../commentbox/MessageScroll";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -212,7 +214,8 @@ export class Watch extends Component {
                 </Grid>
               </Grid>
               <Divider variant="middle" className={classes.divider} />
-              <div className={classes.row}>
+              
+             <div className={classes.row}>
                 <Grid container>
                   <Grid item>
                     <Typography>Comments</Typography>
@@ -223,7 +226,14 @@ export class Watch extends Component {
                     </IconButton>
                   </Grid>
                 </Grid>
+                    </div>
+
+
+              <div className="ColHolder">
+                <Topcommentbox autoFocus={false} />
+                <MessageScroll />
               </div>
+
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
