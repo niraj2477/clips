@@ -1,0 +1,132 @@
+input{
+    font-family: inherit;
+    font-size: 100%;
+}
+form{
+    overflow: auto;
+}
+form input[type="text"] {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    padding: 12px 20px 12px 0;
+    background-color: transparent;
+}
+
+.commentBox{
+    position: relative;
+}
+
+.commentline{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+    transform: scaleX(0);
+    animation: commentlineScalein 21.s forwards;
+}
+@keyframes commentlineScalein{
+    0%{
+        transform: scaleX(0)
+    }
+    100%{
+        transform: scaleX(1)
+    }
+}
+
+/*button*/
+.commentButton{
+    font-family: inherit;
+    font-size: 0.7rem;
+    font-weight: bold;
+    float: right;
+    border:none;
+    margin: 10px 0 0 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.sendButton{
+    background-color: #065fd4;
+    color: white;
+}
+.sendButton:disabled{
+    color: white;
+    cursor: default;
+    background-color: #cccccc;
+}
+
+/* message scrol*/
+.bottomBar{
+    display: flex;
+    width: 100%;
+    margin: 20px 0;
+    justify-content: center;
+}
+.loader{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #606060;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+/*Message */
+.messageContainer{
+    position: relative;
+    width: 100%;
+    word-wrap: break-word;
+    margin: 20px 0;
+    padding-left: 30px;
+}
+.messdown{
+    font-size: 0.4rem;
+}
+.messuser{
+    position: absolute;
+    font-size: 4.4rem;
+    top: 0;
+    left: 0;;
+}
+
+.messageUser{
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.messageText{
+    font-size: 0.9rem;
+    margin: 5px 0;
+
+}
+.messageIconeContainer{
+    margin-top: 10px;
+}
+.messageIconeContainer > * {
+    display: inline-block;
+    color: gray;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.arrowReplies{
+    margin-top: 10px;
+    cursor: pointer;
+}
+.arrowReplies > * {
+    color: #065fd4;
+    display: inline-block;
+}
+.arrowReplies > i {
+    margin-right: 10px;
+}
