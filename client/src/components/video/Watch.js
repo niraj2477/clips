@@ -230,7 +230,7 @@ export class Watch extends Component {
 
 
               <div className="ColHolder">
-                <Topcommentbox autoFocus={false} />
+                <Topcommentbox autoFocus={false} video={this.state.video} />
                 <MessageScroll />
               </div>
 

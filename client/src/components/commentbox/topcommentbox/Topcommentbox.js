@@ -1,9 +1,10 @@
 import React,{useRef, useState} from 'react';
 import '../commentbox.css'
-
-
+import { useCookies } from "react-cookie";
+import { addComment } from '../../../apis/Comment';
 function Topcommentbox(props) {
-
+    const [cookie] = useCookies(["user"]);
+    const {video} = props;
     const message = useRef(null);
     //the underline animation
     const [showCommentLine, setCommentLine]=useState(false);
@@ -15,6 +16,9 @@ function Topcommentbox(props) {
     const commentFocus = () => {
         setCommentLine(true);
         setShowButtons(true);
+        console.log(video);
+        console.log(cookie);
+        
     }
 
     const commentFocusOut = () => {
@@ -33,6 +37,12 @@ function Topcommentbox(props) {
     //send comment
     const sendComment = (event) =>{
         event.preventDefault();
+        console.log(message.current.value);
+
+        let data={"video":video._id,"userId":"61e3cc4777d4b517c7074f91",message:message.current.value};
+        addComment(data).then((result)=>{
+            console.log(result);
+        });
     }
 
 

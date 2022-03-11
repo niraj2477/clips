@@ -13,8 +13,8 @@ commentsRouter.route('/').get(function (req, res) {
 });
 
 commentsRouter.route('/addComment').post(function (req, res) {
-    console.log(req.query);
-      let comment = new commentModel({userId: req.query.userId,videoId: req.query.videoId,description: req.query.description});
+    console.log(req);
+      let comment = new commentModel({userId: req.body.data.userId,videoId: req.body.data.video,description: req.body.data.message});
       console.log(comment)
       comment.save()
       .then(result => {

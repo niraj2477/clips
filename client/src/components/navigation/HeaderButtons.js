@@ -97,6 +97,7 @@ export default function HeaderButtons() {
       removeCookie("token");
       removeCookie("avatar");
       removeCookie("loggedIn");
+      removeCookie("id");
     });
     dispatch(isAuthenticated());
   };
@@ -104,7 +105,10 @@ export default function HeaderButtons() {
     signInWithPopup(Auth, provider)
       .then((result) => {
         const user = result.user;
-        // console.log(user);
+        console.log(user);
+        setCookie("id", encodeURI(user._id), {
+          maxAge: 3652,
+        });
         setCookie("name", encodeURI(user.displayName), {
           maxAge: 3652,
         });
