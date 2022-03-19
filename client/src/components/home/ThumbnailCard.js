@@ -17,8 +17,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
-
+import PropTypes from "prop-types";
 import CommentIcon from "@material-ui/icons/Comment";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Dialog from "@material-ui/core/Dialog";
 const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
@@ -75,7 +77,68 @@ const styles = (theme) => ({
     textDecoration: " inherit",
   },
 });
+function SimpleDialog(props) {
+  const { onClose, selectedId, open } = props;
+  const [checked, setChecked] = React.useState([0]);
+  const menus = [
+    "sexual content",
+    "violent or replusive content",
+    "hateful or abusive content",
+    "harmful or dangerous content",
+    "spam or misleading",
+  ];
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
 
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+  const handleClose = () => {
+    onClose(selectedId);
+  };
+
+  return (
+    <Dialog
+      onClose={handleClose}
+      aria-labelledby="simple-dialog-title"
+      open={open}
+    >
+      <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+      <List>
+        {menus.map((menu) => (
+          <ListItem
+            key={menu}
+            role={undefined}
+            dense
+            button
+            onClick={handleToggle(menu)}
+          >
+            <ListItemIcon>
+              <Checkbox
+                edge="start"
+                checked={checked.indexOf(menu) !== -1}
+                tabIndex={-1}
+                disableRipple
+              />
+            </ListItemIcon>
+            <ListItemText primary={menu} />
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
+  );
+}
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  selectedId: PropTypes.string.isRequired,
+};
 class ThumbnailCard extends Component {
   constructor(props) {
     super(props);
@@ -83,15 +146,13 @@ class ThumbnailCard extends Component {
       video: [],
       v: null,
       anchor: null,
-      anchor1: null,
-      visible: false,
-      checked: [0],
+      open: false,
+      id: null,
     };
   }
 
   componentDidMount() {
     indexPage(this.state.v).then((response) => {
-      console.log(response.data);
       if (response.data.length > 0) {
         this.setState({ video: response.data });
         this.setState({ v: this.state.video[0]._id });
@@ -102,25 +163,21 @@ class ThumbnailCard extends Component {
   handleClick = (event) => {
     this.setState({ anchor: event.currentTarget });
   };
-  handleToggle = (value) => () => {
-    const currentIndex = this.state.checked.indexOf(value);
-    const newChecked = [...this.state.checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({ checked: newChecked });
-  };
 
   handleClose = () => {
     this.setState({ anchor: null });
   };
-  showReport = (event) => {
-    this.setState({ anchor1: event.currentTarget });
-   
+
+  showReport = () => {
+    this.setState({ open: true });
+  };
+  check = (event, id) => {
+    this.setState({ id: id });
+    this.handleClick(event);
+    console.log(this.state.id);
+  };
+  hideReport = () => {
+    this.setState({ open: false });
   };
   render() {
     const { classes } = this.props;
@@ -132,6 +189,11 @@ class ThumbnailCard extends Component {
     return (
       <div>
         <Grid container>
+          <SimpleDialog
+            selectedId={this.state.id}
+            open={this.state.open}
+            onClose={this.hideReport}
+          />
           {this.state.video.map((item) => {
             return (
               <Grid item xs={12} sm={12} md={4} lg={3} key={item._id}>
@@ -187,7 +249,9 @@ class ThumbnailCard extends Component {
                           <IconButton
                             edge="end"
                             color="inherit"
-                            onClick={this.handleClick}
+                            onClick={(event) => {
+                              this.check(event, item._id);
+                            }}
                           >
                             <MoreVertIcon />
                           </IconButton>
@@ -207,56 +271,6 @@ class ThumbnailCard extends Component {
                               >
                                 Report
                               </Typography>
-                              <Menu
-                                id="fade-menu"
-                                anchorEl={this.state.anchor1}
-                                keepMounted
-                                open={Boolean(this.state.anchor1)}
-                              >
-                                <List className={classes.root}>
-                                  {[0, 1, 2, 3].map((value) => {
-                                    const labelId = `checkbox-list-label-${value}`;
-
-                                    return (
-                                      <ListItem
-                                        key={value}
-                                        role={undefined}
-                                        dense
-                                        button
-                                        onClick={this.handleToggle(value)}
-                                      >
-                                        <ListItemIcon>
-                                          <Checkbox
-                                            edge="start"
-                                            checked={
-                                              this.state.checked.indexOf(
-                                                value
-                                              ) !== -1
-                                            }
-                                            tabIndex={-1}
-                                            disableRipple
-                                            inputProps={{
-                                              "aria-labelledby": labelId,
-                                            }}
-                                          />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                          id={labelId}
-                                          primary={`Line item ${value + 1}`}
-                                        />
-                                        <ListItemSecondaryAction>
-                                          <IconButton
-                                            edge="end"
-                                            aria-label="comments"
-                                          >
-                                            <CommentIcon />
-                                          </IconButton>
-                                        </ListItemSecondaryAction>
-                                      </ListItem>
-                                    );
-                                  })}
-                                </List>
-                              </Menu>
                             </MenuItem>
                           </Menu>
                         </div>
