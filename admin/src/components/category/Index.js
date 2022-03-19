@@ -203,9 +203,9 @@ export class Index extends Component {
                     <TableRow key={row.name}>
                       <TableCell align="left">{row.name}</TableCell>
                       <TableCell align="left">
-                        <IconButton edge="end" style={{ color: amber[600] }}>
+                        {/* <IconButton edge="end" style={{ color: amber[600] }}>
                           <EditIcon />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                           edge="end"
                           style={{ color: red[800] }}

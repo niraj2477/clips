@@ -12,15 +12,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  _HOME,
-  CATEGORY,
-  SETTING,
-} from "../../helpers/constants";
-import {
-  isSetting,
-  isCategory,
-} from "../../actions/navigationAction";
+import { _HOME, CATEGORY, SETTING } from "../../helpers/constants";
+import { isSetting, isCategory } from "../../actions/navigationAction";
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
@@ -35,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: 15,
   },
- 
 }));
 
 export default function Drawer() {
@@ -53,8 +46,6 @@ export default function Drawer() {
         onKeyDown={toggleDrawer(false)}
         className={classes.list}
       >
-     
-
         <Divider variant="middle" />
         <div className={classes.typographyDiv}>
           <Typography
@@ -63,7 +54,7 @@ export default function Drawer() {
             className={classes.typography}
             color="textSecondary"
           >
-          CLIPS
+            CLIPS
           </Typography>
         </div>
 
@@ -71,6 +62,8 @@ export default function Drawer() {
           <ListItem
             button
             key={CATEGORY}
+            component={Link}
+            to={CATEGORY}
             selected={navigation.selected === CATEGORY}
             onClick={() => dispatch(isCategory())}
           >
