@@ -14,7 +14,6 @@ export default function Index() {
   return (
     <Routes>
       <Route path={HOME} exact element={<Home />} />
-
       <Route path={CATEGORY} exact element={<Category />} /> 
       <Route path={LOGIN} exact element={<Login />} /> 
     </Routes>
