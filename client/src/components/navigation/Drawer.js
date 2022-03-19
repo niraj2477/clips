@@ -21,6 +21,7 @@ import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
   _HOME,
   HOME,
@@ -63,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     fontSize: 15,
   },
- 
 }));
 
 export default function Drawer() {
@@ -86,7 +86,6 @@ export default function Drawer() {
             button
             key={HOME}
             component={Link}
-            
             to={HOME}
             selected={navigation.selected === HOME}
             onClick={() => dispatch(isHome())}

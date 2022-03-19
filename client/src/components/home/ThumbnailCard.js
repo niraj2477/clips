@@ -8,6 +8,17 @@ import IconButton from "@material-ui/core/IconButton";
 import { indexPage } from "../../apis/Video";
 import { Link } from "react-router-dom";
 import HoverVideoPlayer from "react-hover-video-player";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ReportIcon from "@material-ui/icons/Report";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Checkbox from "@material-ui/core/Checkbox";
+
+import CommentIcon from "@material-ui/icons/Comment";
 const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
@@ -21,6 +32,11 @@ const styles = (theme) => ({
     "&:hover, &:focus": {
       cursor: "pointer",
     },
+  },
+  root: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
   },
   image: {
     [theme.breakpoints.down("sm")]: {
@@ -66,6 +82,10 @@ class ThumbnailCard extends Component {
     this.state = {
       video: [],
       v: null,
+      anchor: null,
+      anchor1: null,
+      visible: false,
+      checked: [0],
     };
   }
 
@@ -79,6 +99,29 @@ class ThumbnailCard extends Component {
     });
   }
 
+  handleClick = (event) => {
+    this.setState({ anchor: event.currentTarget });
+  };
+  handleToggle = (value) => () => {
+    const currentIndex = this.state.checked.indexOf(value);
+    const newChecked = [...this.state.checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    this.setState({ checked: newChecked });
+  };
+
+  handleClose = () => {
+    this.setState({ anchor: null });
+  };
+  showReport = (event) => {
+    this.setState({ anchor1: event.currentTarget });
+   
+  };
   render() {
     const { classes } = this.props;
     const formatDate = (dateString) => {
@@ -93,13 +136,13 @@ class ThumbnailCard extends Component {
             return (
               <Grid item xs={12} sm={12} md={4} lg={3} key={item._id}>
                 <Box clone={true}>
-                  <Link
-                    to={{
-                      pathname: "/videos/watch/" + item._id,
-                    }}
-                    className={classes.textLink}
-                  >
-                    <Box className={classes.box} id={item._id}>
+                  <Box className={classes.box} id={item._id}>
+                    <Link
+                      to={{
+                        pathname: "/videos/watch/" + item._id,
+                      }}
+                      className={classes.textLink}
+                    >
                       <div className={classes.image}>
                         <HoverVideoPlayer
                           videoSrc={item.file}
@@ -120,23 +163,110 @@ class ThumbnailCard extends Component {
                           }
                         />
                       </div>
+                    </Link>
 
-                      <Box pr={4}>
-                        <div className={classes.title}>
-                          <img
-                            className={classes.avatar}
-                            alt={item.title}
-                            src={item.thumbnail}
-                          />
+                    <Box pr={4}>
+                      <div className={classes.title}>
+                        <img
+                          className={classes.avatar}
+                          alt={item.title}
+                          src={item.thumbnail}
+                        />
+                        <Link
+                          to={{
+                            pathname: "/videos/watch/" + item._id,
+                          }}
+                          className={classes.textLink}
+                        >
                           <Typography gutterBottom variant="body2">
                             {item.title}
                           </Typography>
-                          <div className={classes.iconButton}>
-                            <IconButton edge="end" color="inherit">
-                              <MoreVertIcon />
-                            </IconButton>
-                          </div>
+                        </Link>
+
+                        <div className={classes.iconButton}>
+                          <IconButton
+                            edge="end"
+                            color="inherit"
+                            onClick={this.handleClick}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                          <Menu
+                            id="simple-menu"
+                            anchorEl={this.state.anchor}
+                            keepMounted
+                            open={Boolean(this.state.anchor)}
+                            onClose={this.handleClose}
+                          >
+                            <MenuItem onClick={this.showReport}>
+                              <ReportIcon />
+                              <Typography
+                                gutterBottom
+                                variant="body2"
+                                style={{ padding: 5 }}
+                              >
+                                Report
+                              </Typography>
+                              <Menu
+                                id="fade-menu"
+                                anchorEl={this.state.anchor1}
+                                keepMounted
+                                open={Boolean(this.state.anchor1)}
+                              >
+                                <List className={classes.root}>
+                                  {[0, 1, 2, 3].map((value) => {
+                                    const labelId = `checkbox-list-label-${value}`;
+
+                                    return (
+                                      <ListItem
+                                        key={value}
+                                        role={undefined}
+                                        dense
+                                        button
+                                        onClick={this.handleToggle(value)}
+                                      >
+                                        <ListItemIcon>
+                                          <Checkbox
+                                            edge="start"
+                                            checked={
+                                              this.state.checked.indexOf(
+                                                value
+                                              ) !== -1
+                                            }
+                                            tabIndex={-1}
+                                            disableRipple
+                                            inputProps={{
+                                              "aria-labelledby": labelId,
+                                            }}
+                                          />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                          id={labelId}
+                                          primary={`Line item ${value + 1}`}
+                                        />
+                                        <ListItemSecondaryAction>
+                                          <IconButton
+                                            edge="end"
+                                            aria-label="comments"
+                                          >
+                                            <CommentIcon />
+                                          </IconButton>
+                                        </ListItemSecondaryAction>
+                                      </ListItem>
+                                    );
+                                  })}
+                                </List>
+                              </Menu>
+                            </MenuItem>
+                          </Menu>
                         </div>
+                      </div>
+                      <Link
+                        to={{
+                          pathname: "/videos/watch/" + item._id,
+                        }}
+                        className={classes.textLink}
+                      >
                         <div className={classes.description}>
                           {/* <Typography
                           display="block"
@@ -149,9 +279,9 @@ class ThumbnailCard extends Component {
                             {`${item.views} • ${formatDate(item.createdAt)}`}
                           </Typography>
                         </div>
-                      </Box>
+                      </Link>
                     </Box>
-                  </Link>
+                  </Box>
                 </Box>
               </Grid>
             );
@@ -161,4 +291,5 @@ class ThumbnailCard extends Component {
     );
   }
 }
+
 export default withStyles(styles)(ThumbnailCard);
