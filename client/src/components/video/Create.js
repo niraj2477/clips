@@ -45,11 +45,20 @@ const styles = (theme) => ({
     transitionDuration: '0.3s',
     height: '20vw'
   },
+  card2: {
+    display: 'block',
+    width: '100%',
+    transitionDuration: '0.3s',
+    height: '9vw'
+  },
   title: {
-    fontSize: 20,
+    margin: theme.spacing(2),
+    paddingRight: theme.spacing(5),
     textAlign:"center",
+    fontSize: 20,
     fontWeight: 'bold',
     position: 'relative',
+    fontFamily: '"Quicksand", sans-serif',
   },
   root1: {
     flexGrow: 1,
@@ -58,6 +67,7 @@ const styles = (theme) => ({
     margin: theme.spacing(2),
     paddingRight: theme.spacing(5),
     textAlign:"center",
+    fontFamily:'"Sacramento", cursive',
   },
 });
 
@@ -113,6 +123,8 @@ class Create extends Component {
     //   { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
     //   { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
     // ];
+    
+      
 
     return (
       
@@ -139,6 +151,7 @@ class Create extends Component {
         <TextField
           label="Description"
           multiline
+          minRows={5}
           maxRows={10}
           value={this.state.description}
           className={classes.input}
@@ -150,57 +163,82 @@ class Create extends Component {
           type="text"
           name="description"
         />
-
+        <Grid container spacing={10}>
+          <Grid item xs>   
+            <Card className={classes.card2}>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  Category
+                </Typography>
+                <center>
+                <Autocomplete
+                    id="combo-box-demo"
+                    fullWidth
+                    className={classes.input}
+                    options={this.state.categories}
+                    inputValue={this.state.categoryText}
+                    onInputChange={(e, val) => {
+                      this.setState({ categoryText: val });
+                    }}
+                    value={this.state.category}
+                    onChange={(e, val) => {
+                      this.setState({ category: val._id });
+                    }}
+                    getOptionLabel={(option) => option.name}
+                    style={{ width: 450 }}
+                   
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        fullWidth
+                        label="Category"
+                        variant="outlined"
+                      />
+                    )}
+                  /></center>
+            </Card>
+          </Grid>
+          <Grid item xs>   
+            <Card className={classes.card2}>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  Type
+            </Typography>
+            
+            <FormControl component="fieldset" className={classes.input}>
+              
+              <center>
+              <RadioGroup
+                
+                name="type"
+                value={this.state.type}
+                onChange={(e) => {
+                  this.setState({ type: e.target.value });
+                }}
+              >
+              <Grid container spacing={10}>
+                <Grid item xs style={{spacing:5}}>  
+                <FormControlLabel value="0" control={<Radio />} label="Public" />
+                </Grid>
+                <Grid item xs>
+                <FormControlLabel value="1" control={<Radio />} label="Private" />
+                </Grid>
+              </Grid>
+              </RadioGroup>
+              </center>
+            </FormControl>
+            
+            </Card>
+          </Grid>
+        </Grid>
+<br/>
         <Divider variant="middle" className={classes.divider} />
-        <Autocomplete
-          id="combo-box-demo"
-          fullWidth
-          className={classes.input}
-          options={this.state.categories}
-          inputValue={this.state.categoryText}
-          onInputChange={(e, val) => {
-            this.setState({ categoryText: val });
-          }}
-          value={this.state.category}
-          onChange={(e, val) => {
-            this.setState({ category: val._id });
-          }}
-          getOptionLabel={(option) => option.name}
-          style={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              fullWidth
-              label="Category"
-              variant="outlined"
-            />
-          )}
-        />
-
-        <Divider variant="middle" className={classes.divider} />
-        <FormControl component="fieldset" className={classes.input}>
-          <FormLabel component="legend">Type</FormLabel>
-          <RadioGroup
-            name="type"
-            value={this.state.type}
-            onChange={(e) => {
-              this.setState({ type: e.target.value });
-            }}
-          >
-            <FormControlLabel value="0" control={<Radio />} label="Public" />
-            <FormControlLabel value="1" control={<Radio />} label="Private" />
-          </RadioGroup>
-        </FormControl>
-        <Divider variant="middle" className={classes.divider} />
-
+<br/>
         <div className={classes.root1}>
           <Grid container spacing={10}>
             <Grid item xs>   
                 <Card className={classes.card1}>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  Upload Video
+                  Select Video
                 </Typography>
-                <hr/>
                   <DropzoneArea
                   showPreviews={true}
                   clearOnUnmount={true}
@@ -218,9 +256,8 @@ class Create extends Component {
             <Grid item xs>
             <Card className={classes.card1}>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  Upload thumbnail
+                  Select Thumbnail
                 </Typography>
-                <hr/>
                 <DropzoneArea
                     clearOnUnmount={true}
                     acceptedFiles={["image/*"]}

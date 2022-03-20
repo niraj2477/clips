@@ -29,6 +29,12 @@ const styles = (theme) => ({
     marginRight: theme.spacing(9),
     marginLeft: theme.spacing(9),
   },
+  h3: {
+    margin: theme.spacing(2),
+    paddingRight: theme.spacing(5),
+    textAlign:"center",
+    fontFamily:'"Sacramento", cursive',
+  },
 });
 
 class Index extends Component {
@@ -53,6 +59,10 @@ class Index extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
+        <Typography className={classes.h3} variant="h3">Send feedback</Typography>
+        <Divider variant="middle" />
+        <Divider variant="middle" />
+        <br/>
         <Typography style={{color:"gray"}} >
          <center> Have feedback? We'd love to hear it, but
           please don't share sensitive information. Have
