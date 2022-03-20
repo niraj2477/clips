@@ -14,9 +14,9 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { videoUpload } from "../../apis/Video";
 import { getCategory } from "../../apis/Category";
-import Card from '@material-ui/core/Card';
+import Card from "@material-ui/core/Card";
 import { Grid } from "@material-ui/core";
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
 const styles = (theme) => ({
   root: {
@@ -40,24 +40,24 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(9),
   },
   card1: {
-    display: 'block',
-    width: '100%',
-    transitionDuration: '0.3s',
-    height: '20vw'
+    display: "block",
+    width: "100%",
+    transitionDuration: "0.3s",
+    height: "20vw",
   },
   card2: {
-    display: 'block',
-    width: '100%',
-    transitionDuration: '0.3s',
-    height: '9vw'
+    display: "block",
+    width: "100%",
+    transitionDuration: "0.3s",
+    height: "9vw",
   },
   title: {
     margin: theme.spacing(2),
     paddingRight: theme.spacing(5),
-    textAlign:"center",
+    textAlign: "center",
     fontSize: 20,
-    fontWeight: 'bold',
-    position: 'relative',
+    fontWeight: "bold",
+    position: "relative",
     fontFamily: '"Quicksand", sans-serif',
   },
   root1: {
@@ -66,8 +66,8 @@ const styles = (theme) => ({
   h3: {
     margin: theme.spacing(2),
     paddingRight: theme.spacing(5),
-    textAlign:"center",
-    fontFamily:'"Sacramento", cursive',
+    textAlign: "center",
+    fontFamily: '"Sacramento", cursive',
   },
 });
 
@@ -123,15 +123,12 @@ class Create extends Component {
     //   { title: "The Shawshank Redemption", id: "ihjuuyejexst" },
     //   { title: "The Shawshank Redemption", id: "alksiexvtdaq" },
     // ];
-    
-      
 
     return (
-      
       <div className={classes.root}>
-       
-       
-        <Typography className={classes.h3} variant="h3">Upload Video</Typography>
+        <Typography className={classes.h3} variant="h3">
+          Upload Video
+        </Typography>
         <Divider variant="middle" />
         <Divider variant="middle" />
         <TextField
@@ -164,82 +161,94 @@ class Create extends Component {
           name="description"
         />
         <Grid container spacing={10}>
-          <Grid item xs>   
-            <Card className={classes.card2}>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  Category
-                </Typography>
-                <center>
-                <Autocomplete
-                    id="combo-box-demo"
-                    fullWidth
-                    className={classes.input}
-                    options={this.state.categories}
-                    inputValue={this.state.categoryText}
-                    onInputChange={(e, val) => {
-                      this.setState({ categoryText: val });
-                    }}
-                    value={this.state.category}
-                    onChange={(e, val) => {
-                      this.setState({ category: val._id });
-                    }}
-                    getOptionLabel={(option) => option.name}
-                    style={{ width: 450 }}
-                   
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        fullWidth
-                        label="Category"
-                        variant="outlined"
-                      />
-                    )}
-                  /></center>
-            </Card>
-          </Grid>
-          <Grid item xs>   
-            <Card className={classes.card2}>
-            <Typography className={classes.title} color="textSecondary" gutterBottom>
-                  Type
+          <Grid item xs>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              Category
             </Typography>
-            
-            <FormControl component="fieldset" className={classes.input}>
-              
-              <center>
-              <RadioGroup
-                
-                name="type"
-                value={this.state.type}
-                onChange={(e) => {
-                  this.setState({ type: e.target.value });
+            <center>
+              <Autocomplete
+                id="combo-box-demo"
+                fullWidth
+                className={classes.input}
+                options={this.state.categories}
+                inputValue={this.state.categoryText}
+                onInputChange={(e, val) => {
+                  this.setState({ categoryText: val });
                 }}
-              >
-              <Grid container spacing={10}>
-                <Grid item xs style={{spacing:5}}>  
-                <FormControlLabel value="0" control={<Radio />} label="Public" />
-                </Grid>
-                <Grid item xs>
-                <FormControlLabel value="1" control={<Radio />} label="Private" />
-                </Grid>
-              </Grid>
-              </RadioGroup>
-              </center>
-            </FormControl>
-            
-            </Card>
+                value={this.state.category}
+                onChange={(e, val) => {
+                  this.setState({ category: val._id });
+                }}
+                getOptionLabel={(option) => option.name}
+                style={{ width: 450 }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    label="Category"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </center>
+          </Grid>
+          <Grid item xs>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              Type
+            </Typography>
+            <center>
+              <FormControl component="fieldset" className={classes.input}>
+                <RadioGroup
+                  name="type"
+                  value={this.state.type}
+                  onChange={(e) => {
+                    this.setState({ type: e.target.value });
+                  }}
+                >
+                  <Grid container spacing={10}>
+                    <Grid item xs style={{ spacing: 5 }}>
+                      <FormControlLabel
+                        value="0"
+                        control={<Radio />}
+                        label="Public"
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <FormControlLabel
+                        value="1"
+                        control={<Radio />}
+                        label="Private"
+                      />
+                    </Grid>
+                  </Grid>
+                </RadioGroup>
+              </FormControl>
+            </center>
           </Grid>
         </Grid>
-<br/>
+        <br />
         <Divider variant="middle" className={classes.divider} />
-<br/>
+        <br />
         <div className={classes.root1}>
           <Grid container spacing={10}>
-            <Grid item xs>   
-                <Card className={classes.card1}>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
+            <Grid item xs>
+              <Card className={classes.card1}>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
                   Select Video
                 </Typography>
-                  <DropzoneArea
+                <DropzoneArea
                   showPreviews={true}
                   clearOnUnmount={true}
                   acceptedFiles={["video/*"]}
@@ -250,29 +259,32 @@ class Create extends Component {
                     this.setState({ file: file[0] });
                   }}
                 />
-                </Card>
-                <br/>
+              </Card>
+              <br />
             </Grid>
             <Grid item xs>
-            <Card className={classes.card1}>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
+              <Card className={classes.card1}>
+                <Typography
+                  className={classes.title}
+                  color="textSecondary"
+                  gutterBottom
+                >
                   Select Thumbnail
                 </Typography>
                 <DropzoneArea
-                    clearOnUnmount={true}
-                    acceptedFiles={["image/*"]}
-                    filesLimit={1}
-                    showFileNames={true}
-                    onChange={(file) => {
-                      this.setState({ thumbnail: file[0] });
-                    }}
-                  />
-                </Card>
-                <br/>
+                  clearOnUnmount={true}
+                  acceptedFiles={["image/*"]}
+                  filesLimit={1}
+                  showFileNames={true}
+                  onChange={(file) => {
+                    this.setState({ thumbnail: file[0] });
+                  }}
+                />
+              </Card>
+              <br />
             </Grid>
           </Grid>
         </div>
-
 
         <div className={classes.buttonDiv}>
           <Button
