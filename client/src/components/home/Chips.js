@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
+import { getCategory } from "../../apis/Category";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -21,34 +22,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Chips() {
   const classes = useStyles();
-  const [chipData] = React.useState([
-    { key: 0, label: "Angular" },
-    { key: 1, label: "jQuery" },
-    { key: 2, label: "Polymer" },
-    { key: 3, label: "React" },
-    { key: 4, label: "Vue" },
-    { key: 5, label: "Knockout" },
-    { key: 6, label: "Ember" },
-    { key: 7, label: "D3" },
-    { key: 8, label: "Google Charts" },
-  ]);
+  const [category, setCategory] = useState([]);
 
-    const handleClick = (value) => {
-      console.info("You clicked the Chip.",value);
-    };
+  useEffect(() => {
+    getCategory().then((response) => {
+      setCategory(response.data);
+    });
+  }, []);
+
+  const handleClick = (value) => {
+    console.info("You clicked the Chip.", value);
+  };
 
   return (
     <div>
       <Divider variant="middle" />
       <div component="ul" className={classes.root}>
-        {chipData.map((data) => {
+        {category.map((data) => {
           return (
-            <li key={data.key}>
+            <li key={data._id}>
               <Chip
-                label={data.label}
+                label={data.name}
                 clickable={true}
                 className={classes.chip}
-                onClick={() => handleClick(data.label)}
+                onClick={() => handleClick(data.name)}
               />
             </li>
           );

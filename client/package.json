@@ -26,6 +26,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.1",
     "react-scripts": "4.0.3",
+    "react-web-share": "^1.1.5",
     "redux": "^4.1.2",
     "web-vitals": "^1.1.2"
   },

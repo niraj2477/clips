@@ -25,9 +25,21 @@ export const indexPage = async (v) => {
   }
 };
 
+export const indexPageWithCat = async (v) => {
+  try {
+    return await axios({
+      method: "get",
+      url: "http://localhost:5000/video/withCat",
+      data: v,
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
 export const watch = async (v) => {
   try {
-    return await axios.post("http://localhost:5000/video/watch", {
+    return await axios.get("http://localhost:5000/video/watch", {
       v: v,
     });
   } catch (error) {
@@ -72,6 +84,18 @@ export const watchComplete = async (v) => {
 export const like = async (v) => {
   try {
     return await axios.get("http://localhost:5000/video/like", {
+      params: {
+        v: v,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const disLike = async (v) => {
+  try {
+    return await axios.get("http://localhost:5000/video/disLike", {
       params: {
         v: v,
       },

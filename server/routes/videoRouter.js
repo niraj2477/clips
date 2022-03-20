@@ -149,6 +149,23 @@ videoRouter.route("/").post((req, res, next) => {
   }
 });
 
+videoRouter.route("/withCat").get((req, res, next) => {
+  console.log(req);
+  Video.find(
+    {
+      isDisabled: false,
+      categoryId: { $eq: req.body.v },
+      views: { $gt: 5 },
+      like: { $gt: 5 },
+    },
+    null,
+    { sort: { createdAt: -1 }, limit: 20 },
+    function (err, data) {
+      res.status(200).send(data);
+    }
+  );
+});
+
 videoRouter.route("/watch").post((req, res, next) => {
   Video.findOne(
     { isDisabled: false, _id: req.body.v },
@@ -177,6 +194,20 @@ videoRouter.route("/like").get((req, res, next) => {
   Video.findOneAndUpdate(
     { _id: req.query.v },
     { $inc: { like: 1 } },
+    function (err, data) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+      }
+      res.status(200).send(data);
+    }
+  );
+});
+
+videoRouter.route("/disLike").get((req, res, next) => {
+  Video.findOneAndUpdate(
+    { _id: req.query.v },
+    { $inc: { disLike: 1 } },
     function (err, data) {
       if (err) {
         res.status(500).send(err);

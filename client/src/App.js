@@ -82,6 +82,7 @@ export default function App() {
       <CssBaseline />
       <BrowserRouter>
         <Header />
+
         <main className={classes.root}>
           <Route />
         </main>

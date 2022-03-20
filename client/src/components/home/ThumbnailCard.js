@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import IconButton from "@material-ui/core/IconButton";
-import { indexPage } from "../../apis/Video";
+import { indexPage, indexPageWithCat } from "../../apis/Video";
 import { Link } from "react-router-dom";
 import HoverVideoPlayer from "react-hover-video-player";
 import Menu from "@material-ui/core/Menu";
@@ -19,6 +19,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import PropTypes from "prop-types";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
+import { getCategory } from "../../apis/Category";
+import Chip from "@material-ui/core/Chip";
+import Divider from "@material-ui/core/Divider";
 const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
@@ -32,6 +35,20 @@ const styles = (theme) => ({
     "&:hover, &:focus": {
       cursor: "pointer",
     },
+  },
+  root1: {
+    display: "flex",
+    justifyContent: "left",
+    flexWrap: "nowrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    margin: 0,
+    overflow: "auto",
+    maxWidth: "auto",
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+    fontSize: "15px",
   },
   root: {
     width: "100%",
@@ -146,10 +163,16 @@ class ThumbnailCard extends Component {
       anchor: null,
       open: false,
       id: null,
+      category: [],
     };
   }
-
+  getCat = () => {
+    getCategory().then((response) => {
+      this.setState({ category: response.data });
+    });
+  };
   componentDidMount() {
+    this.getCat();
     indexPage(this.state.v).then((response) => {
       if (response.data.length > 0) {
         this.setState({ video: response.data });
@@ -157,7 +180,17 @@ class ThumbnailCard extends Component {
       }
     });
   }
+  handleChipClick = (value) => {
+    console.log(value);
 
+    indexPageWithCat(value).then((response) => {
+      console.log(response.data);
+      //  if (response.data.length > 0) {
+      //    this.setState({ video: response.data });
+      //    this.setState({ v: this.state.video[0]._id });
+      //  }
+    });
+  };
   handleClick = (event) => {
     this.setState({ anchor: event.currentTarget });
   };
@@ -186,6 +219,24 @@ class ThumbnailCard extends Component {
 
     return (
       <div>
+        <Divider variant="middle" />
+        <div component="ul" className={classes.root1}>
+          {this.state.category.map((data) => {
+            return (
+              <li key={data._id}>
+                <Chip
+                  label={data.name}
+                  clickable={true}
+                  className={classes.chip}
+                  onClick={() => {
+                    this.handleChipClick(data._id);
+                  }}
+                />
+              </li>
+            );
+          })}
+        </div>
+        <Divider variant="middle" />
         <Grid container>
           <SimpleDialog
             selectedId={this.state.id}

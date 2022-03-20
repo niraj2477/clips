@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { watch, watchComplete ,like } from "../../apis/Video";
+import { watch, watchComplete, like, disLike } from "../../apis/Video";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ReactPlayer from "react-player";
@@ -16,6 +16,8 @@ import { Divider } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import Topcommentbox from "../commentbox/topcommentbox/Topcommentbox";
 import MessageScroll from "../commentbox/MessageScroll";
+import { RWebShare } from "react-web-share";
+import { connect } from "react-redux";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -110,6 +112,9 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(11),
   },
 });
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 export class Watch extends Component {
   constructor(props) {
     super(props);
@@ -119,10 +124,20 @@ export class Watch extends Component {
       isOpen: true,
       playedTime: 0.0,
       watchCompleted: false,
+      cUrl: window.location.href,
+      isDisLike: true,
+      isLike: true,
+      auth: this.props.auth,
     };
   }
   componentDidMount() {
-    const currentURL = window.location.href;
+    console.log(this.state.auth.auth);
+    if (this.state.auth.auth === true) {
+      this.setState({ isDisLike: false, isLike: false });
+    } else {
+      this.setState({ isDisLike: true, isLike: true });
+    }
+    let currentURL = window.location.href;
     const myArray = currentURL.split("/");
     watch(myArray[5]).then((response) => {
       this.setState({ video: response.data });
@@ -131,17 +146,22 @@ export class Watch extends Component {
   componentDidUpdate(prevProps) {
     if (this.state.watchCompleted !== prevProps.watchCompleted) {
       if (this.state.watchCompleted) {
-        watchComplete(this.state.video._id).then((response) => {
-          //console.log(response);
-        });
+        watchComplete(this.state.video._id).then((response) => {});
       }
     }
   }
+
   handleLike = () => {
-     like(this.state.video._id).then((response) => {
-       //console.log(response);
-     });
-  }
+    like(this.state.video._id).then((response) => {
+      console.log(response);
+    });
+  };
+
+  handleDisLike = () => {
+    disLike(this.state.video._id).then((response) => {
+      console.log(response);
+    });
+  };
   handleClick = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
@@ -195,17 +215,31 @@ export class Watch extends Component {
                 </Grid>
                 <Grid item>
                   <div className={classes.videoButtons}>
-                    <IconButton onClick={this.handleLike}>
+                    <IconButton
+                      onClick={this.handleLike}
+                      disabled={this.state.isLike}
+                    >
                       <FavoriteIcon />
                     </IconButton>
 
-                    <IconButton>
+                    <IconButton
+                      onClick={this.handleDisLike}
+                      disabled={this.state.isDisLike}
+                    >
                       <ThumbDownIcon />
                     </IconButton>
 
-                    <IconButton>
-                      <SendIcon />
-                    </IconButton>
+                    <RWebShare
+                      data={{
+                        url: this.state.currentURL,
+                        title: this.state.video.title,
+                      }}
+                      onClick={() => console.log("shared successfully!")}
+                    >
+                      <IconButton>
+                        <SendIcon />
+                      </IconButton>
+                    </RWebShare>
 
                     <IconButton edge="end">
                       <MoreHorizIcon />
@@ -214,8 +248,8 @@ export class Watch extends Component {
                 </Grid>
               </Grid>
               <Divider variant="middle" className={classes.divider} />
-              
-             <div className={classes.row}>
+
+              <div className={classes.row}>
                 <Grid container>
                   <Grid item>
                     <Typography>Comments</Typography>
@@ -226,14 +260,12 @@ export class Watch extends Component {
                     </IconButton>
                   </Grid>
                 </Grid>
-                    </div>
-
+              </div>
 
               <div className="ColHolder">
                 <Topcommentbox autoFocus={false} video={this.state.video} />
                 <MessageScroll />
               </div>
-
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -311,5 +343,4 @@ export class Watch extends Component {
     );
   }
 }
-
-export default withStyles(styles)(Watch);
+export default connect(mapStateToProps)(withStyles(styles)(Watch));
