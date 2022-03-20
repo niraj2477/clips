@@ -220,6 +220,8 @@ export default function Drawer() {
           <ListItem
             button
             key={FEEDBACK}
+            component={Link}
+            to={FEEDBACK}
             selected={navigation.selected === FEEDBACK}
             onClick={() => dispatch(isFeedback())}
           >
