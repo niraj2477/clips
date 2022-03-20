@@ -14,6 +14,10 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { videoUpload } from "../../apis/Video";
 import { getCategory } from "../../apis/Category";
+import Card from '@material-ui/core/Card';
+import { Grid } from "@material-ui/core";
+import Typography from '@material-ui/core/Typography';
+
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -34,6 +38,26 @@ const styles = (theme) => ({
   divider: {
     marginRight: theme.spacing(9),
     marginLeft: theme.spacing(9),
+  },
+  card1: {
+    display: 'block',
+    width: '100%',
+    transitionDuration: '0.3s',
+    height: '20vw'
+  },
+  title: {
+    fontSize: 20,
+    textAlign:"center",
+    fontWeight: 'bold',
+    position: 'relative',
+  },
+  root1: {
+    flexGrow: 1,
+  },
+  h3: {
+    margin: theme.spacing(2),
+    paddingRight: theme.spacing(5),
+    textAlign:"center",
   },
 });
 
@@ -91,29 +115,12 @@ class Create extends Component {
     // ];
 
     return (
+      
       <div className={classes.root}>
-        <DropzoneArea
-          showPreviews={true}
-          clearOnUnmount={true}
-          acceptedFiles={["video/*"]}
-          filesLimit={1}
-          maxFileSize={1073741824}
-          showFileNames={true}
-          onChange={(file) => {
-            this.setState({ file: file[0] });
-          }}
-        />
-        <br />
+       
+       
+        <Typography className={classes.h3} variant="h3">Upload Video</Typography>
         <Divider variant="middle" />
-        <DropzoneArea
-          clearOnUnmount={true}
-          acceptedFiles={["image/*"]}
-          filesLimit={1}
-          showFileNames={true}
-          onChange={(file) => {
-            this.setState({ thumbnail: file[0] });
-          }}
-        />
         <Divider variant="middle" />
         <TextField
           label="Title"
@@ -185,6 +192,51 @@ class Create extends Component {
           </RadioGroup>
         </FormControl>
         <Divider variant="middle" className={classes.divider} />
+
+        <div className={classes.root1}>
+          <Grid container spacing={10}>
+            <Grid item xs>   
+                <Card className={classes.card1}>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  Upload Video
+                </Typography>
+                <hr/>
+                  <DropzoneArea
+                  showPreviews={true}
+                  clearOnUnmount={true}
+                  acceptedFiles={["video/*"]}
+                  filesLimit={1}
+                  maxFileSize={1073741824}
+                  showFileNames={true}
+                  onChange={(file) => {
+                    this.setState({ file: file[0] });
+                  }}
+                />
+                </Card>
+                <br/>
+            </Grid>
+            <Grid item xs>
+            <Card className={classes.card1}>
+                <Typography className={classes.title} color="textSecondary" gutterBottom>
+                  Upload thumbnail
+                </Typography>
+                <hr/>
+                <DropzoneArea
+                    clearOnUnmount={true}
+                    acceptedFiles={["image/*"]}
+                    filesLimit={1}
+                    showFileNames={true}
+                    onChange={(file) => {
+                      this.setState({ thumbnail: file[0] });
+                    }}
+                  />
+                </Card>
+                <br/>
+            </Grid>
+          </Grid>
+        </div>
+
+
         <div className={classes.buttonDiv}>
           <Button
             variant="contained"
