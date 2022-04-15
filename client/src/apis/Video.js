@@ -39,7 +39,7 @@ export const indexPageWithCat = async (v) => {
 
 export const watch = async (v) => {
   try {
-    return await axios.get("http://localhost:5000/video/watch", {
+    return await axios.post("http://localhost:5000/video/watch", {
       v: v,
     });
   } catch (error) {
@@ -100,6 +100,15 @@ export const disLike = async (v) => {
         v: v,
       },
     });
+  } catch (error) {
+    return error;
+  }
+};
+
+
+export const trending = async (v) => {
+  try {
+    return await axios.get("http://localhost:5000/video/trending");
   } catch (error) {
     return error;
   }

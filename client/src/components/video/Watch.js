@@ -18,6 +18,7 @@ import Topcommentbox from "../commentbox/topcommentbox/Topcommentbox";
 import MessageScroll from "../commentbox/MessageScroll";
 import { RWebShare } from "react-web-share";
 import { connect } from "react-redux";
+import { nFormatter } from "../../helpers/Formatter";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -140,6 +141,7 @@ export class Watch extends Component {
     let currentURL = window.location.href;
     const myArray = currentURL.split("/");
     watch(myArray[5]).then((response) => {
+      console.log(response);
       this.setState({ video: response.data });
     });
   }
@@ -208,9 +210,9 @@ export class Watch extends Component {
               <Grid container>
                 <Grid item>
                   <Typography variant="body2" color="textSecondary">
-                    {`${this.state.video.views} views • ${formatDate(
-                      this.state.video.createdAt
-                    )}`}
+                    {`${nFormatter(
+                      this.state.video.views
+                    )} views • ${formatDate(this.state.video.createdAt)}`}
                   </Typography>
                 </Grid>
                 <Grid item>
@@ -326,9 +328,9 @@ export class Watch extends Component {
                           {item.channel}
                         </Typography> */}
                           <Typography variant="caption" color="textSecondary">
-                            {`${this.state.video.views} • ${formatDate(
-                              this.state.video.createdAt
-                            )}`}
+                            {`${nFormatter(
+                              this.state.video.views
+                            )} • ${formatDate(this.state.video.createdAt)}`}
                           </Typography>
                         </div>
                       </div>

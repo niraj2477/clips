@@ -22,6 +22,7 @@ import Dialog from "@material-ui/core/Dialog";
 import { getCategory } from "../../apis/Category";
 import Chip from "@material-ui/core/Chip";
 import Divider from "@material-ui/core/Divider";
+import { nFormatter } from "../../helpers/Formatter";
 const styles = (theme) => ({
   box: {
     [theme.breakpoints.down("sm")]: {
@@ -339,7 +340,9 @@ class ThumbnailCard extends Component {
                           {item.channel}
                         </Typography> */}
                           <Typography variant="caption" color="textSecondary">
-                            {`${item.views} • ${formatDate(item.createdAt)}`}
+                            {`${nFormatter(item.views)} • ${formatDate(
+                              item.createdAt
+                            )}`}
                           </Typography>
                         </div>
                       </Link>
