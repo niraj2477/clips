@@ -154,7 +154,7 @@ videoRouter.route("/withCat").get((req, res, next) => {
   Video.find(
     {
       isDisabled: false,
-      categoryId: { $eq: req.body.v },
+      categoryId: { $eq: req.query.v },
       views: { $gt: 5 },
       like: { $gt: 5 },
     },

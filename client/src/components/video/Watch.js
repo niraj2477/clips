@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { watch, watchComplete, like, disLike } from "../../apis/Video";
+import {
+  watch,
+  watchComplete,
+  like,
+  disLike,
+  indexPageWithCat,
+} from "../../apis/Video";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ReactPlayer from "react-player";
@@ -7,7 +13,7 @@ import Box from "@material-ui/core/Box";
 import HoverVideoPlayer from "react-hover-video-player";
 import Typography from "@material-ui/core/Typography";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import Chips from "../home/Chips";
+import Chip from "@material-ui/core/Chip";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -19,6 +25,7 @@ import MessageScroll from "../commentbox/MessageScroll";
 import { RWebShare } from "react-web-share";
 import { connect } from "react-redux";
 import { nFormatter } from "../../helpers/Formatter";
+import { getCategory } from "../../apis/Category";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -40,6 +47,21 @@ const styles = (theme) => ({
     "&:hover, &:focus": {
       cursor: "pointer",
     },
+  },
+  chipRoot: {
+    display: "flex",
+    justifyContent: "left",
+    flexWrap: "nowrap",
+    listStyle: "none",
+    padding: theme.spacing(0.5),
+    marginLeft: theme.spacing(12),
+    margin: 0,
+    overflow: "auto",
+    maxWidth: "auto",
+  },
+  mainChip: {
+    margin: theme.spacing(0.5),
+    fontSize: "15px",
   },
   image: {
     // [theme.breakpoints.down("sm")]: {
@@ -122,6 +144,7 @@ export class Watch extends Component {
     this.state = {
       video: [],
       comments: [],
+      recommend: [],
       isOpen: true,
       playedTime: 0.0,
       watchCompleted: false,
@@ -129,9 +152,16 @@ export class Watch extends Component {
       isDisLike: true,
       isLike: true,
       auth: this.props.auth,
+      category: [],
     };
   }
+  getCat = () => {
+    getCategory().then((response) => {
+      this.setState({ category: response.data });
+    });
+  };
   componentDidMount() {
+    this.getCat();
     console.log(this.state.auth.auth);
     if (this.state.auth.auth === true) {
       this.setState({ isDisLike: false, isLike: false });
@@ -152,7 +182,12 @@ export class Watch extends Component {
       }
     }
   }
-
+  handleChipClick = (value) => {
+    indexPageWithCat(value).then((response) => {
+      this.setState({ recommend: response.data });
+      this.setState({ v: this.state.video[0]._id });
+    });
+  };
   handleLike = () => {
     like(this.state.video._id).then((response) => {
       console.log(response);
@@ -271,72 +306,98 @@ export class Watch extends Component {
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <div className={classes.chips}>
-              <Chips />
+            <div component="ul" className={classes.chipRoot}>
+              {this.state.category.map((data) => {
+                return (
+                  <li key={data._id}>
+                    <Chip
+                      label={data.name}
+                      clickable={true}
+                      className={classes.mainChip}
+                      onClick={() => {
+                        this.handleChipClick(data._id);
+                      }}
+                    />
+                  </li>
+                );
+              })}
             </div>
             <div className={classes.playListBox}>
               <Box clone={true}>
-                <Box className={classes.box} id={this.state.video._id}>
-                  <Grid container>
-                    <Grid item>
-                      <div className={classes.image}>
-                        <HoverVideoPlayer
-                          videoSrc={this.state.video.file}
-                          crossOrigin
-                          loadingOverlay={
-                            <div className="loading-overlay">Loading...</div>
-                          }
-                          pausedOverlay={
-                            <img
-                              src={this.state.video.thumbnail}
-                              alt="e"
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          }
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item>
-                      <div className={classes.playList}>
-                        <div className={classes.title}>
-                          <img
-                            className={classes.avatar}
-                            alt={this.state.video.title}
-                            src={this.state.video.thumbnail}
-                          />
+                {this.state.recommend.length > 0 ? (
+                  this.state.recommend.map((data) => {
+                    return (
+                      <Box className={classes.box} id={data._id}>
+                        <Grid container>
+                          <Grid item>
+                            <div className={classes.image}>
+                              <HoverVideoPlayer
+                                videoSrc={data.file}
+                                crossOrigin
+                                loadingOverlay={
+                                  <div className="loading-overlay">
+                                    Loading...
+                                  </div>
+                                }
+                                pausedOverlay={
+                                  <img
+                                    src={data.thumbnail}
+                                    alt="e"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                }
+                              />
+                            </div>
+                          </Grid>
+                          <Grid item>
+                            <div className={classes.playList}>
+                              <div className={classes.title}>
+                                <img
+                                  className={classes.avatar}
+                                  alt={data.title}
+                                  src={data.thumbnail}
+                                />
 
-                          <Typography>
-                            {titleString(this.state.video.title)}...
-                          </Typography>
+                                <Typography>
+                                  {titleString(data.title)}...
+                                </Typography>
 
-                          {/* <div className={classes.iconButton}>
+                                {/* <div className={classes.iconButton}>
                       <IconButton edge="end" color="inherit">
                         <MoreVertIcon />
                       </IconButton>
                     </div> */}
-                        </div>
-                        <div className={classes.description}>
-                          {/* <Typography
+                              </div>
+                              <div className={classes.description}>
+                                {/* <Typography
                           display="block"
                           variant="caption"
                           color="textSecondary"
                         >
                           {item.channel}
                         </Typography> */}
-                          <Typography variant="caption" color="textSecondary">
-                            {`${nFormatter(
-                              this.state.video.views
-                            )} • ${formatDate(this.state.video.createdAt)}`}
-                          </Typography>
-                        </div>
-                      </div>
-                    </Grid>
-                  </Grid>
-                </Box>
+                                <Typography
+                                  variant="caption"
+                                  color="textSecondary"
+                                >
+                                  {`${nFormatter(data.views)} • ${formatDate(
+                                    data.createdAt
+                                  )}`}
+                                </Typography>
+                              </div>
+                            </div>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    );
+                  })
+                ) : (
+                  <p>d</p>
+                )}
               </Box>
             </div>
           </Grid>

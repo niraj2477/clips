@@ -27,10 +27,10 @@ export const indexPage = async (v) => {
 
 export const indexPageWithCat = async (v) => {
   try {
-    return await axios({
-      method: "get",
-      url: "http://localhost:5000/video/withCat",
-      data: v,
+    return await axios.get("http://localhost:5000/video/withCat", {
+      params: {
+        v: v,
+      },
     });
   } catch (error) {
     return error;
@@ -104,7 +104,6 @@ export const disLike = async (v) => {
     return error;
   }
 };
-
 
 export const trending = async (v) => {
   try {

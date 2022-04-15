@@ -182,14 +182,9 @@ class ThumbnailCard extends Component {
     });
   }
   handleChipClick = (value) => {
-    console.log(value);
-
     indexPageWithCat(value).then((response) => {
-      console.log(response.data);
-      //  if (response.data.length > 0) {
-      //    this.setState({ video: response.data });
-      //    this.setState({ v: this.state.video[0]._id });
-      //  }
+      this.setState({ video: response.data });
+      this.setState({ v: this.state.video[0]._id });
     });
   };
   handleClick = (event) => {
