@@ -85,6 +85,7 @@ class Index extends Component {
         <TextField
           label="Description"
           multiline
+          minRows={5}
           maxRows={10}
           value={this.state.description}
           className={classes.input}

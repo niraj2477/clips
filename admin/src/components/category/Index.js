@@ -34,6 +34,12 @@ const styles = (theme) => ({
   root: {
     marginTop: theme.spacing(5),
   },
+  h3: {
+    margin: theme.spacing(2),
+    paddingRight: theme.spacing(5),
+    textAlign:"center",
+    fontFamily:'"Sacramento", cursive',
+  },
   typography: {
     body1: {
       fontWeight: 600, // or 'bold'
@@ -130,6 +136,12 @@ export class Index extends Component {
     const { classes } = this.props;
     return (
       <div>
+        <Typography className={classes.h3} variant="h3">CATEGORY</Typography>
+        <Divider variant="middle" />
+        <Divider variant="middle" />
+        <br/>
+
+
         <Modal
           aria-labelledby="spring-modal-title"
           aria-describedby="spring-modal-description"
@@ -170,6 +182,7 @@ export class Index extends Component {
             </div>
           </Fade>
         </Modal>
+
         <Card>
           <Divider />
           <Button
@@ -221,6 +234,8 @@ export class Index extends Component {
             </TableContainer>
           </div>
         </Card>
+
+
       </div>
     );
   }
