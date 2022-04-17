@@ -290,7 +290,7 @@ class ThumbnailCard extends Component {
                         <img
                           className={classes.avatar}
                           alt={item.title}
-                          src={item.thumbnail}
+                          src={item.channelId.channelImage}
                         />
                         <Link
                           to={{

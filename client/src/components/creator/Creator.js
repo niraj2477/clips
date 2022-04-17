@@ -7,6 +7,9 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
+import { getChannel } from "../../apis/Channel";
 const styles = (theme) => ({
   root: {
     width: "100%",
@@ -50,33 +53,40 @@ function TabPanel({ children, value, index, ...other }) {
   );
 }
 class Creator extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
   constructor(props) {
     super(props);
+    const { cookies } = props;
     this.state = {
       value: 0,
+      id: cookies.get("id") || null,
+      channel: [],
     };
   }
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
   };
-  getAbout = () => {};
-  componentDidMount() {}
+  getDetail = () => {
+    getChannel(this.state.id).then((data) => {
+      this.setState({ channel: data.data });
+    });
+    console.log(this.state.channel);
+  };
+  componentDidMount() {
+    this.getDetail();
+  }
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.header}>
           <div className={classes.channelImage}>
-            <Avatar
-              alt="Remy Sharp"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGUeAmecMCxGiuX_nhbzrbwcO85VHbALlAgg&usqp=CAU"
-              className={classes.large}
-            />
+            <Avatar alt="Remy Sharp" className={classes.large} />
           </div>
           <div className={classes.channelName}>
-            <Typography variant="h5" color="textSecondary">
-              The Red Brad
-            </Typography>
+            <Typography variant="h5" color="textSecondary"></Typography>
           </div>
           <div className={classes.suscriber}>
             <Typography variant="subtitle1" color="textSecondary">
@@ -118,4 +128,4 @@ class Creator extends Component {
     );
   }
 }
-export default withStyles(styles)(Creator);
+export default withStyles(styles)(withCookies(Creator));

@@ -20,11 +20,11 @@ const Video = new mongoose.Schema(
     },
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "categories",
+      ref: "Category",
     },
     channelId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "channels",
+      ref: "Channel",
     },
     status: {
       type: String,

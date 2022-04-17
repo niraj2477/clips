@@ -128,7 +128,7 @@ class Trending extends Component {
                         <img
                           className={classes.avatar}
                           alt={item.title}
-                          src={item.thumbnail}
+                          src={item.channelId.channelImage}
                         />
                         <Typography gutterBottom variant="body2">
                           {item.title}

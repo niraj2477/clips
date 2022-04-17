@@ -69,13 +69,7 @@ const styles = (theme) => ({
     fontSize: "15px",
   },
   image: {
-    // [theme.breakpoints.down("sm")]: {
-    //   width: 380,
-    //   height: 200,
-    // },
-    // [theme.breakpoints.up("md")]: {
-    //   width: 300,
-    // },
+  
     width: 200,
     height: 180,
   },
@@ -163,7 +157,7 @@ export class Watch extends Component {
       isLike: true,
       auth: this.props.auth,
       category: [],
-      subsButton:false
+      subsButton:true
     };
   }
   getCat = () => {

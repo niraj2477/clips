@@ -6,6 +6,7 @@ import userRouter from "./userRouter.js";
 import videoRouter from "./videoRouter.js";
 import commentsRouter from './commentsRouter.js';
 import complaintRouter from './complaintRouter.js';
+import channelRouter from './channelRouter.js';
 // To Get List Of students
 mainRouter.route("/").get(function (req, res) {
   res.json("hello world");
@@ -17,4 +18,5 @@ mainRouter.use("/user", userRouter);
 mainRouter.use("/video", videoRouter);
 mainRouter.use("/comment", commentsRouter);
 mainRouter.use("/complaint", complaintRouter);
+mainRouter.use("/channel", channelRouter);
 export default mainRouter;

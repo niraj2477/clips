@@ -225,23 +225,34 @@ videoRouter.route("/deleteVideo").post((req, res, next) => {
 
 videoRouter.route("/").post((req, res, next) => {
   if (req.body.v == null) {
-    Video.find(
-      { isDisabled: false },
-      null,
-      { sort: { createdAt: -1 }, limit: 20 },
-      function (err, data) {
-        res.status(200).send(data);
-      }
-    );
+
+    Video.find({ isDisabled: false }, null, {
+      sort: { createdAt: -1 },
+      limit: 20,
+    })
+      .populate("channelId")
+      .exec((err, videos) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(videos);
+          //console.log(videos[0].channelId);
+        }
+      });
   } else {
-    Video.find(
-      { isDisabled: false, _id: { $gt: req.body.v } },
-      null,
-      { sort: { createdAt: -1 }, limit: 20 },
-      function (err, data) {
-        res.status(200).send(data);
-      }
-    );
+    Video.find({ isDisabled: false, _id: { $gt: req.body.v } }, null, {
+      sort: { createdAt: -1 },
+      limit: 20,
+    })
+      .populate("channelId")
+      .exec((err, videos) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(videos);
+          //console.log(videos[0].channelId);
+        }
+      });
   }
 });
 
@@ -251,24 +262,33 @@ videoRouter.route("/withCat").get((req, res, next) => {
       {
         isDisabled: false,
         categoryId: { $eq: req.query.v },
-        // views: { $gt: 5 },
-        // like: { $gt: 5 },
       },
       null,
-      { sort: { createdAt: -1, views: -1 }, limit: 20 },
-      function (err, data) {
-        res.status(200).send(data);
-      }
-    );
+      { sort: { createdAt: -1, views: -1 }, limit: 20 }
+    )
+      .populate("channelId")
+      .exec((err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(data);
+          //console.log(videos[0].channelId);
+        }
+      });
   } else {
-    Video.find(
-      { isDisabled: false },
-      null,
-      { sort: { createdAt: -1 }, limit: 20 },
-      function (err, data) {
-        res.status(200).send(data);
-      }
-    );
+    Video.find({ isDisabled: false }, null, {
+      sort: { createdAt: -1 },
+      limit: 20,
+    })
+      .populate("channelId")
+      .exec((err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(data);
+          //console.log(videos[0].channelId);
+        }
+      });
   }
 });
 
@@ -325,14 +345,16 @@ videoRouter.route("/disLike").get((req, res, next) => {
 });
 
 videoRouter.route("/trending").get((req, res, next) => {
-  Video.find(
-    {},
-    null,
-    { sort: { views: -1, like: -1 }, limit: 10 },
-    function (err, data) {
-      res.status(200).send(data);
-    }
-  );
+  Video.find({}, null, { sort: { views: -1, like: -1 }, limit: 10 })
+    .populate("channelId")
+    .exec((err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).send(data);
+        //console.log(videos[0].channelId);
+      }
+    });
 });
 
 videoRouter.route("/suscribe").get((req, res, next) => {
@@ -373,9 +395,9 @@ videoRouter.route("/checkSuscribe").get((req, res, next) => {
             res.send(err);
           } else {
             if (data != null) {
-              res.send(false);
-            } else {
               res.send(true);
+            } else {
+              res.send(false);
             }
           }
           // res.status(200).json({ Video: "Subscribed!!" });
