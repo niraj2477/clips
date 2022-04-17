@@ -112,3 +112,29 @@ export const trending = async (v) => {
     return error;
   }
 };
+
+export const suscribe = async (channel, user) => {
+  try {
+    return await axios.get("http://localhost:5000/video/suscribe", {
+      params: {
+        channel: channel,
+        user: user,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};
+
+export const checkSuscribe = async (channel, user) => {
+  try {
+    return await axios.get("http://localhost:5000/video/checkSuscribe", {
+      params: {
+        channel: channel,
+        user: user,
+      },
+    });
+  } catch (error) {
+    return error;
+  }
+};

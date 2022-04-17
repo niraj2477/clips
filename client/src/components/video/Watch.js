@@ -5,11 +5,16 @@ import {
   like,
   disLike,
   indexPageWithCat,
+  suscribe,
+  checkSuscribe,
 } from "../../apis/Video";
+import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import ReactPlayer from "react-player";
 import Box from "@material-ui/core/Box";
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 import HoverVideoPlayer from "react-hover-video-player";
 import Typography from "@material-ui/core/Typography";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
@@ -139,11 +144,16 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 export class Watch extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
   constructor(props) {
     super(props);
+    const { cookies } = props;
     this.state = {
       video: [],
       comments: [],
+      id: cookies.get("id") || null,
       recommend: [],
       isOpen: true,
       playedTime: 0.0,
@@ -153,6 +163,7 @@ export class Watch extends Component {
       isLike: true,
       auth: this.props.auth,
       category: [],
+      subsButton:false
     };
   }
   getCat = () => {
@@ -160,9 +171,18 @@ export class Watch extends Component {
       this.setState({ category: response.data });
     });
   };
+  checkSus = () => {
+    console.log(this.state.video.channelId);
+    // checkSuscribe(this.state.video.channelId, this.state.id).then(
+    //   (response) => {
+    //     console.log(response);
+    //   }
+    // );
+  };
   componentDidMount() {
     this.getCat();
-    console.log(this.state.auth.auth);
+
+    //console.log(this.state.auth.auth);
     if (this.state.auth.auth === true) {
       this.setState({ isDisLike: false, isLike: false });
     } else {
@@ -171,8 +191,13 @@ export class Watch extends Component {
     let currentURL = window.location.href;
     const myArray = currentURL.split("/");
     watch(myArray[5]).then((response) => {
-      console.log(response);
       this.setState({ video: response.data });
+      checkSuscribe(this.state.video.channelId, this.state.id).then(
+        (response) => {
+          //console.log(response);
+          this.setState({ subsButton: response });
+        }
+      );
     });
   }
   componentDidUpdate(prevProps) {
@@ -201,6 +226,11 @@ export class Watch extends Component {
   };
   handleClick = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  };
+  handleSuscribe = () => {
+    suscribe(this.state.video.channelId, this.state.id).then((result) => {
+      console.log(result);
+    });
   };
   render() {
     const { classes } = this.props;
@@ -278,9 +308,18 @@ export class Watch extends Component {
                       </IconButton>
                     </RWebShare>
 
-                    <IconButton edge="end">
+                    {/* <IconButton edge="end">
                       <MoreHorizIcon />
-                    </IconButton>
+                    </IconButton> */}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      disabled={this.state.subsButton}
+                      onClick={this.handleSuscribe}
+                    >
+                      Suscribe
+                    </Button>
                   </div>
                 </Grid>
               </Grid>
@@ -307,6 +346,16 @@ export class Watch extends Component {
           </Grid>
           <Grid item xs={12} sm={6}>
             <div component="ul" className={classes.chipRoot}>
+              <li>
+                <Chip
+                  label="All"
+                  clickable={true}
+                  className={classes.mainChip}
+                  onClick={() => {
+                    this.handleChipClick(null);
+                  }}
+                />
+              </li>
               {this.state.category.map((data) => {
                 return (
                   <li key={data._id}>
@@ -406,4 +455,4 @@ export class Watch extends Component {
     );
   }
 }
-export default connect(mapStateToProps)(withStyles(styles)(Watch));
+export default connect(mapStateToProps)(withStyles(styles)(withCookies(Watch)));

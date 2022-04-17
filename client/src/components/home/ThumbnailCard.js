@@ -183,8 +183,11 @@ class ThumbnailCard extends Component {
   }
   handleChipClick = (value) => {
     indexPageWithCat(value).then((response) => {
-      this.setState({ video: response.data });
-      this.setState({ v: this.state.video[0]._id });
+      if (response.data.length > 0) {
+         this.setState({ video: response.data });
+         this.setState({ v: this.state.video[0]._id });
+      }
+     
     });
   };
   handleClick = (event) => {
@@ -217,6 +220,16 @@ class ThumbnailCard extends Component {
       <div>
         <Divider variant="middle" />
         <div component="ul" className={classes.root1}>
+          <li>
+            <Chip
+              label="All"
+              clickable={true}
+              className={classes.chip}
+              onClick={() => {
+                this.handleChipClick(null);
+              }}
+            />
+          </li>
           {this.state.category.map((data) => {
             return (
               <li key={data._id}>

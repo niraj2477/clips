@@ -18,8 +18,8 @@ import { Auth } from "../../firebaseConfig";
 import { useCookies } from "react-cookie";
 import { isAuthenticated } from "../../actions/authAction";
 import { authenticate } from "../../apis/Authentication";
-import Popup from './Popup'
-import Details from './Details'
+import Popup from "./Popup";
+import Details from "./Details";
 const useStyles = makeStyles((theme) => ({
   iconButton: {
     marginRight: theme.spacing(0.5),
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function HeaderButtons() {
   const classes = useStyles();
-  const [openPopup,setOpenPopup] = useState(false)
+  const [openPopup, setOpenPopup] = useState(false);
   const dispatch = useDispatch();
   const [cookie, setCookie, removeCookie] = useCookies(["user"]);
   const provider = new GoogleAuthProvider();
@@ -106,7 +106,7 @@ export default function HeaderButtons() {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        setCookie("id", encodeURI(user._id), {
+        setCookie("id", encodeURI(user.uid), {
           maxAge: 3652,
         });
         setCookie("name", encodeURI(user.displayName), {
@@ -134,11 +134,10 @@ export default function HeaderButtons() {
         };
         authenticate(JSON.stringify(data))
           .then((response) => {
-            if(response.data.flag === 1){
+            if (response.data.flag === 1) {
               setOpenPopup(true);
             }
             console.log(response);
-         
           })
           .catch((error) => {
             console.log(error);
@@ -148,30 +147,25 @@ export default function HeaderButtons() {
       .catch(alert);
   };
   return (
-
-    
     <div>
-     
-     <Popup
-        openPopup ={openPopup}
-        setOpenPopup={setOpenPopup}
-      >
+      <Popup openPopup={openPopup} setOpenPopup={setOpenPopup}>
         <Details setOpenPopup={setOpenPopup} />
       </Popup>
-
- 
       <IconButton edge="end" className={classes.iconButton} color="inherit">
         <NotificationsIcon />
       </IconButton>
-
-      <Link to={VIDEO_CREATE} className={classes.textLink}>
-        <IconButton
-          edge="end"
-          className={`${classes.iconButton} ${classes.removeBlock}`}
-        >
-          <VideoCallIcon />
-        </IconButton>
-      </Link>
+      {auth.auth === true ? (
+        <Link to={VIDEO_CREATE} className={classes.textLink}>
+          <IconButton
+            edge="end"
+            className={`${classes.iconButton} ${classes.removeBlock}`}
+          >
+            <VideoCallIcon />
+          </IconButton>
+        </Link>
+      ) : (
+        ""
+      )}
 
       {theme.isDark ? (
         <IconButton

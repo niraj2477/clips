@@ -10,6 +10,7 @@ import {
   LEARNING,
   FEEDBACK,
   YOURVIDEOS,
+  CREATOR
 } from "../helpers/constants";
 
 
@@ -19,6 +20,9 @@ export const isHome = () => {
 
 export const isSubscriptions = () => {
   return { type: SUBCRIPTIONS };
+};
+export const isCreator = () => {
+  return { type: CREATOR };
 };
 export const isTrending = () => {
   return { type: TRENDING };

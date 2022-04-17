@@ -10,6 +10,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HistoryIcon from "@material-ui/icons/History";
+import GamesIcon from "@material-ui/icons/Games";
 import HomeIcon from "@material-ui/icons/Home";
 import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -35,6 +36,7 @@ import {
   LEARNING,
   FEEDBACK,
   YOURVIDEOS,
+  CREATOR,
 } from "../../helpers/constants";
 import {
   isHome,
@@ -48,6 +50,7 @@ import {
   isLibrary,
   isSubscriptions,
   isTrending,
+  isCreator
 } from "../../actions/navigationAction";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +74,7 @@ export default function Drawer() {
   const dispatch = useDispatch();
   const navigation = useSelector((state) => state.navigation);
   const [state, toggleDrawer] = useDrawerHelper();
+  const auth = useSelector((state) => state.auth);
 
   // navigation list items which are shown in the drawer
   const NavigationList = () => {
@@ -82,6 +86,24 @@ export default function Drawer() {
         className={classes.list}
       >
         <List>
+          {auth.auth === true ? (
+            <ListItem
+              button
+              key={CREATOR}
+              component={Link}
+              to={CREATOR}
+              selected={navigation.selected === CREATOR}
+              onClick={() => dispatch(isCreator())}
+            >
+              <ListItemIcon>
+                <GamesIcon />
+              </ListItemIcon>
+              <ListItemText primary={CREATOR} />
+            </ListItem>
+          ) : (
+            ""
+          )}
+
           <ListItem
             button
             key={HOME}

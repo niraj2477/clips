@@ -9,7 +9,7 @@ authRouter.route("/").post(function (req, res) {
       res.json(err);
     } else {
       if (user) {
-        User.update(
+        User.updateOne(
           { googleId: data.googleId },
           { $set: { accessToken: data.accessToken } },
           { new: true },

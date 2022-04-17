@@ -8,7 +8,8 @@ import FormControl from "@material-ui/core/FormControl";
 import ClearIcon from "@material-ui/icons/Clear";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
-
+import { instanceOf } from "prop-types";
+import { withCookies, Cookies } from "react-cookie";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -72,10 +73,15 @@ const styles = (theme) => ({
 });
 
 class Create extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
   constructor(props) {
     super(props);
+    const { cookies } = props;
     this.state = {
       file: [],
+      id: cookies.get("id") || null,
       thumbnail: [],
       title: "",
       description: "",
@@ -94,6 +100,7 @@ class Create extends Component {
     fd.append("file", this.state.file);
     fd.append("thumbnail", this.state.thumbnail);
     fd.append("type", this.state.type);
+    fd.append("id", this.state.id);
     //console.log(fd);
     videoUpload(fd);
   };
@@ -313,4 +320,4 @@ class Create extends Component {
   }
 }
 
-export default withStyles(styles)(Create);
+export default withStyles(styles)(withCookies(Create));

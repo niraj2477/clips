@@ -10,6 +10,7 @@ import {
   LEARNING,
   FEEDBACK,
   YOURVIDEOS,
+  CREATOR
 } from "../helpers/constants";
 
 const initialState = {
@@ -68,6 +69,11 @@ export default function themeReducer(state = initialState, action) {
     case YOURVIDEOS: {
       return {
         selected: YOURVIDEOS,
+      };
+    }
+    case CREATOR: {
+      return {
+        selected: CREATOR,
       };
     }
     default:

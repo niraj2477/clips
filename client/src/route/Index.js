@@ -9,11 +9,13 @@ import {
   TRENDING,
   VIDEO_WATCH,
   FEEDBACK,
+  CREATOR
 } from "../helpers/constants";
 import Create from "../components/video/Create";
 import Watch from "../components/video/Watch"
 import Trending from "../components/trending/Trending"
-import Feedback  from "../components/feedback/Index";
+import Feedback from "../components/feedback/Index";
+import Creator from "../components/creator/Creator"
 
 // import Category from "../admin/Category"
 export default function Index() {
@@ -21,10 +23,11 @@ export default function Index() {
     <Routes>
       <Route path={HOME} exact element={<Home />} />
       <Route path={VIDEO_CREATE} exact element={<Create />} />
-      <Route path={VIDEO_WATCH} exact element={<Watch  />}></Route>
+      <Route path={VIDEO_WATCH} exact element={<Watch />}></Route>
       <Route path={TRENDING} exact element={<Trending />} />
       <Route path={FEEDBACK} exact element={<Feedback />} />
-{/* 
+      <Route path={CREATOR} exact element={<Creator />}  />
+      {/* 
       <Route path={ADMIN_CATEGORY} exact element={<Category />} /> */}
     </Routes>
   );

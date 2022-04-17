@@ -2,8 +2,10 @@ import { Router } from "express";
 import express from "express";
 // import videoModel from '../models/Video.js';
 import Video from "../models/Video.js";
+import Channel from "../models/Channel.js";
 import mongoose from "mongoose";
 import path from "path";
+import User from "../models/User.js";
 import crypto from "crypto";
 import request from "request";
 import fs from "fs";
@@ -74,6 +76,15 @@ const videoUpload = multer({
   //   cb(undefined, true);
   // },
 });
+function retrieveUser(id, callback) {
+  User.find({ googleId: id }, function (err, user) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, user);
+    }
+  });
+}
 
 videoRouter
   .route("/videoUpload")
@@ -81,38 +92,123 @@ videoRouter
     videoUpload.fields([{ name: "file" }, { name: "thumbnail" }]),
     function (req, res) {
       var data = req.body;
-      console.log(data);
+      // console.log(data);
       var file = req.files.file[0].filename;
       var thumbnail = req.files.thumbnail[0].filename;
+      retrieveUser(data.id, function (err, user) {
+        if (err) {
+          console.log(err);
+        }
 
-      //console.log(req.files.file[0].filename);
-      const url = "http://127.0.0.1:7000/checkVideo?name=" + file;
-      request(url, function (error, response, body) {
-        body = JSON.parse(body);
-        console.log(body);
-        console.log(error);
-        let video = new Video({
-          title: data.title,
-          description: data.description,
-          categoryId: data.category,
-          thumbnail: "http://localhost:5000/uploads/" + thumbnail,
-          status: data.type == 1 ? "private" : "public",
-          file: "http://localhost:5000/uploads/" + file,
-          score: body.result,
-          flag: body.flag,
-        });
+        console.log(user[0]);
 
-        video
-          .save()
-          .then((result) => {
-            res
-              .status(200)
-              .json({ video: "video Added Successfully", flag: result.flag });
-          })
-          .catch((err) => {
-            console.log(err);
-            res.status(400).send(err);
+        if (user[0].channel == null || user[0].channel == "") {
+          let channel = new Channel({
+            name: user[0].name,
+            channelImage: user[0].avatar,
           });
+          channel.save().then((channelResult) => {
+            const url = "http://127.0.0.1:7000/checkVideo?name=" + file;
+            request(url, function (error, response, body) {
+              body = JSON.parse(body);
+              // console.log(body);
+              // console.log(error);
+              let video = new Video({
+                title: data.title,
+                description: data.description,
+                categoryId: data.category,
+                thumbnail: "http://localhost:5000/uploads/" + thumbnail,
+                status: data.type == 1 ? "private" : "public",
+                file: "http://localhost:5000/uploads/" + file,
+                score: body.result,
+                flag: body.flag,
+                channelId: channelResult._id,
+              });
+
+              video
+                .save()
+                .then((result) => {
+                  Channel.findOneAndUpdate(
+                    { _id: channelResult._id },
+                    {
+                      $inc: { numOfVideo: 1 },
+                    },
+                    { new: true },
+                    (error, data) => {
+                      if (error) {
+                        res.json({ error: error });
+                      } else {
+                        User.findOneAndUpdate(
+                          { _id: user[0]._id },
+                          { $set: { channel: channelResult._id } },
+                          { new: true },
+                          (error, data) => {
+                            if (error) {
+                              res.json({ error: error });
+                            } else {
+                              res.status(400).json({
+                                video: "video Added Successfully",
+                                flag: result.flag,
+                              });
+                            }
+                          }
+                        );
+                      }
+                    }
+                  );
+                })
+                .catch((err) => {
+                  //console.log(err);
+                  res.status(400).send(err);
+                });
+            });
+            // channelData = result._id;
+          });
+        } else {
+          const url = "http://127.0.0.1:7000/checkVideo?name=" + file;
+          request(url, function (error, response, body) {
+            body = JSON.parse(body);
+            console.log(body);
+            // console.log(error);
+            let video = new Video({
+              title: data.title,
+              description: data.description,
+              categoryId: data.category,
+              thumbnail: "http://localhost:5000/uploads/" + thumbnail,
+              status: data.type == 1 ? "private" : "public",
+              file: "http://localhost:5000/uploads/" + file,
+              score: body.result,
+              flag: body.flag,
+              channelId: user[0].channel,
+            });
+
+            video
+              .save()
+              .then((result) => {
+                Channel.findOneAndUpdate(
+                  { _id: user[0].channel },
+                  {
+                    $inc: { numOfVideo: 1 },
+                  },
+                  { new: true },
+                  (error, data) => {
+                    if (error) {
+                      res.json({ error: error });
+                    } else {
+                      res.status(400).json({
+                        video: "video Added Successfully",
+                        flag: result.flag,
+                      });
+                    }
+                  }
+                );
+              })
+              .catch((err) => {
+                //console.log(err);
+                res.status(400).send(err);
+              });
+          });
+        }
       });
     }
   );
@@ -150,20 +246,30 @@ videoRouter.route("/").post((req, res, next) => {
 });
 
 videoRouter.route("/withCat").get((req, res, next) => {
-  console.log(req);
-  Video.find(
-    {
-      isDisabled: false,
-      categoryId: { $eq: req.query.v },
-      views: { $gt: 5 },
-      like: { $gt: 5 },
-    },
-    null,
-    { sort: { createdAt: -1 }, limit: 20 },
-    function (err, data) {
-      res.status(200).send(data);
-    }
-  );
+  if (req.query.v != null) {
+    Video.find(
+      {
+        isDisabled: false,
+        categoryId: { $eq: req.query.v },
+        // views: { $gt: 5 },
+        // like: { $gt: 5 },
+      },
+      null,
+      { sort: { createdAt: -1, views: -1 }, limit: 20 },
+      function (err, data) {
+        res.status(200).send(data);
+      }
+    );
+  } else {
+    Video.find(
+      { isDisabled: false },
+      null,
+      { sort: { createdAt: -1 }, limit: 20 },
+      function (err, data) {
+        res.status(200).send(data);
+      }
+    );
+  }
 });
 
 videoRouter.route("/watch").post((req, res, next) => {
@@ -229,4 +335,53 @@ videoRouter.route("/trending").get((req, res, next) => {
   );
 });
 
+videoRouter.route("/suscribe").get((req, res, next) => {
+  retrieveUser(req.query.user, function (err, user) {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      Channel.findOneAndUpdate(
+        { _id: req.query.channel },
+        {
+          $push: { subscriber: user[0]._id },
+          $inc: { numOfSub: 1 },
+        },
+        function (err, data) {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.status(200).json({ Video: "Subscribed!!" });
+          }
+        }
+      );
+    }
+  });
+});
+
+videoRouter.route("/checkSuscribe").get((req, res, next) => {
+  retrieveUser(req.query.user, function (err, user) {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      Channel.findOne(
+        {
+          _id: req.query.channel,
+          subscriber: { $in: [mongoose.Types.ObjectId(user[0]._id)] },
+        },
+        function (err, data) {
+          if (err) {
+            res.send(err);
+          } else {
+            if (data != null) {
+              res.send(false);
+            } else {
+              res.send(true);
+            }
+          }
+          // res.status(200).json({ Video: "Subscribed!!" });
+        }
+      );
+    }
+  });
+});
 export default videoRouter;

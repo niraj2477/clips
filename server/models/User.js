@@ -25,7 +25,6 @@ const User = new mongoose.Schema(
     },
     country: {
       type: String,
-      
     },
     address: [
       {
@@ -45,12 +44,12 @@ const User = new mongoose.Schema(
       required: true,
       default: true,
     },
-    channel: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Channel",
-      },
-    ],
+    channel: {
+      type: String,
+      default: null,
+      index: true,
+    },
+
     region: {
       type: String,
     },
@@ -72,4 +71,4 @@ const User = new mongoose.Schema(
   }
 );
 
-export default new  mongoose.model("User", User);
+export default new mongoose.model("User", User);
