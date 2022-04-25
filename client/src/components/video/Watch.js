@@ -21,7 +21,6 @@ import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import Chip from "@material-ui/core/Chip";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { Divider } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -31,6 +30,7 @@ import { RWebShare } from "react-web-share";
 import { connect } from "react-redux";
 import { nFormatter } from "../../helpers/Formatter";
 import { getCategory } from "../../apis/Category";
+import { getComments } from "../../apis/Comment";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -165,6 +165,12 @@ export class Watch extends Component {
       this.setState({ category: response.data });
     });
   };
+
+  getComments = () => {
+    getComments().then((response) => {
+      this.setState({ comments: response.data });
+    });
+  };
   checkSus = () => {
     console.log(this.state.video.channelId);
     // checkSuscribe(this.state.video.channelId, this.state.id).then(
@@ -176,6 +182,7 @@ export class Watch extends Component {
   componentDidMount() {
     this.getCat();
 
+    this.getComments();
     //console.log(this.state.auth.auth);
     if (this.state.auth.auth === true) {
       this.setState({ isDisLike: false, isLike: false });
@@ -302,9 +309,6 @@ export class Watch extends Component {
                       </IconButton>
                     </RWebShare>
 
-                    {/* <IconButton edge="end">
-                      <MoreHorizIcon />
-                    </IconButton> */}
                     <Button
                       variant="contained"
                       color="primary"
@@ -334,7 +338,7 @@ export class Watch extends Component {
 
               <div className="ColHolder">
                 <Topcommentbox autoFocus={false} video={this.state.video} />
-                <MessageScroll />
+                <MessageScroll comments= {this.state.comments} />
               </div>
             </div>
           </Grid>

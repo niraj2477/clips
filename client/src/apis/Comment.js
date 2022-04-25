@@ -9,3 +9,15 @@ export const addComment = async (data) => {
       return error;
     }
   };
+
+
+  export const getComments = async () => {
+    try { 
+    return await axios({
+      method: "get",
+      url: "http://localhost:5000/comment/",
+    
+    });
+  }catch(error) { return error}
+  }
+  
