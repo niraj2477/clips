@@ -4,13 +4,16 @@ import User from "../models/User.js";
 const commentsRouter = Router(); 
 
 commentsRouter.route('/').get(function (req, res) {
-    commentModel.find(function (err, comments) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json(comments);
-      }
-    });
+    commentModel.find()
+      .populate("userId")
+      .exec((err, comments) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(comments);
+          //console.log(videos[0].channelId);
+        }
+      });
 });
 
 function retrieveUser(id, callback) {

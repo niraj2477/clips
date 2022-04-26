@@ -11,7 +11,7 @@ function MessageScroll(props) {
             </div>
         </div> :<div>
         {comments.map((comment) => (  
-             <Message user="Prince" editable={false} Message={comment.description} likes="25" /> 
+             <Message user={comment.userId.name} editable={false} Message={comment.description} likes="25" /> 
            ))}  
         </div>
         }
