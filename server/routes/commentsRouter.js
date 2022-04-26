@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import commentModel from '../models/Comment.js';
+import User from "../models/User.js";
 const commentsRouter = Router(); 
 
 commentsRouter.route('/').get(function (req, res) {
@@ -12,17 +13,32 @@ commentsRouter.route('/').get(function (req, res) {
     });
 });
 
+function retrieveUser(id, callback) {
+  User.find({ googleId: id }, function (err, user) {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, user);
+    }
+  });
+}
 commentsRouter.route('/addComment').post(function (req, res) {
-    console.log(req);
-      let comment = new commentModel({userId: req.body.data.userId,videoId: req.body.data.video,description: req.body.data.message});
-      console.log(comment)
+    
+    retrieveUser(req.body.data.userId, function (err, user) {
+      let comment = new commentModel({userId: user[0]._id,videoId: req.body.data.video,description: req.body.data.message});
+     
       comment.save()
       .then(result => {
       res.status(200).json({ 'comment': 'comment Added Successfully' });
+      //console.log(result);
       })
       .catch(err => {
-      res.status(400).send(err);
+     res.status(400).send(err);
+    // console.log(err);
       });
+     
+    });
+
 });
 
 commentsRouter.route('/updateComment').post((req, res, next) => {

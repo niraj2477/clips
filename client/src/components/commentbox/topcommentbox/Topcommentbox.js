@@ -3,7 +3,7 @@ import '../commentbox.css'
 import { useCookies } from "react-cookie";
 import { addComment } from '../../../apis/Comment';
 function Topcommentbox(props) {
-    const [cookie] = useCookies(["user"]);
+    const [cookie] = useCookies(["id"]);
     const {video} = props;
     const message = useRef(null);
     //the underline animation
@@ -39,7 +39,7 @@ function Topcommentbox(props) {
         event.preventDefault();
         console.log(message.current.value);
 
-        let data={"video":video._id,"userId":"61e3cc4777d4b517c7074f91",message:message.current.value};
+        let data={"video":video._id,"userId":cookie.id,message:message.current.value};
         addComment(data).then((result)=>{
             console.log(result);
         });

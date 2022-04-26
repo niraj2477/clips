@@ -337,7 +337,8 @@ export class Watch extends Component {
               </div>
 
               <div className="ColHolder">
-                <Topcommentbox autoFocus={false} video={this.state.video} />
+                {this.state.auth.auth === true ?  <Topcommentbox autoFocus={false} video={this.state.video} />:''}
+               
                 <MessageScroll comments= {this.state.comments} />
               </div>
             </div>
