@@ -69,11 +69,13 @@ export const fetchVideo = async (filePath) => {
   }
 };
 
-export const watchComplete = async (v) => {
+export const watchComplete = async (v,id) => {
+ 
   try {
     return await axios.get("http://localhost:5000/video/watchComplete", {
       params: {
         v: v,
+        id:id,
       },
     });
   } catch (error) {

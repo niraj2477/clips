@@ -204,7 +204,8 @@ export class Watch extends Component {
   componentDidUpdate(prevProps) {
     if (this.state.watchCompleted !== prevProps.watchCompleted) {
       if (this.state.watchCompleted) {
-        watchComplete(this.state.video._id).then((response) => {});
+        console.log(this.state.id);
+        watchComplete(this.state.video._id,this.state.id).then((response) => {});
       }
     }
   }

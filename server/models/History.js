@@ -2,29 +2,19 @@ import mongoose from "mongoose";
 var History = new mongoose.Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    video: [
-      {
-        videoId: {
-          type: Schema.Types.ObjectId,
-          required: true,
-        },
-        timeStamp: {
-          type: String,
-        },
-        isLiked: {
-          type: Boolean,
-          default: false,
-        },
-        isDisliked: {
-          type: Boolean,
-          default: false,
-        },
-      },
-    ],
+    videoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Video",
+    },
+    time:{
+      type: String,
+    },
+    
   },
   {
     timestamps: true,

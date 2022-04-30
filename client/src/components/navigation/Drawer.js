@@ -159,6 +159,8 @@ export default function Drawer() {
           <ListItem
             button
             key={HISTORY}
+            component={Link}
+            to={HISTORY}
             selected={navigation.selected === HISTORY}
             onClick={() => dispatch(isHistory())}
           >

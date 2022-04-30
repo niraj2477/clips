@@ -11,6 +11,7 @@ import request from "request";
 import fs from "fs";
 import mime from "mime";
 import http from "http";
+import HistoryModel from "../models/History.js";
 // const {GridFsStorage} = require('multer-gridfs-storage');
 import multer from "multer";
 // MongoDB Databse url
@@ -303,17 +304,31 @@ videoRouter.route("/watch").post((req, res, next) => {
 });
 
 videoRouter.route("/watchComplete").get((req, res, next) => {
-  Video.findOneAndUpdate(
-    { _id: req.query.v },
-    { $inc: { views: 1 } },
-    function (err, data) {
-      if (err) {
-        res.status(500).send(err);
-      } else {
+  retrieveUser(req.query.id, function (err, user) {
+    
+    HistoryModel.find({userId:user[0]._id,videoId: req.query.v},function(err, History){
+        if(History.length == 0){
+          let h = new HistoryModel({userId:user[0]._id,videoId: req.query.v});
+          h.save();
+      
+        }
+  
+  });
+});
+    Video.findOneAndUpdate(
+      { _id: req.query.v },
+      { $inc: { views: 1 } },
+      function (err, data) {
+        if (err) {
+          res.status(500).send(err);
+        } else {
+        }
+        res.status(200).send(data);
       }
-      res.status(200).send(data);
-    }
-  );
+    );
+
+   
+
 });
 
 videoRouter.route("/like").get((req, res, next) => {
