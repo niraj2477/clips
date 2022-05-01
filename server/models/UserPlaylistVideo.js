@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-const UserPlaylist = new mongoose.Schema(
+const UserPlaylistVideo = new mongoose.Schema(
   {
-    userId: {
+    playlistId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: "UserPlaylist",
     },
-    name: {
+    videoId: {
       type: String,
       required: true,
+      ref: "Video",
     },
   },
   {
@@ -17,4 +18,4 @@ const UserPlaylist = new mongoose.Schema(
   }
 );
 
-export default new mongoose.model("UserPlaylist", UserPlaylist);
+export default new mongoose.model("UserPlaylistVideo", UserPlaylistVideo);

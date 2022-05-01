@@ -8,6 +8,7 @@ import commentsRouter from './commentsRouter.js';
 import complaintRouter from './complaintRouter.js';
 import channelRouter from './channelRouter.js';
 import HistoryRouter from './HistoryRouter.js';
+import playlistRouter from './userPlaylist.js';
 // To Get List Of students
 mainRouter.route("/").get(function (req, res) {
   res.json("hello world");
@@ -21,4 +22,5 @@ mainRouter.use("/comment", commentsRouter);
 mainRouter.use("/complaint", complaintRouter);
 mainRouter.use("/channel", channelRouter);
 mainRouter.use("/history", HistoryRouter);
+mainRouter.use("/playlist", playlistRouter);
 export default mainRouter;

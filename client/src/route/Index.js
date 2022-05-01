@@ -10,7 +10,9 @@ import {
   VIDEO_WATCH,
   FEEDBACK,
   HISTORY,
-  CREATOR
+  CREATOR,
+  PLAYLIST,
+  PLAYLISTVIDEOLIST
 } from "../helpers/constants";
 import Create from "../components/video/Create";
 import Watch from "../components/video/Watch"
@@ -18,7 +20,8 @@ import Trending from "../components/trending/Trending"
 import Feedback from "../components/feedback/Index";
 import Creator from "../components/creator/Creator"
 import History from "../components/history/History";
-
+import PlaylistVideo from "../components/playlist/PlaylistVideo";
+import PlaylistVideoList from "../components/playlist/PlaylistVideoList";
 // import Category from "../admin/Category"
 export default function Index() {
   return (
@@ -30,6 +33,8 @@ export default function Index() {
       <Route path={FEEDBACK} exact element={<Feedback />} />
       <Route path={CREATOR} exact element={<Creator />}  />
       <Route path={HISTORY} exact element={<History />}  />
+      <Route path={PLAYLIST} exact element={<PlaylistVideo />}  />
+      <Route path={PLAYLISTVIDEOLIST} exact element={<PlaylistVideoList />}  />
       {/* 
       <Route path={ADMIN_CATEGORY} exact element={<Category />} /> */}
     </Routes>

@@ -18,6 +18,7 @@ import { withCookies, Cookies } from "react-cookie";
 import HoverVideoPlayer from "react-hover-video-player";
 import Typography from "@material-ui/core/Typography";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+import SaveIcon from '@material-ui/icons/Save';
 import Chip from "@material-ui/core/Chip";
 import SendIcon from "@material-ui/icons/Send";
 import { IconButton } from "@material-ui/core";
@@ -31,6 +32,10 @@ import { connect } from "react-redux";
 import { nFormatter } from "../../helpers/Formatter";
 import { getCategory } from "../../apis/Category";
 import { getComments } from "../../apis/Comment";
+import PlaylistPopup from "./PlaylistPopup";
+import Playlist from "./Playlist";
+
+import { fetchPlaylist } from "../../apis/UserPlaylist";
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -141,12 +146,14 @@ export class Watch extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired,
   };
+  
   constructor(props) {
     super(props);
     const { cookies } = props;
     this.state = {
       video: [],
       comments: [],
+      PlaylistPopup: false,
       id: cookies.get("id") || null,
       recommend: [],
       isOpen: true,
@@ -157,13 +164,25 @@ export class Watch extends Component {
       isLike: true,
       auth: this.props.auth,
       category: [],
-      subsButton:true
+      subsButton:true,
+      plalist:[]
     };
   }
   getCat = () => {
     getCategory().then((response) => {
       this.setState({ category: response.data });
     });
+  };
+  fetch = () => {
+    fetchPlaylist(this.state.id)
+    .then(result => {
+      this.setState({ playlist: result.data });
+    })
+  };
+  setPlaylistPopup = (val) => {
+   console.log(val)
+      this.setState({ PlaylistPopup: val });
+  
   };
 
   getComments = () => {
@@ -181,7 +200,7 @@ export class Watch extends Component {
   };
   componentDidMount() {
     this.getCat();
-
+    this.fetch();
     this.getComments();
     //console.log(this.state.auth.auth);
     if (this.state.auth.auth === true) {
@@ -229,6 +248,13 @@ export class Watch extends Component {
   handleClick = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
+  playlistPopupOpen = () => {
+    this.setPlaylistPopup(true);
+    console.log(this.state.PlaylistPopup)
+  };
+  playlistPopupClose = () => {
+    this.setPlaylistPopup(false);
+  };
   handleSuscribe = () => {
     suscribe(this.state.video.channelId, this.state.id).then((result) => {
       console.log(result);
@@ -251,7 +277,11 @@ export class Watch extends Component {
     };
 
     return (
+      
       <div className={classes.root}>
+         <PlaylistPopup openPopup={this.state.PlaylistPopup} title="Playlist" setOpenPopup={this.setPlaylistPopup}>
+        <Playlist data={this.state.playlist}  video={this.state.video} />
+      </PlaylistPopup>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
             <div className={classes.player}>
@@ -310,6 +340,11 @@ export class Watch extends Component {
                       </IconButton>
                     </RWebShare>
 
+                    <IconButton
+                       onClick={this.playlistPopupOpen}
+                    >
+                      <SaveIcon />
+                    </IconButton>
                     <Button
                       variant="contained"
                       color="primary"

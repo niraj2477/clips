@@ -10,12 +10,17 @@ import {
   LEARNING,
   FEEDBACK,
   YOURVIDEOS,
-  CREATOR
+  CREATOR,
+  PLAYLIST
 } from "../helpers/constants";
 
 
 export const isHome = () => {
   return { type: HOME };
+};
+
+export const isPlaylist = () => {
+  return { type: PLAYLIST };
 };
 
 export const isSubscriptions = () => {

@@ -12,11 +12,13 @@ export const GAMING = "Gaming";
 export const LEARNING = "Learning";
 export const SETTING = "Setting";
 export const HELP = "Help";
+export const PLAYLIST = "Playlist";
 export const CREATOR = "Creator";
 export const FEEDBACK = "Feedback";
 //videos
 export const VIDEO_CREATE = "/videos/create";
 export const VIDEO_WATCH = "/videos/watch/:v";
+export const PLAYLISTVIDEOLIST="videos/playList/:v"
 
 
 ///

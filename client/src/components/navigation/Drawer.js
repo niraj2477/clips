@@ -37,6 +37,7 @@ import {
   FEEDBACK,
   YOURVIDEOS,
   CREATOR,
+  PLAYLIST,
 } from "../../helpers/constants";
 import {
   isHome,
@@ -50,7 +51,8 @@ import {
   isLibrary,
   isSubscriptions,
   isTrending,
-  isCreator
+  isCreator,
+  isPlaylist
 } from "../../actions/navigationAction";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
@@ -169,6 +171,20 @@ export default function Drawer() {
             </ListItemIcon>
             <ListItemText primary={HISTORY} />
           </ListItem>
+          <ListItem
+            button
+            key={PLAYLIST}
+            component={Link}
+            to={PLAYLIST}
+            selected={navigation.selected === PLAYLIST}
+            onClick={() => dispatch(isPlaylist())}
+          >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText primary={PLAYLIST} />
+          </ListItem>
+
           <ListItem
             button
             key={YOURVIDEOS}
