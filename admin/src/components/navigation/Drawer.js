@@ -12,8 +12,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import { useSelector, useDispatch } from "react-redux";
-import { _HOME, CATEGORY, SETTING } from "../../helpers/constants";
-import { isSetting, isCategory } from "../../actions/navigationAction";
+import { _HOME, CATEGORY, SETTING ,FEEDBACK} from "../../helpers/constants";
+import { isSetting, isCategory ,isFeedback} from "../../actions/navigationAction";
 import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -71,6 +71,19 @@ export default function Drawer() {
               <SportsEsportsIcon />
             </ListItemIcon>
             <ListItemText primary={CATEGORY} />
+          </ListItem>
+          <ListItem
+            button
+            key={FEEDBACK}
+            component={Link}
+            to={FEEDBACK}
+            selected={navigation.selected === FEEDBACK}
+            onClick={() => dispatch(isFeedback())}
+          >
+            <ListItemIcon>
+              <SportsEsportsIcon />
+            </ListItemIcon>
+            <ListItemText primary={FEEDBACK} />
           </ListItem>
         </List>
         <Divider variant="middle" />

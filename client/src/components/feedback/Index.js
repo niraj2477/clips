@@ -7,7 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import Typography from '@material-ui/core/Typography';
 import ClearIcon from "@material-ui/icons/Clear";
 import ReportIcon from '@material-ui/icons/Report';
+
+import { withCookies, Cookies } from "react-cookie";
 import Link from '@material-ui/core/Link';
+import { addFeedback } from "../../apis/Feedback";
+import { connect } from "react-redux";
+import { instanceOf } from "prop-types";
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(3),
@@ -36,11 +41,18 @@ const styles = (theme) => ({
     fontFamily:'"Sacramento", cursive',
   },
 });
-
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 class Index extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
   constructor(props) {
     super(props);
+    const { cookies } = props;
     this.state = {
+      id:cookies.get("id") || null,
       report: [],
       title: "",
       description: "",
@@ -54,7 +66,22 @@ class Index extends Component {
       description: "",
     });
   };
+  addFeedbackFun = () => {
+    console.log("cl")
+    var fd = new FormData();
+    fd.append("title", this.state.title);
+    fd.append("description", this.state.description);
+    fd.append("report", this.state.report);
+    fd.append("id", this.state.id);
 
+    addFeedback(fd).then((res)=>{
+      console.log(res)
+      this.clearInput();
+    }).catch((err)=>{
+      console.log(err)
+    })
+
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -115,7 +142,7 @@ class Index extends Component {
             variant="contained"
             color="primary"
             size="large"
-            onClick={this.uploadVideo}
+            onClick={this.addFeedbackFun}
             className={classes.button}
             startIcon={<ReportIcon />}
           >
@@ -144,4 +171,4 @@ class Index extends Component {
   }
 }
 
-export default withStyles(styles)(Index);
+export default connect(mapStateToProps)(withStyles(styles)(withCookies(Index)));
