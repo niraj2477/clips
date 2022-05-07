@@ -119,7 +119,7 @@ class PlaylistVideoList extends Component {
               className={classes.typography}
               color="textSecondary"
             >
-              {HISTORY}
+              {HISTORY  }
             </Typography>
             <Divider variant="middle" />
           </Grid>

@@ -157,8 +157,8 @@ export class Index extends Component {
                               src={row.report}
                               alt="e"
                               style={{
-                                width: "100%",
-                                height: "100%",
+                                width: "150px",
+                                height: "150px",
                                 objectFit: "cover",
                               }}
                             />

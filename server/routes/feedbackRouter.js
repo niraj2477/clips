@@ -6,7 +6,7 @@ import multer from "multer";
 import Feedback from '../models/Feedback.js';
 import path from "path";
 const imageStorage = multer.diskStorage({
-    destination: "FeedbackUploads", // Destination to store video
+    destination: "uploads/feedback", // Destination to store video
     filename: (req, file, cb) => {
       cb(
         null,
@@ -36,7 +36,7 @@ function retrieveUser(id, callback) {
    function(req,res){
     var file = req.files.report[0].filename;
     retrieveUser(req.body.id, function (err, user) {
-        let feedback = new Feedback({userId: user[0]._id,title: req.body.title,description: req.body.description,report:"http://localhost:5000/FeedbackUploads/"+file});
+        let feedback = new Feedback({userId: user[0]._id,title: req.body.title,description: req.body.description,report:"http://localhost:5000/uploads/feedback/"+file});
        
         feedback.save()
         .then(result => {
